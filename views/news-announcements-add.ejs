@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Los Santos Police Department</title>
+</head>
+<body>
+    <% if (new_news) { %>
+        <form action="/add-heading/<%= news_id %>/<%= user_id %>" method="post">
+            <textarea name="heading" placeholder="Add Heading"></textarea>
+            <input type="submit" value="Add" >
+        </form>
+    <% } else { %>
+        <% for (let i=0;i<newselements.length;i++) { %>
+            <div style="margin: 10px;" id="<%= newselements[i].order_number %>" class="newselement" >
+                <% if (newselements[i].type == 'Heading') { %>
+                    <h2><%= newselements[i].text %></h2>
+                <% } else if (newselements[i].type == 'text') {%>
+                    <p style="white-space: pre-wrap;"><%= newselements[i].text %></p>
+                <% } else if (newselements[i].type == 'image') {%>
+                    <img src="/images/<%= newselements[i].image_number %>" class="<%= newselements[i].type %>">
+                    <p style="color: gray"><%= newselements[i].caption %></p>
+                <% } %>
+                <a href="/delete/<%= news_id %>/<%= user_id %>/<%= newselements[i].order_number %>"><button>Delete</button></a>
+            </div>
+        <% } %> 
+        <div id="add">
+            <button id="add_text_button">Add Text</button>
+            <button id="add_image_button">Add Image</button>
+        </div>
+        <div id="add_text" style="display: none;">
+            <form action="/add-text/<%= news_id %>/<%= user_id %>" method="post">
+                <textarea name="content" placeholder="Add Text" style="white-space: pre-wrap;"></textarea>
+                <input type="submit" name="Add" >
+            </form>
+            <a href="/news-update/<%= news_id %>/<%= user_id %>"><button>Cancel</button></a>
+        </div>
+        <div id="add_image" style="display: none;">
+            <form action="/add-image/<%= news_id %>/<%= user_id %>" method="post" enctype="multipart/form-data">
+                <input type="file" name="image" accept="image/*">
+                <textarea name="caption"></textarea>
+                <input type="submit" name="Add" >
+            </form>
+            <a href="/news-update/<%= news_id %>/<%= user_id %>"><button>Cancel</button></a>
+        </div>
+    <% } %>
+</body>
+<script src="/news-announcement-add.js"></script>
+</html>

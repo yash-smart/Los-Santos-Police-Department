@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/login.css">
+</head>
+<body>
+    <h1>Leetcode Tracker</h1>
+    <div>
+        <h1>Register</h1>
+        <form action="/register" method="POST">
+            <input type="text" name="Username" placeholder="Username">
+            <input type="password" name="Password" placeholder="Password">
+            <select name="Type">
+                <option>User</option>
+                <option>Admin</option>
+            </select>
+            <input type="submit" value="Register">
+        </form>
+        <% if (locals.message) { %>
+            <p style="color: red;"><%= message %></p>
+        <% } %>
+        <a href="/" >Login here!</a>
+    </div>
+</body>
+</html>

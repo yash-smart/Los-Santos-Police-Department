@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="/login.css">
+</head>
+<body>
+    <h1>Los Santos Police Department</h1>
+    <div>
+        <h1>Login</h1>
+        <form action="/login" method="POST">
+            <input type="text" name="Username" placeholder="Username">
+            <input type="password" name="Password" placeholder="Password">
+            <input type="submit" value="Login">
+        </form>
+        <% if (locals.message) { %>
+            <p style="color: red;"><%= message %></p>
+        <% } %>
+        <a href="/register" >Register here!</a>
+    </div>
+</body>
+</html>
