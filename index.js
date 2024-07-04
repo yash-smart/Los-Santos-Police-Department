@@ -229,6 +229,54 @@ app.post('/add-video/:news_id/:user_id',upload.single('video'),async (req,res) =
     res.redirect('/news-update/'+req.params.news_id+'/'+req.params.user_id);
 })
 
+app.post('/update-heading/:news_id/:user_id/:order_number',async (req,res) => {
+    await db.query('update newselements set text=$1 where news_id=$2 and order_number=$3;',[req.body.heading,req.params.news_id,req.params.order_number]);
+    res.redirect('/news-update/'+req.params.news_id+'/'+req.params.user_id);
+})
+
+app.post('/update-text/:news_id/:user_id/:order_number',async (req,res) => {
+    db.query('update newselements set text=$1 where news_id=$2 and order_number=$3;',[req.body.content,req.params.news_id,req.params.order_number]);
+    res.redirect('/news-update/'+req.params.news_id+'/'+req.params.user_id);
+})
+
+app.post('/update-image/:news_id/:user_id/:order_number',upload.single('image'),async(req,res) => {
+    let max = await db.query('select max(number) max from newselements;');
+    max = max.rows[0].max+1;
+    // let order_number = await db.query('select max(order_number) max from newselements where news_id=$1;',[req.params.news_id]);
+    let extension = req.file.originalname.split('.');
+    extension = extension[extension.length-1]
+    let prev_path = await db.query('select image_number from newselements where news_id=$1 and order_number=$2;',[req.params.news_id,req.params.order_number]);
+    prev_path = prev_path.rows[0].image_number;
+    fs.unlink('./uploads/'+prev_path,(err)=> {
+        if (err) {
+            console.log(err)
+        } else {
+            console.log('File deleted successfully');
+        }
+    })
+    await db.query('update newselements set image_number=$1,number=$2,caption=$5 where news_id=$3 and order_number=$4;',[''+max+'.'+extension,max,req.params.news_id,req.params.order_number,req.body.caption]);
+    res.redirect('/news-update/'+req.params.news_id+'/'+req.params.user_id);
+})
+
+app.post('/update-video/:news_id/:user_id/:order_number',upload.single('video'),async(req,res) => {
+    let max = await db.query('select max(number) max from newselements;');
+    max = max.rows[0].max+1;
+    // let order_number = await db.query('select max(order_number) max from newselements where news_id=$1;',[req.params.news_id]);
+    let extension = req.file.originalname.split('.');
+    extension = extension[extension.length-1]
+    let prev_path = await db.query('select image_number from newselements where news_id=$1 and order_number=$2;',[req.params.news_id,req.params.order_number]);
+    prev_path = prev_path.rows[0].image_number;
+    fs.unlink('./uploads/'+prev_path,(err)=> {
+        if (err) {
+            console.log(err)
+        } else {
+            console.log('File deleted successfully');
+        }
+    })
+    await db.query('update newselements set image_number=$1,number=$2,caption=$5 where news_id=$3 and order_number=$4;',[''+max+'.'+extension,max,req.params.news_id,req.params.order_number,req.body.caption]);
+    res.redirect('/news-update/'+req.params.news_id+'/'+req.params.user_id);
+})
+
 app.listen(3000, () => {
     console.log(`Connected on localhost:3000`)
 })
