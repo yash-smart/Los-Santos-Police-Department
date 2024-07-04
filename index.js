@@ -8,23 +8,8 @@ import cookieParser from "cookie-parser";
 import multer from "multer";
 import path from "path";
 import { fileURLToPath } from "url";
+import fs from "fs";
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, './uploads')
-    },
-    filename: async function (req, file, cb) {
-        let max = await db.query('select max(image_number) max from newselements;');
-        max = max.rows[0].max+1;
-        let order_number = await db.query('select max(order_number) max from newselements where news_id=$1;',[req.params.news_id]);
-        let extension = file.originalname.split('.');
-        extension = extension[extension.length-1]
-        await db.query('insert into newselements values($1,\'image\',$2,null,$3,$4)',[req.params.news_id,order_number.rows[0].max+1,req.body.caption,''+max+'.'+extension]);
-        return cb(null,''+max+'.'+extension); 
-    }
-  })
-  
-  const upload = multer({ storage: storage })
 // const upload = multer({ dest: 'uploads/' })
 env.config();
 
@@ -53,6 +38,36 @@ app.use(session({
         maxAge: 3600000
     } // Set secure to true in production with HTTPS
 }));
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, './uploads')
+    },
+    filename: async function (req, file, cb) {
+        console.log(file);
+        if (file.fieldname == 'image') {
+            let max = await db.query('select max(number) max from newselements;');
+            max = max.rows[0].max+1;
+            // let order_number = await db.query('select max(order_number) max from newselements where news_id=$1;',[req.params.news_id]);
+            let extension = file.originalname.split('.');
+            extension = extension[extension.length-1]
+            // await db.query('insert into newselements values($1,\'image\',$2,null,$3,$4,$5)',[req.params.news_id,order_number.rows[0].max+1,req.body.caption,''+max+'.'+extension,max]);
+            return cb(null,''+max+'.'+extension); 
+        } else if (file.fieldname == 'video') {
+            console.log(req.body);
+            let max = await db.query('select max(number) max from newselements;');
+            max = max.rows[0].max+1;
+            // let order_number = await db.query('select max(order_number) max from newselements where news_id=$1;',[req.params.news_id]);
+            let extension = file.originalname.split('.');
+            extension = extension[extension.length-1]
+            // await db.query('insert into newselements values($1,\'video\',$2,null,$3,$4,$5)',[req.params.news_id,order_number.rows[0].max+1,req.body.caption,''+max+'.'+extension,max]);
+            return cb(null,''+max+'.'+extension); 
+        }
+    }
+  })
+  
+  const upload = multer({ storage: storage })
+
 
 app.get("/", (req, res) => {
     if (req.session.user === undefined) {
@@ -165,7 +180,13 @@ app.post('/add-text/:news_id/:user_id',async (req,res) => {
     res.redirect('/news-update/'+req.params.news_id+'/'+req.params.user_id);
 })
 
-app.post('/add-image/:news_id/:user_id',upload.single('image'),(req,res) => {
+app.post('/add-image/:news_id/:user_id',upload.single('image'),async(req,res) => {
+    let max = await db.query('select max(number) max from newselements;');
+    max = max.rows[0].max+1;
+    let order_number = await db.query('select max(order_number) max from newselements where news_id=$1;',[req.params.news_id]);
+    let extension = req.file.originalname.split('.');
+    extension = extension[extension.length-1]
+    await db.query('insert into newselements values($1,\'image\',$2,null,$3,$4,$5)',[req.params.news_id,order_number.rows[0].max+1,req.body.caption,''+max+'.'+extension,max]);
     res.redirect('/news-update/'+req.params.news_id+'/'+req.params.user_id);
 })
 
@@ -175,7 +196,36 @@ app.get('/images/:img',(req,res) => {
 })
 
 app.get('/delete/:news_id/:user_id/:order_number',async (req,res) => {
-    await db.query('delete from newselements where news_id=$1 and order_number=$2;',[req.params.news_id,req.params.order_number]);
+    let file_data = await db.query('select image_number,type from newselements where news_id=$1 and order_number=$2;',[req.params.news_id,req.params.order_number]);
+    let type = file_data.rows[0].type;
+    file_data = file_data.rows[0].image_number;
+    if (type == 'image'||type=='video') {
+        fs.unlink('./uploads/'+file_data,(err) => {
+            if (err) {
+                console.log(err)
+            } else {
+                console.log('File deleted successfully');
+            }
+        });
+    }
+    if (type == 'Heading') {
+        await db.query('delete from newselements where news_id=$1',[req.params.news_id]);
+        await db.query('delete from newsannouncements where id=$1;',[req.params.news_id]);
+    } else {
+        await db.query('delete from newselements where news_id=$1 and order_number=$2;',[req.params.news_id,req.params.order_number]);
+    }
+    res.redirect('/news-update/'+req.params.news_id+'/'+req.params.user_id);
+})
+
+app.post('/add-video/:news_id/:user_id',upload.single('video'),async (req,res) => {
+    // console.log(req.body);
+    // await db.query()
+    let max = await db.query('select max(number) max from newselements;');
+    max = max.rows[0].max+1;
+    let order_number = await db.query('select max(order_number) max from newselements where news_id=$1;',[req.params.news_id]);
+    let extension = req.file.originalname.split('.');
+    extension = extension[extension.length-1]
+    await db.query('insert into newselements values($1,\'video\',$2,null,$3,$4,$5)',[req.params.news_id,order_number.rows[0].max+1,req.body.caption,''+max+'.'+extension,max]);
     res.redirect('/news-update/'+req.params.news_id+'/'+req.params.user_id);
 })
 

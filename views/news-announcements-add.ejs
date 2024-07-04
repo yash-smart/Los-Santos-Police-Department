@@ -21,6 +21,11 @@
                 <% } else if (newselements[i].type == 'image') {%>
                     <img src="/images/<%= newselements[i].image_number %>" class="<%= newselements[i].type %>">
                     <p style="color: gray"><%= newselements[i].caption %></p>
+                <% } else if (newselements[i].type == 'video'){ %>
+                    <video width="500px" src="/images/<%= newselements[i].image_number %>" controls>
+                        <!-- <source src="/images" type="video/*"> -->
+                    </video>
+                    <p style="color: gray"><%= newselements[i].caption %></p>
                 <% } %>
                 <a href="/delete/<%= news_id %>/<%= user_id %>/<%= newselements[i].order_number %>"><button>Delete</button></a>
             </div>
@@ -28,6 +33,7 @@
         <div id="add">
             <button id="add_text_button">Add Text</button>
             <button id="add_image_button">Add Image</button>
+            <button id="add_video_button">Add Video</button>
         </div>
         <div id="add_text" style="display: none;">
             <form action="/add-text/<%= news_id %>/<%= user_id %>" method="post">
@@ -39,7 +45,15 @@
         <div id="add_image" style="display: none;">
             <form action="/add-image/<%= news_id %>/<%= user_id %>" method="post" enctype="multipart/form-data">
                 <input type="file" name="image" accept="image/*">
-                <textarea name="caption"></textarea>
+                <textarea name="caption" placeholder="Add Caption"></textarea>
+                <input type="submit" name="Add" >
+            </form>
+            <a href="/news-update/<%= news_id %>/<%= user_id %>"><button>Cancel</button></a>
+        </div>
+        <div id="add_video" style="display: none;">
+            <form action="/add-video/<%= news_id %>/<%= user_id %>" method="post" enctype="multipart/form-data">
+                <input type="file" name="video" accept="video/*">
+                <textarea name="caption" placeholder="Add Caption"></textarea>
                 <input type="submit" name="Add" >
             </form>
             <a href="/news-update/<%= news_id %>/<%= user_id %>"><button>Cancel</button></a>
