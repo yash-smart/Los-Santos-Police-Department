@@ -1,0 +1,112 @@
+
+body {
+    background-size: cover;
+    font-family: 'Arial', sans-serif;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background: rgba(0, 0, 0, 0.8);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    width: 90%;
+    max-width: 400px;
+}
+
+.header {
+    font-size: 2em;
+    margin-bottom: 10px;
+    color: #27ae60;
+    text-shadow: 2px 2px 4px #000000;
+}
+
+.form-container {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.title {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+span {
+    color: #ccc;
+    font-weight: 600;
+    font-size: 1em;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px; /* Reduced gap between elements */
+}
+
+.input {
+    width: 100%; /* Full width for input fields */
+    height: 40px;
+    border-radius: 5px;
+    border: 2px solid #27ae60;
+    background-color: rgba(255, 255, 255, 0.8);
+    font-size: 1em;
+    padding: 5px 10px;
+    outline: none;
+    color: #333;
+}
+
+.input::placeholder {
+    color: #777;
+    opacity: 0.8;
+}
+
+.input:focus {
+    border: 2px solid #2ecc71;
+}
+
+.button-confirm {
+    width: 100%; /* Full width for the button */
+    height: 40px;
+    border-radius: 5px;
+    border: 2px solid #27ae60;
+    background-color: #27ae60;
+    color: white;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    margin-top: 10px; /* Space above the button */
+}
+
+.button-confirm:hover {
+    background-color: #2ecc71;
+}
+
+.button-confirm:active {
+    transform: translateY(2px);
+}
+
+.error-message {
+    color: red;
+    font-size: 0.9em;
+}
+
+.register-link {
+    color: #3498db;
+    text-decoration: none;
+    font-size: 0.9em;
+    margin-top: 10px; /* Space below the button */
+    display: block; /* Display as block for full width */
+}
+
+.register-link:hover {
+    text-decoration: underline;
+}
