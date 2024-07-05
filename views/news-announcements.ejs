@@ -4,14 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Los Santos Police Department</title>
+    <link rel="stylesheet" href="/news-announcement.css" >
 </head>
 <body>
     <h1>Los Santos Police Department</h1>
-    <% for (let i=0;i<data.length;i++) { %>
-        <a href="/news-update/<%= data[i].id %>/<%= user_id %>"><p><%= data[i].text %></p></a>
-    <% } %>
+    <section class="news-list">
+        <% for (let i=0;i<data.length;i++) { %>
+                <% if (admin) { %>
+                    <a class="news-item" href="/news-update/<%= data[i].id %>/<%= user_id %>"><p><%= data[i].text %></p></a>
+                <% } else { %>
+                    <a href="/news/<%= data[i].id %>/<%= user_id %>"><p><%= data[i].text %></p></a>
+                <% } %>
+        
+        <% } %>
+    </section>
     <% if (admin) { %>
-        <a href="/news-announcements-add/<%= user_id %>"><button>Add</button></a>
+        <div class="admin-controls">
+            <a href="/news-announcements-add/<%= user_id %>"><button class="btn-add">Add</button></a>
+        </div>
     <% } %>
 </body>
 </html>

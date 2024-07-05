@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Los Santos Police Department</title>
+</head>
+<body>
+    <% for (let i=0;i<newselements.length;i++) { %>
+        <div style="margin: 10px;" id="<%= newselements[i].order_number %>" class="newselement">
+            <% if (newselements[i].type=='Heading' ) { %>
+                <h2>
+                    <%= newselements[i].text %>
+                </h2>
+            <% } else if (newselements[i].type=='text' ) {%>
+                <p style="white-space: pre-wrap;"><%= newselements[i].text.trim() %></p>
+            <% } else if (newselements[i].type=='image' ) {%>
+                <img src="/images/<%= newselements[i].image_number %>"
+                    class="<%= newselements[i].type %>">
+                <p style="color: gray"><%= newselements[i].caption %></p>
+            <% } else if (newselements[i].type=='video' ){ %>
+                <video width="500px" src="/images/<%= newselements[i].image_number %>" controls>
+                    <!-- <source src="/images" type="video/*"> -->
+                </video>
+                <p style="color: gray">
+                    <%= newselements[i].caption %>
+                </p>
+            <% } %>
+        </div>
+    <% } %>
+</body>
+<script src="/news-announcement-view.js"></script>
+</html>

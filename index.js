@@ -136,7 +136,7 @@ app.get('/news-announcements/:user_id',async (req,res) => {
         if (user_details.rows[0].type == 'Admin') {
             res.render('news-announcements.ejs',{admin:true,user_id:req.params.user_id,data:data.rows});
         } else {
-            res.render('news-announcements.ejs',{admin:false,user_id:req.params.user_id});
+            res.render('news-announcements.ejs',{admin:false,user_id:req.params.user_id,data:data.rows});
         }
     } else {
         res.send('Unauthorised');
@@ -147,7 +147,7 @@ app.get('/news-announcements-add/:user_id',async (req,res) => {
     if (req.session.user == req.params.user_id) {
         let user_details = await db.query('select type from users where id=$1;',[req.params.user_id]);
         if (user_details.rows[0].type == 'Admin') {
-            let news_id = await db.query('insert into newsannouncements(user_id) values($1) RETURNING id;',[req.params.user_id])
+            let news_id = await db.query('insert into newsannouncements(user_id,datetime) values($1,$2) RETURNING id;',[req.params.user_id,new Date()]);
             news_id = news_id.rows[0].id;
             res.render('news-announcements-add.ejs',{news_id:news_id,new_news:true,user_id:req.params.user_id});
         } else {
@@ -275,6 +275,12 @@ app.post('/update-video/:news_id/:user_id/:order_number',upload.single('video'),
     })
     await db.query('update newselements set image_number=$1,number=$2,caption=$5 where news_id=$3 and order_number=$4;',[''+max+'.'+extension,max,req.params.news_id,req.params.order_number,req.body.caption]);
     res.redirect('/news-update/'+req.params.news_id+'/'+req.params.user_id);
+})
+
+app.get('/news/:news_id/:user_id',async (req,res) => {
+    let newselements = await db.query('select * from newselements where news_id=$1 order by order_number asc;',[req.params.news_id]);
+    newselements = newselements.rows;
+    res.render('news-announcements-view.ejs',{newselements:newselements});
 })
 
 app.listen(3000, () => {

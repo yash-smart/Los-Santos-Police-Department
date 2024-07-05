@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Los Santos Police Department</title>
+    <link rel="stylesheet" href="/news-announcements-add.css">
 </head>
 
 <body>
@@ -24,7 +25,7 @@
                             <form
                                 action="/update-heading/<%= news_id %>/<%= user_id %>/<%= newselements[i].order_number %>"
                                 method="post">
-                                <textarea name="heading" placeholder="Updated Heading"></textarea>
+                                <textarea name="heading" placeholder="Updated Heading" required></textarea>
                                 <input type="submit" value="Update">
                             </form>
                             <a href="/news-update/<%= news_id %>/<%= user_id %>"><button>Cancel</button></a>
@@ -36,7 +37,7 @@
                                     action="/update-text/<%= news_id %>/<%= user_id %>/<%= newselements[i].order_number %>"
                                     method="post">
                                     <textarea name="content" placeholder="Add Text"
-                                        style="white-space: pre-wrap;"></textarea>
+                                        style="white-space: pre-wrap;" required></textarea>
                                     <input type="submit" name="Add">
                                 </form>
                                 <a href="/news-update/<%= news_id %>/<%= user_id %>"><button>Cancel</button></a>
@@ -51,7 +52,7 @@
                                     <form
                                         action="/update-image/<%= news_id %>/<%= user_id %>/<%= newselements[i].order_number %>"
                                         method="post" enctype="multipart/form-data">
-                                        <input type="file" name="image" accept="image/*">
+                                        <input type="file" name="image" accept="image/*" required>
                                         <textarea name="caption" placeholder="Add Caption"></textarea>
                                         <input type="submit" name="Add">
                                     </form>
@@ -68,7 +69,7 @@
                                         <form
                                             action="/update-video/<%= news_id %>/<%= user_id %>/<%= newselements[i].order_number %>"
                                             method="post" enctype="multipart/form-data">
-                                            <input type="file" name="video" accept="video/*">
+                                            <input type="file" name="video" accept="video/*" required>
                                             <textarea name="caption" placeholder="Add Caption"></textarea>
                                             <input type="submit" name="Add">
                                         </form>
@@ -90,7 +91,7 @@
                     </div>
                     <div id="add_text" style="display: none;">
                         <form action="/add-text/<%= news_id %>/<%= user_id %>" method="post">
-                            <textarea name="content" placeholder="Add Text" style="white-space: pre-wrap;"></textarea>
+                            <textarea name="content" placeholder="Add Text" style="white-space: pre-wrap;" required></textarea>
                             <input type="submit" name="Add">
                         </form>
                         <a href="/news-update/<%= news_id %>/<%= user_id %>"><button>Cancel</button></a>
@@ -98,7 +99,7 @@
                     <div id="add_image" style="display: none;">
                         <form action="/add-image/<%= news_id %>/<%= user_id %>" method="post"
                             enctype="multipart/form-data">
-                            <input type="file" name="image" accept="image/*">
+                            <input type="file" name="image" accept="image/*" required>
                             <textarea name="caption" placeholder="Add Caption"></textarea>
                             <input type="submit" name="Add">
                         </form>
@@ -107,7 +108,7 @@
                     <div id="add_video" style="display: none;">
                         <form action="/add-video/<%= news_id %>/<%= user_id %>" method="post"
                             enctype="multipart/form-data">
-                            <input type="file" name="video" accept="video/*">
+                            <input type="file" name="video" accept="video/*" required>
                             <textarea name="caption" placeholder="Add Caption"></textarea>
                             <input type="submit" name="Add">
                         </form>
