@@ -3,22 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Los Santos Police Department - Login</title>
     <link rel="stylesheet" href="/login.css">
 </head>
 <body>
-    <h1>Los Santos Police Department</h1>
-    <div>
-        <h1>Login</h1>
-        <form action="/login" method="POST">
-            <input type="text" name="Username" placeholder="Username">
-            <input type="password" name="Password" placeholder="Password">
-            <input type="submit" value="Login">
-        </form>
-        <% if (locals.message) { %>
-            <p style="color: red;"><%= message %></p>
-        <% } %>
-        <a href="/register" >Register here!</a>
+    <div class="container">
+        <h1 class="header">Los Santos Police Department</h1>
+        <div class="form-container">
+            <h2 class="title">Welcome, Officer</h2>
+            <span>Log in to continue</span>
+            <form action="/login" method="POST" class="form">
+                <input class="input" type="text" name="Username" placeholder="Username">
+                <input class="input" type="password" name="Password" placeholder="Password">
+                <input class="button-confirm" type="submit" value="Login">
+            </form>
+            <% if (locals.message) { %>
+                <p class="error-message"><%= message %></p>
+            <% } %>
+            <a href="/register" class="register-link">Register here!</a>
+        </div>
     </div>
 </body>
 </html>
