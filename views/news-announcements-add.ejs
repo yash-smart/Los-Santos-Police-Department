@@ -115,7 +115,49 @@
                         <a href="/news-update/<%= news_id %>/<%= user_id %>"><button>Cancel</button></a>
                     </div>
                     <% } %>
+                    <% if (locals.posted_on) { %>
+                        <p style="display: none;" id="posted_on_data"><%= posted_on %></p>
+                        <p id="posted_on">Posted on: </p>
+                    <% } %>
+                    <section class="like_comments">
+                        <p>Likes: <%= likes %></p>
+                        <p>Comments: <%= comments_count %></p>
+                        <% if (!liked) { %>
+                            <a href="/like-admin/<%= news_id %>" style="margin: 10px;margin-bottom: 10px !important;"><button>Like</button></a>
+                        <% } else { %>
+                            <a href="/unlike-admin/<%= news_id %>" style="margin: 10px;margin-bottom: 10px !important;"><button>Unlike</button></a>
+                        <% } %>
+                        <form action="/comment-admin/<%= news_id %>" method="post">
+                            <textarea name="comment" style="white-space: pre-wrap;margin-top: 20px;margin-bottom: 20px;"></textarea>
+                            <input type="submit" value="Submit" >
+                        </form>
+                        <h3>Comments</h3>
+                        <% for (let i=0;i<comments.length;i++) { %>
+                            <div style="margin: 20px;">
+                                <h4><%= users[i] %></h4>
+                                <p><%= comments[i].text %></p>
+                                <p id="p<%= i %>">Posted on: </p>
+                                <p style="display: none;" class="posted_on" iterator="<%= i %>"><%= comments[i].posted_on %></p>
+                            </div>
+                        <% } %>
+                    </section>
 </body>
 <script src="/news-announcement-add.js"></script>
-
+<script>
+    function getDateTime(date) {
+        let day = date.getDate();
+        let month = date.getMonth()+1;
+        let year = date.getFullYear();
+        let hours = date.getHours();
+        let minutes = date.getMinutes();
+        day = day<10?`0${day}`:day;
+        month = month<10?`0${month}`:month;
+        year = year<10?`0${year}`:year;
+        hours = hours<10?`0${hours}`:hours;
+        minutes = minutes<10?`0${minutes}`:minutes;
+        return `${day}/${month}/${year} ${hours}:${minutes}`;
+    }
+    let posted_on = new Date(document.getElementById('posted_on_data').textContent);
+    document.getElementById('posted_on').textContent+=getDateTime(posted_on);
+</script>
 </html>

@@ -13,7 +13,7 @@
                 <% if (admin) { %>
                     <a class="news-item" href="/news-update/<%= data[i].id %>/<%= user_id %>"><p><%= data[i].text %></p></a>
                 <% } else { %>
-                    <a href="/news/<%= data[i].id %>/<%= user_id %>"><p><%= data[i].text %></p></a>
+                    <a class="news-item" href="/news/<%= data[i].id %>"><p><%= data[i].text %></p></a>
                 <% } %>
         
         <% } %>

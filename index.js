@@ -68,12 +68,15 @@ const storage = multer.diskStorage({
   
   const upload = multer({ storage: storage })
 
+app.get("/",(req,res) => {
+    res.render('main.ejs')
+})
 
-app.get("/", (req, res) => {
+app.get("/login", (req, res) => {
     if (req.session.user === undefined) {
         res.render("login.ejs")
     } else {
-        res.redirect('/news-announcements/' + req.session.user);
+        res.redirect('/');
     }
 })
 
@@ -85,7 +88,7 @@ app.post('/login', async (req, res) => {
             bcrypt.compare(req.body.Password, correct_password, function (err, result) {
                 if (result) {
                     req.session.user = user_data.rows[0].id;
-                    res.redirect('/news-announcements/' + req.session.user);
+                    res.redirect('/');
                 } else {
                     res.render('login.ejs', { message: 'Invalid Password.' })
                 }
@@ -103,7 +106,7 @@ app.get('/register', (req, res) => {
     if (req.session.user == undefined) {
         res.render('register.ejs')
     } else {
-        res.redirect('/news-announcements/' + req.session.user)
+        res.redirect('/')
     }
 })
 
@@ -129,14 +132,14 @@ app.post('/register', async (req, res) => {
     }
 })
 
-app.get('/news-announcements/:user_id',async (req,res) => {
-    if (req.session.user == req.params.user_id) {
-        let user_details = await db.query('select type from users where id=$1;',[req.params.user_id]);
-        let data = await db.query('select * from newsannouncements,newselements where newsannouncements.id=newselements.news_id and type=\'Heading\';');
+app.get('/news-announcements',async (req,res) => {
+    let data = await db.query('select * from newsannouncements,newselements where newsannouncements.id=newselements.news_id and type=\'Heading\';');
+    if (req.session.user) {
+        let user_details = await db.query('select type from users where id=$1;',[req.session.user]);
         if (user_details.rows[0].type == 'Admin') {
-            res.render('news-announcements.ejs',{admin:true,user_id:req.params.user_id,data:data.rows});
+            res.render('news-announcements.ejs',{admin:true,user_id:req.session.user,data:data.rows});
         } else {
-            res.render('news-announcements.ejs',{admin:false,user_id:req.params.user_id,data:data.rows});
+            res.render('news-announcements.ejs',{admin:false,user_id:req.session.user,data:data.rows});
         }
     } else {
         res.send('Unauthorised');
@@ -147,9 +150,10 @@ app.get('/news-announcements-add/:user_id',async (req,res) => {
     if (req.session.user == req.params.user_id) {
         let user_details = await db.query('select type from users where id=$1;',[req.params.user_id]);
         if (user_details.rows[0].type == 'Admin') {
-            let news_id = await db.query('insert into newsannouncements(user_id,datetime) values($1,$2) RETURNING id;',[req.params.user_id,new Date()]);
+            let news_id = await db.query('insert into newsannouncements(user_id,datetime) values($1,$2) RETURNING id,datetime;',[req.params.user_id,new Date()]);
+            let posted_on = news_id.rows[0].datetime;
             news_id = news_id.rows[0].id;
-            res.render('news-announcements-add.ejs',{news_id:news_id,new_news:true,user_id:req.params.user_id});
+            res.render('news-announcements-add.ejs',{news_id:news_id,new_news:true,user_id:req.params.user_id,posted_on:posted_on});
         } else {
             res.send('You are not authorised to view this page.');
         }
@@ -166,10 +170,31 @@ app.post('/add-heading/:news_id/:user_id',async (req,res) => {
 app.get('/news-update/:news_id/:user_id',async (req,res)=> {
     let newselements = await db.query('select * from newselements where news_id=$1 order by order_number asc;',[req.params.news_id]);
     newselements = newselements.rows;
+    let news_data = await db.query('select datetime from newsannouncements where id=$1;',[req.params.news_id]);
+    let posted_on = news_data.rows[0].datetime;
+    let likes = await db.query('select count(*) count from likes_news;');
+    likes = likes.rows[0].count;
     if (newselements.length>0) {
-        res.render('news-announcements-add.ejs',{news_id:req.params.news_id,new_news:false,user_id:req.params.user_id,newselements:newselements});
+        let likes = await db.query('select count(*) count from likes_news where news_id=$1;',[req.params.news_id]);
+        likes = likes.rows[0].count;
+        let comments_count = await db.query('select count(*) count from comments_news where news_id=$1;',[req.params.news_id]);
+        comments_count = comments_count.rows[0].count;
+        let comments = await db.query('select * from comments_news where news_id=$1 order by posted_on DESC;',[req.params.news_id]);
+        comments = comments.rows;
+        let users = [];
+        for (let i=0;i<comments.length;i++) {
+            let user_id = comments[i].user_id;
+            let username = await db.query('select username from users where id=$1;',[user_id]);
+            users.push(username.rows[0].username);
+        }
+        let like_data = await db.query('select * from likes_news where news_id=$1 and user_id=$2;',[req.params.news_id,req.session.user]);
+        if (like_data.rows.length == 0) {
+            res.render('news-announcements-add.ejs',{news_id:req.params.news_id,new_news:false,user_id:req.params.user_id,newselements:newselements,posted_on:posted_on,likes:likes,comments_count:comments_count,comments:comments,users,liked:false});
+        } else {
+            res.render('news-announcements-add.ejs',{news_id:req.params.news_id,new_news:false,user_id:req.params.user_id,newselements:newselements,posted_on:posted_on,likes:likes,comments_count:comments_count,comments:comments,users,liked:true});
+        }
     } else {
-        res.render('news-announcements-add.ejs',{news_id:req.params.news_id,new_news:true,user_id:req.params.user_id});
+        res.render('news-announcements-add.ejs',{news_id:req.params.news_id,new_news:true,user_id:req.params.user_id,posted_on:posted_on,likes:likes});
     }
 })
 
@@ -277,10 +302,93 @@ app.post('/update-video/:news_id/:user_id/:order_number',upload.single('video'),
     res.redirect('/news-update/'+req.params.news_id+'/'+req.params.user_id);
 })
 
-app.get('/news/:news_id/:user_id',async (req,res) => {
+app.get('/news/:news_id',async (req,res) => {
     let newselements = await db.query('select * from newselements where news_id=$1 order by order_number asc;',[req.params.news_id]);
     newselements = newselements.rows;
-    res.render('news-announcements-view.ejs',{newselements:newselements});
+    let news_data = await db.query('select datetime from newsannouncements where id=$1;',[req.params.news_id]);
+    let posted_on = news_data.rows[0].datetime;
+    if (req.session.user) {
+        let likes = await db.query('select count(*) count from likes_news where news_id=$1;',[req.params.news_id]);
+        likes = likes.rows[0].count;
+        let comments_count = await db.query('select count(*) count from comments_news where news_id=$1;',[req.params.news_id]);
+        comments_count = comments_count.rows[0].count;
+        let comments = await db.query('select * from comments_news where news_id=$1 order by posted_on DESC;',[req.params.news_id]);
+        comments = comments.rows;
+        let users = [];
+        for (let i=0;i<comments.length;i++) {
+            let user_id = comments[i].user_id;
+            let username = await db.query('select username from users where id=$1;',[user_id]);
+            users.push(username.rows[0].username);
+        }
+        let like_data = await db.query('select * from likes_news where news_id=$1 and user_id=$2;',[req.params.news_id,req.session.user]);
+        if (like_data.rows.length == 0) {
+            res.render('news-announcements-view.ejs',{newselements:newselements,posted_on:posted_on,logged_in:true,likes:likes,comments_count:comments_count,comments:comments,users,news_id:req.params.news_id,liked:false});
+        } else {
+            res.render('news-announcements-view.ejs',{newselements:newselements,posted_on:posted_on,logged_in:true,likes:likes,comments_count:comments_count,comments:comments,users,news_id:req.params.news_id,liked:true});
+        }
+    } else{
+        res.send('Unauthorised');
+    }
+})
+
+app.get('/like/:news_id',async (req,res) => {
+    if (req.session.user) {
+        let like_data = await db.query('select * from likes_news where news_id=$1 and user_id=$2;',[req.params.news_id,req.session.user]);
+        if (like_data.rows.length == 0) {
+            await db.query('insert into likes_news(news_id,user_id) values($1,$2);',[req.params.news_id,req.session.user]);
+        }
+        res.redirect('/news/'+req.params.news_id);
+    } else {
+        res.send('Unauthorised');
+    }
+})
+
+app.get('/unlike/:news_id', async (req,res) => {
+    if (req.session.user) {
+        await db.query('delete from likes_news where news_id=$1 and user_id=$2;',[req.params.news_id,req.session.user]);
+        res.redirect('/news/'+req.params.news_id);
+    } else {
+        res.send('Unauthorised');
+    }
+})
+
+app.post('/comment/:news_id',async (req,res) => {
+    if (req.session.user) {
+        await db.query('insert into comments_news(news_id,user_id,text,posted_on) values($1,$2,$3,$4);',[req.params.news_id,req.session.user,req.body.comment,new Date()]);
+        res.redirect('/news/'+req.params.news_id);
+    } else {
+        res.send('Unauthorised');
+    }
+})
+
+app.get('/like-admin/:news_id',async (req,res) => {
+    if (req.session.user) {
+        let like_data = await db.query('select * from likes_news where news_id=$1 and user_id=$2;',[req.params.news_id,req.session.user]);
+        if (like_data.rows.length == 0) {
+            await db.query('insert into likes_news(news_id,user_id) values($1,$2);',[req.params.news_id,req.session.user]);
+        }
+        res.redirect('/news-update/'+req.params.news_id+'/'+req.session.user);
+    } else {
+        res.send('Unauthorised');
+    }
+})
+
+app.get('/unlike-admin/:news_id', async (req,res) => {
+    if (req.session.user) {
+        await db.query('delete from likes_news where news_id=$1 and user_id=$2;',[req.params.news_id,req.session.user]);
+        res.redirect('/news-update/'+req.params.news_id+'/'+req.session.user);
+    } else {
+        res.send('Unauthorised');
+    }
+})
+
+app.post('/comment-admin/:news_id',async (req,res) => {
+    if (req.session.user) {
+        await db.query('insert into comments_news(news_id,user_id,text,posted_on) values($1,$2,$3,$4);',[req.params.news_id,req.session.user,req.body.comment,new Date()]);
+        res.redirect('/news-update/'+req.params.news_id+'/'+req.session.user);
+    } else {
+        res.send('Unauthorised');
+    }
 })
 
 app.listen(3000, () => {

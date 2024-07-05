@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Los Santos Police Department</title>
+    <link rel="stylesheet" href="/news-announcements-add.css" >
 </head>
 <body>
+    <p style="display: none;" id="posted_on_data"><%= posted_on %></p>
     <% for (let i=0;i<newselements.length;i++) { %>
         <div style="margin: 10px;" id="<%= newselements[i].order_number %>" class="newselement">
             <% if (newselements[i].type=='Heading' ) { %>
@@ -28,6 +30,29 @@
             <% } %>
         </div>
     <% } %>
+    <p id="posted_on">Posted on: </p>
+    <section class="like_comments">
+        <p>Likes: <%= likes %></p>
+        <p>Comments: <%= comments_count %></p>
+        <% if (!liked) { %>
+            <a href="/like/<%= news_id %>" style="margin: 10px;margin-bottom: 10px !important;"><button>Like</button></a>
+        <% } else { %>
+            <a href="/unlike/<%= news_id %>" style="margin: 10px;margin-bottom: 10px !important;"><button>Unlike</button></a>
+        <% } %>
+        <form action="/comment/<%= news_id %>" method="post">
+            <textarea name="comment" style="white-space: pre-wrap;margin-top: 20px;margin-bottom: 20px;"></textarea>
+            <input type="submit" value="Submit" >
+        </form>
+        <h3>Comments</h3>
+        <% for (let i=0;i<comments.length;i++) { %>
+            <div style="margin: 20px;">
+                <h4><%= users[i] %></h4>
+                <p><%= comments[i].text %></p>
+                <p id="p<%= i %>">Posted on: </p>
+                <p style="display: none;" class="posted_on" iterator="<%= i %>"><%= comments[i].posted_on %></p>
+            </div>
+        <% } %>
+    </section>
 </body>
 <script src="/news-announcement-view.js"></script>
 </html>
