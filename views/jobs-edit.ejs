@@ -53,6 +53,7 @@
             <p class="time" type="last_apply_date" iterator="<%= i %>" add="date">Last Apply Date: </p>
             <p class="time" type="posted_on" iterator="<%= i %>" add="datetime">Posted On: </p>
             <a href="/applications/<%= data[i].id %>"><button>See Applications</button></a>
+            <a href="/delete-job/<%= data[i].id %>"><button>Delete Job</button></a>
         </div>
     <% } %>
     <a href="/job-post"><button>Post</button></a>

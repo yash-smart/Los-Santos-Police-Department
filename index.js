@@ -636,6 +636,33 @@ app.get('/applications/:job_id',async (req,res) => {
     }
 })
 
+app.get('/delete-job/:job_id',async (req,res) => {
+    if (req.session.user) {
+        let user_data = await db.query('select type from users where id=$1;',[req.session.user]);
+        let type = user_data.rows[0].type;
+        if (type == 'Admin') {
+            let resumes = await db.query('select resume_filename from jobapplications where job_id=$1;',[req.params.job_id]);
+            resumes = resumes.rows;
+            for (let i=0;i<resumes.length;i++) {
+                fs.unlink('./uploads/'+resumes[i].resume_filename,(err) => {
+                    if (err) {
+                        console.log(err)
+                    } else {
+                        console.log('File deleted successfully');
+                    }
+                })
+            }
+            await db.query('delete from jobapplications where job_id=$1;',[req.params.job_id]);
+            await db.query('delete from jobpostings where id=$1;',[req.params.job_id]);
+            res.redirect('/jobs')
+        } else {
+            res.send('Unauthorised');
+        }
+    } else {
+        res.send('Unauthorised');
+    }
+})
+
 app.listen(3000, () => {
     console.log(`Connected on localhost:3000`)
 })
