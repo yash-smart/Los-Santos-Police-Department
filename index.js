@@ -464,7 +464,7 @@ app.get('/jobs',async (req,res) => {
         let user_data = await db.query('select type from users where id=$1;',[req.session.user]);
         let type = user_data.rows[0].type;
         if (type == 'Admin') {
-            let data = await db.query('select * from jobpostings where last_apply_date>$1 order by last_apply_date asc;',[new Date()]);
+            let data = await db.query('select * from jobpostings order by last_apply_date asc;');
             res.render('jobs-edit.ejs',{data:data.rows});
         } else {
             let data = await db.query('select * from jobpostings where last_apply_date>$1 order by last_apply_date asc;',[new Date()]);
@@ -527,32 +527,43 @@ app.post('/job-post',async (req,res) => {
 // })
 
 app.post('/filter-job-post',async (req,res) => {
-    console.log(req.body);
-    let filters_object = {'Title':false,'Description':false,'Department':false,'Location_type':false,'Location':false,'Type':false};
-    for (let key in req.body) {
-        if (req.body[key] !== '' && req.body[key] !== 'None') {
-            console.log(key);
-            filters_object[key] = true;
-        }
-    }
-    let filters_conditions = [];
-    for (let key in filters_object) {
-        if (filters_object[key] == true) {
-            let push_value = null;
-            if (key == 'Title' || key == 'Description' || key == 'Location') {
-                push_value = `lower(${key}) like lower(\'%${req.body[key]}%\')`;
-            } else {
-                push_value = `${key} = \'${req.body[key]}\'`;
+    if (req.session.user) {
+        let user_data = await db.query('select type from users where id=$1;',[req.session.user]);
+        let type = user_data.rows[0].type;
+        console.log(req.body);
+        let filters_object = {'Title':false,'Description':false,'Department':false,'Location_type':false,'Location':false,'Type':false};
+        for (let key in req.body) {
+            if (req.body[key] !== '' && req.body[key] !== 'None') {
+                console.log(key);
+                filters_object[key] = true;
             }
-            filters_conditions.push(push_value);
         }
+        let filters_conditions = [];
+        for (let key in filters_object) {
+            if (filters_object[key] == true) {
+                let push_value = null;
+                if (key == 'Title' || key == 'Description' || key == 'Location') {
+                    push_value = `lower(${key}) like lower(\'%${req.body[key]}%\')`;
+                } else {
+                    push_value = `${key} = \'${req.body[key]}\'`;
+                }
+                filters_conditions.push(push_value);
+            }
+        }
+        const whereClause = filters_conditions.length>0?`where ${filters_conditions.join(' AND ')}`:'';
+        console.log(whereClause)
+        let query = null;
+        let data = null;
+        if (type == 'Admin') {
+            query = whereClause!==''?'select * from jobpostings '+whereClause+' order by last_apply_date;':'select * from jobpostings '+whereClause+' order by last_apply_date;';    
+            data = await db.query(query);
+        } else {
+            query = whereClause!==''?'select * from jobpostings '+whereClause+' and last_apply_date>$1 order by last_apply_date;':'select * from jobpostings '+whereClause+' where last_apply_date>$1 order by last_apply_date;';
+            data = await db.query(query,[new Date()]);
+        }
+        console.log(query);
+        res.render('jobs-edit.ejs',{data:data.rows})
     }
-    const whereClause = filters_conditions.length>0?`where ${filters_conditions.join(' AND ')}`:'';
-    console.log(whereClause)
-    let query = whereClause!==''?'select * from jobpostings '+whereClause+' and last_apply_date>$1 order by last_apply_date;':'select * from jobpostings '+whereClause+' where last_apply_date>$1 order by last_apply_date;';
-    let data = await db.query(query,[new Date()]);
-    console.log(query);
-    res.render('jobs-edit.ejs',{data:data.rows})
 })
 
 app.get('/apply-job/:job_id',async (req,res) => {
