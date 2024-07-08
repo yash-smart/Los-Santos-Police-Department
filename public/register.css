@@ -1,112 +1,156 @@
+/* Basic Reset */
+@font-face {
+    font-family: myFont;
+    src: url('./pricedown bl.otf');
+}
+
+@font-face {
+    font-family: yourFont;
+    src: url('./Pacifico.ttf');
+}
 
 body {
+    background: url('./bg-police.png') no-repeat center center fixed;
     background-size: cover;
-    font-family: 'Arial', sans-serif;
-    color: white;
+    font-family: 'Lobster', cursive;
+    color: #ffffff;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    margin: 0;
+    overflow: hidden;
 }
 
 .container {
-    background: rgba(0, 0, 0, 0.8);
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     text-align: center;
+    background: rgba(44, 62, 80, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
     width: 90%;
     max-width: 400px;
+    margin-top: 20px;
 }
 
 .header {
-    font-size: 2em;
-    margin-bottom: 10px;
-    color: #27ae60;
-    text-shadow: 2px 2px 4px #000000;
-}
-
-.form-container {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    font-family: 'Pacifico', cursive;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .title {
-    font-size: 1.5em;
-    margin-bottom: 10px;
+    font-size: 2rem;
+    margin-bottom: 20px;
 }
 
-span {
-    color: #ccc;
-    font-weight: 600;
-    font-size: 1em;
+.form-container {
+    margin-top: 20px;
 }
 
-.form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px; /* Reduced gap between elements */
+.input-container {
+    position: relative;
+    margin-bottom: 15px;
 }
 
 .input {
-    width: 100%; /* Full width for input fields */
-    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #ecf0f1;
     border-radius: 5px;
-    border: 2px solid #27ae60;
-    background-color: rgba(255, 255, 255, 0.8);
-    font-size: 1em;
-    padding: 5px 10px;
-    outline: none;
-    color: #333;
-}
-
-.input::placeholder {
-    color: #777;
-    opacity: 0.8;
+    padding: 12px; /* Adjust padding for better spacing */
+    width: calc(100% - 24px); /* Adjust width to accommodate padding */
+    font-size: 1rem;
+    color: #ecf0f1;
+    transition: background 0.3s, border 0.3s;
 }
 
 .input:focus {
-    border: 2px solid #2ecc71;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid #3498db;
+    outline: none;
+}
+
+.input-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    color: #bdc3c7;
+    font-size: 1.2rem;
 }
 
 .button-confirm {
-    width: 100%; /* Full width for the button */
-    height: 40px;
+    background: #3498db;
+    border: none;
     border-radius: 5px;
-    border: 2px solid #27ae60;
-    background-color: #27ae60;
-    color: white;
-    font-size: 1em;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    color: #ffffff;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
-    margin-top: 10px; /* Space above the button */
+    transition: background 0.3s, transform 0.3s;
+    font-family: yourFont;
 }
 
 .button-confirm:hover {
-    background-color: #2ecc71;
-}
-
-.button-confirm:active {
-    transform: translateY(2px);
+    background: #f1c40f;
+    transform: scale(1.05);
 }
 
 .error-message {
-    color: red;
-    font-size: 0.9em;
+    color: #e74c3c;
+    margin-top: 10px;
+    font-size: 0.9rem;
 }
 
 .register-link {
+    display: block;
+    margin-top: 20px;
     color: #3498db;
     text-decoration: none;
-    font-size: 0.9em;
-    margin-top: 10px; /* Space below the button */
-    display: block; /* Display as block for full width */
+    font-size: 1rem;
+    transition: color 0.3s;
 }
 
 .register-link:hover {
-    text-decoration: underline;
+    color: #f1c40f;
+}
+
+.disclaimer {
+    color: #bdc3c7;
+    margin-top: 20px;
+    font-size: 0.9rem;
+}
+
+/* Dropdown styling */
+/* Dropdown styling */
+.input select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: rgba(44, 62, 80, 0.9); /* Dark background color */
+    border: 1px solid #ecf0f1;
+    border-radius: 5px;
+    padding: 12px;
+    width: calc(100% - 24px);
+    color: #ecf0f1;
+    font-size: 1rem;
+    transition: background 0.3s, border 0.3s;
+}
+
+.input select:focus {
+    background-color: rgba(44, 62, 80, 0.7); /* Darken background color on focus */
+    border: 1px solid #3498db;
+    outline: none;
+}
+
+.input select option {
+    background-color: rgba(44, 62, 80, 0.9); /* Dark background color */
+    color: #ffffff; /* White text color */
+    font-size: 1rem;
+}
+.welcome{
+    font-family: myFont;
+    font-size: 3rem;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
