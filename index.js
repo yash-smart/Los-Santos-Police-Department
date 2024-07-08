@@ -46,8 +46,17 @@ const storage = multer.diskStorage({
     filename: async function (req, file, cb) {
         console.log(file);
         if (file.fieldname == 'image') {
-            let max = await db.query('select max(number) max from newselements;');
-            max = max.rows[0].max+1;
+            let max1 = await db.query('select max(number) max from jobapplications;');
+            max1 = max1.rows[0].max;
+            let max2 = await db.query('select max(number) max from newselements;');
+            max2 = max2.rows[0].max;
+            let max = null;
+            if (max2>max1) {
+                max = max2
+            } else {
+                max = max1;
+            }
+            max = max+1;
             // let order_number = await db.query('select max(order_number) max from newselements where news_id=$1;',[req.params.news_id]);
             let extension = file.originalname.split('.');
             extension = extension[extension.length-1]
@@ -55,13 +64,36 @@ const storage = multer.diskStorage({
             return cb(null,''+max+'.'+extension); 
         } else if (file.fieldname == 'video') {
             console.log(req.body);
-            let max = await db.query('select max(number) max from newselements;');
-            max = max.rows[0].max+1;
+            let max1 = await db.query('select max(number) max from jobapplications;');
+            max1 = max1.rows[0].max;
+            let max2 = await db.query('select max(number) max from newselements;');
+            max2 = max2.rows[0].max;
+            let max = null;
+            if (max2>max1) {
+                max = max2
+            } else {
+                max = max1;
+            }
+            max = max+1;
             // let order_number = await db.query('select max(order_number) max from newselements where news_id=$1;',[req.params.news_id]);
             let extension = file.originalname.split('.');
             extension = extension[extension.length-1]
             // await db.query('insert into newselements values($1,\'video\',$2,null,$3,$4,$5)',[req.params.news_id,order_number.rows[0].max+1,req.body.caption,''+max+'.'+extension,max]);
             return cb(null,''+max+'.'+extension); 
+        } else if (file.fieldname == 'resume') {
+            let max1 = await db.query('select max(number) max from jobapplications;');
+            max1 = max1.rows[0].max;
+            let max2 = await db.query('select max(number) max from newselements;');
+            max2 = max2.rows[0].max;
+            let max = null;
+            if (max2>max1) {
+                max = max2
+            } else {
+                max = max1;
+            }
+            let extension = file.originalname.split('.');
+            extension = extension[extension.length-1]
+            return cb(null,''+(max+1)+'.'+extension);
         }
     }
   })
@@ -133,7 +165,7 @@ app.post('/register', async (req, res) => {
 })
 
 app.get('/news-announcements',async (req,res) => {
-    let data = await db.query('select * from newsannouncements,newselements where newsannouncements.id=newselements.news_id and type=\'Heading\';');
+    let data = await db.query('select * from newsannouncements,newselements where newsannouncements.id=newselements.news_id and type=\'Heading\' order by datetime desc;');
     if (req.session.user) {
         let user_details = await db.query('select type from users where id=$1;',[req.session.user]);
         if (user_details.rows[0].type == 'Admin') {
@@ -206,8 +238,17 @@ app.post('/add-text/:news_id/:user_id',async (req,res) => {
 })
 
 app.post('/add-image/:news_id/:user_id',upload.single('image'),async(req,res) => {
-    let max = await db.query('select max(number) max from newselements;');
-    max = max.rows[0].max+1;
+    let max1 = await db.query('select max(number) max from jobapplications;');
+    max1 = max1.rows[0].max;
+    let max2 = await db.query('select max(number) max from newselements;');
+    max2 = max2.rows[0].max;
+    let max = null;
+    if (max2>max1) {
+        max = max2
+    } else {
+        max = max1;
+    }
+    max = max+1;
     let order_number = await db.query('select max(order_number) max from newselements where news_id=$1;',[req.params.news_id]);
     let extension = req.file.originalname.split('.');
     extension = extension[extension.length-1]
@@ -245,8 +286,17 @@ app.get('/delete/:news_id/:user_id/:order_number',async (req,res) => {
 app.post('/add-video/:news_id/:user_id',upload.single('video'),async (req,res) => {
     // console.log(req.body);
     // await db.query()
-    let max = await db.query('select max(number) max from newselements;');
-    max = max.rows[0].max+1;
+    let max1 = await db.query('select max(number) max from jobapplications;');
+    max1 = max1.rows[0].max;
+    let max2 = await db.query('select max(number) max from newselements;');
+    max2 = max2.rows[0].max;
+    let max = null;
+    if (max2>max1) {
+        max = max2
+    } else {
+        max = max1;
+    }
+    max = max+1;
     let order_number = await db.query('select max(order_number) max from newselements where news_id=$1;',[req.params.news_id]);
     let extension = req.file.originalname.split('.');
     extension = extension[extension.length-1]
@@ -265,8 +315,17 @@ app.post('/update-text/:news_id/:user_id/:order_number',async (req,res) => {
 })
 
 app.post('/update-image/:news_id/:user_id/:order_number',upload.single('image'),async(req,res) => {
-    let max = await db.query('select max(number) max from newselements;');
-    max = max.rows[0].max+1;
+    let max1 = await db.query('select max(number) max from jobapplications;');
+    max1 = max1.rows[0].max;
+    let max2 = await db.query('select max(number) max from newselements;');
+    max2 = max2.rows[0].max;
+    let max = null;
+    if (max2>max1) {
+        max = max2
+    } else {
+        max = max1;
+    }
+    max = max+1;
     // let order_number = await db.query('select max(order_number) max from newselements where news_id=$1;',[req.params.news_id]);
     let extension = req.file.originalname.split('.');
     extension = extension[extension.length-1]
@@ -284,8 +343,17 @@ app.post('/update-image/:news_id/:user_id/:order_number',upload.single('image'),
 })
 
 app.post('/update-video/:news_id/:user_id/:order_number',upload.single('video'),async(req,res) => {
-    let max = await db.query('select max(number) max from newselements;');
-    max = max.rows[0].max+1;
+    let max1 = await db.query('select max(number) max from jobapplications;');
+    max1 = max1.rows[0].max;
+    let max2 = await db.query('select max(number) max from newselements;');
+    max2 = max2.rows[0].max;
+    let max = null;
+    if (max2>max1) {
+        max = max2
+    } else {
+        max = max1;
+    }
+    max = max+1;
     // let order_number = await db.query('select max(order_number) max from newselements where news_id=$1;',[req.params.news_id]);
     let extension = req.file.originalname.split('.');
     extension = extension[extension.length-1]
@@ -386,6 +454,172 @@ app.post('/comment-admin/:news_id',async (req,res) => {
     if (req.session.user) {
         await db.query('insert into comments_news(news_id,user_id,text,posted_on) values($1,$2,$3,$4);',[req.params.news_id,req.session.user,req.body.comment,new Date()]);
         res.redirect('/news-update/'+req.params.news_id+'/'+req.session.user);
+    } else {
+        res.send('Unauthorised');
+    }
+})
+
+app.get('/jobs',async (req,res) => {
+    if (req.session.user) {
+        let user_data = await db.query('select type from users where id=$1;',[req.session.user]);
+        let type = user_data.rows[0].type;
+        if (type == 'Admin') {
+            let data = await db.query('select * from jobpostings where last_apply_date>$1 order by last_apply_date asc;',[new Date()]);
+            res.render('jobs-edit.ejs',{data:data.rows});
+        } else {
+            let data = await db.query('select * from jobpostings where last_apply_date>$1 order by last_apply_date asc;',[new Date()]);
+            res.render('jobs.ejs',{data:data.rows})
+        }
+    } else {
+        res.send('Unauthorised');
+    }
+})
+
+app.get('/job-post',async (req,res) => {
+    if (req.session.user) {
+        let user_data = await db.query('select type from users where id=$1;',[req.session.user]);
+        let type = user_data.rows[0].type;
+        if (type == 'Admin') {
+            res.render('job-post.ejs');
+        } else {
+            res.send('You are not authorised to visit this page');
+        }
+    } else {
+        res.send('Unauthorised');
+    }
+})
+
+app.post('/job-post',async (req,res) => {
+    if (req.session.user) {
+        let user_data = await db.query('select type from users where id=$1;',[req.session.user]);
+        let type = user_data.rows[0].type;
+        if (type == 'Admin') {
+            let request = req.body;
+            console.log(request);
+            await db.query('insert into jobpostings(title,description,department,location_type,location,type,last_apply_date,posted_on) values($1,$2,$3,$4,$5,$6,$7,$8);',[request.title,request.description,request.department,request.location_type,request.location,request.type,new Date(request.last_apply_date),new Date()]);
+            res.redirect('/jobs');
+        } else {
+            res.send('You are not authorised to visit this page');
+        }
+    } else {
+        res.send('Unauthorised');
+    }
+})
+
+// app.post('/filter-job-edit',async (req,res)=> {
+//     let filters = [];
+//     if (req.body.filter) {
+//       filters = req.body.filter;  
+//     }
+//     console.log(filters)
+//     let filters_object = {'Title':false,'Description':false,'Department':false,'Location_type':false,'Location':false,'Type':false};
+//     let data = await db.query('select * from jobpostings where last_apply_date>$1 order by last_apply_date asc;',[new Date()]);
+//     for (let i=0;i<filters.length;i++) {
+//         if (filters[i] == 'Location Type') {
+//             console.log('True')
+//             filters_object.Location_type = true;
+//         } else {
+//             filters_object[filters[i]] = true;
+//         }
+//     }
+//     console.log(filters)
+//     res.render('jobs-edit.ejs',{filters:filters_object,data:data.rows});
+// })
+
+app.post('/filter-job-post',async (req,res) => {
+    console.log(req.body);
+    let filters_object = {'Title':false,'Description':false,'Department':false,'Location_type':false,'Location':false,'Type':false};
+    for (let key in req.body) {
+        if (req.body[key] !== '' && req.body[key] !== 'None') {
+            console.log(key);
+            filters_object[key] = true;
+        }
+    }
+    let filters_conditions = [];
+    for (let key in filters_object) {
+        if (filters_object[key] == true) {
+            let push_value = null;
+            if (key == 'Title' || key == 'Description' || key == 'Location') {
+                push_value = `lower(${key}) like lower(\'%${req.body[key]}%\')`;
+            } else {
+                push_value = `${key} = \'${req.body[key]}\'`;
+            }
+            filters_conditions.push(push_value);
+        }
+    }
+    const whereClause = filters_conditions.length>0?`where ${filters_conditions.join(' AND ')}`:'';
+    console.log(whereClause)
+    let query = whereClause!==''?'select * from jobpostings '+whereClause+' and last_apply_date>$1 order by last_apply_date;':'select * from jobpostings '+whereClause+' where last_apply_date>$1 order by last_apply_date;';
+    let data = await db.query(query,[new Date()]);
+    console.log(query);
+    res.render('jobs-edit.ejs',{data:data.rows})
+})
+
+app.get('/apply-job/:job_id',async (req,res) => {
+    res.render('job-apply.ejs',{job_id:req.params.job_id});
+})
+
+app.post('/apply-job/:job_id',upload.single('resume'),async(req,res) => {
+    console.log(req.file);
+    if (req.session.user) {
+        try {
+            let user_applications = await db.query('select * from jobapplications where job_id=$1 and user_id=$2;',[req.params.job_id,req.session.user]);
+            if (user_applications.rows.length>0) {
+                let max1 = await db.query('select max(number) max from jobapplications;');
+                max1 = max1.rows[0].max;
+                let max2 = await db.query('select max(number) max from newselements;');
+                max2 = max2.rows[0].max;
+                let max = null;
+                if (max2>max1) {
+                    max = max2
+                } else {
+                    max = max1;
+                }
+                let extension = req.file.originalname.split('.');
+                extension = extension[extension.length-1]
+                res.send('You have already applied');
+                fs.unlink('./uploads/'+(max+1)+'.'+extension,(err) => {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log('File deleted successfully');
+                    }
+                })
+            } else {
+                let max1 = await db.query('select max(number) max from jobapplications;');
+                max1 = max1.rows[0].max;
+                let max2 = await db.query('select max(number) max from newselements;');
+                max2 = max2.rows[0].max;
+                let max = null;
+                if (max2>max1) {
+                    max = max2
+                } else {
+                    max = max1;
+                }
+                let extension = req.file.originalname.split('.');
+                extension = extension[extension.length-1]
+                await db.query('insert into jobapplications(user_id,email,resume_filename,datetime,number,job_id) values($1,$2,$3,$4,$5,$6);',[req.session.user,req.body.email,''+(max+1)+'.'+extension,new Date(),max+1,req.params.job_id]);
+                res.redirect('/')
+            }
+        } catch(err) {
+            console.log(err);
+            res.send('An Error occured. Try again later.');
+        }
+    } else {
+        res.send('Unauthorised');
+    }
+})
+
+app.get('/applications/:job_id',async (req,res) => {
+    if (req.session.user) {
+        let user_data = await db.query('select type from users where id=$1;',[req.session.user]);
+        let type = user_data.rows[0].type;
+        if (type == 'Admin') {
+            let data = await db.query('select * from jobapplications,users where job_id=$1 and jobapplications.user_id=users.id;',[req.params.job_id]);
+            res.render('applications.ejs',{data:data.rows});
+        } else {
+            res.send('You are not authorised to view this page')
+        }
     } else {
         res.send('Unauthorised');
     }

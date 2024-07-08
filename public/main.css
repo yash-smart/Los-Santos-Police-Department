@@ -1,0 +1,33 @@
+body {
+    height: 100vh;
+    display:  flex;
+    flex-direction: column;
+}
+#rest {
+    background-color: black;
+    background-image: url("logo-cropped.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    flex-grow: 1;
+    filter: opacity(0.3);
+}
+.bg-text {
+    position: absolute;
+    top: 50%;
+    left: 51%;
+    z-index: 2;
+    transform: translate(-50%, -50%);
+}
+.bg-text>p {
+    font-family: 'Pricedown Bl', sans-serif;
+}
+.container-fluid {
+    background-color: aquamarine !important;
+    color: aquamarine;
+}
+.navbar {
+    background-color: aquamarine !important;
+    color: aquamarine;
+}
+

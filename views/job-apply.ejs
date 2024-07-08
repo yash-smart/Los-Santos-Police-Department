@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Los Santos Police Department Jobs</title>
+</head>
+<body>
+    <form action="/apply-job/<%= job_id %>" method="post" enctype="multipart/form-data">
+        <input type="email" name="email" required>
+        <input type="file" name="resume" required>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>

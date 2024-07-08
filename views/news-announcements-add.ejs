@@ -114,7 +114,7 @@
                         </form>
                         <a href="/news-update/<%= news_id %>/<%= user_id %>"><button>Cancel</button></a>
                     </div>
-                    <% } %>
+                    
                     <% if (locals.posted_on) { %>
                         <p style="display: none;" id="posted_on_data"><%= posted_on %></p>
                         <p id="posted_on">Posted on: </p>
@@ -141,6 +141,7 @@
                             </div>
                         <% } %>
                     </section>
+                    <% } %>
 </body>
 <script src="/news-announcement-add.js"></script>
 <script>

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lod Santos Police Department Jobs</title>
+</head>
+<body>
+    <% for (let i=0;i<data.length;i++) { %>
+        <h3><%= data[i].username %></h3>
+        <p>Email: <%= data[i].email %></p>
+        <p>Resume : <a href="/images/<%= data[i].resume_filename %>">Resume</a></p>
+    <% } %>
+</body>
+</html>
