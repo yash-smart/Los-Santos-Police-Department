@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Los Santos Police Department Most Wanted List</title>
+</head>
+<body>
+    <h1>Most Wanted List</h1>
+    <form action="/most-wanted-list-post" method="post" enctype="multipart/form-data">
+        <input type="text" name="name" placeholder="Name of the Person" required>
+        <input type="text" name="alias" placeholder="Alias of the Person" >
+        <input type="file" name="photo" placeholder="Photo of the Person" accept="image/*">
+        <input type="text" name="nationality" placeholder="Nationality of the Person" >
+        <textarea name="description" placeholder="Description" style="white-space: pre-wrap;"></textarea>
+        <input type="submit" value="Post" >
+    </form>
+</body>
+</html>

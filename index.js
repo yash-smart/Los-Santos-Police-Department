@@ -50,12 +50,9 @@ const storage = multer.diskStorage({
             max1 = max1.rows[0].max;
             let max2 = await db.query('select max(number) max from newselements;');
             max2 = max2.rows[0].max;
-            let max = null;
-            if (max2>max1) {
-                max = max2
-            } else {
-                max = max1;
-            }
+            let max3 = await db.query('select max(number) max from most_wanted;');
+            max3 = max3.rows[0].max;
+            let max = Math.max(max1,max2,max3);
             max = max+1;
             // let order_number = await db.query('select max(order_number) max from newselements where news_id=$1;',[req.params.news_id]);
             let extension = file.originalname.split('.');
@@ -68,12 +65,9 @@ const storage = multer.diskStorage({
             max1 = max1.rows[0].max;
             let max2 = await db.query('select max(number) max from newselements;');
             max2 = max2.rows[0].max;
-            let max = null;
-            if (max2>max1) {
-                max = max2
-            } else {
-                max = max1;
-            }
+            let max3 = await db.query('select max(number) max from most_wanted;');
+            max3 = max3.rows[0].max;
+            let max = Math.max(max1,max2,max3);
             max = max+1;
             // let order_number = await db.query('select max(order_number) max from newselements where news_id=$1;',[req.params.news_id]);
             let extension = file.originalname.split('.');
@@ -85,12 +79,21 @@ const storage = multer.diskStorage({
             max1 = max1.rows[0].max;
             let max2 = await db.query('select max(number) max from newselements;');
             max2 = max2.rows[0].max;
-            let max = null;
-            if (max2>max1) {
-                max = max2
-            } else {
-                max = max1;
-            }
+            let max3 = await db.query('select max(number) max from most_wanted;');
+            max3 = max3.rows[0].max;
+            let max = Math.max(max1,max2,max3);
+            let extension = file.originalname.split('.');
+            extension = extension[extension.length-1]
+            return cb(null,''+(max+1)+'.'+extension);
+        }
+        if (file.fieldname == 'photo') {
+            let max1 = await db.query('select max(number) max from jobapplications;');
+            max1 = max1.rows[0].max;
+            let max2 = await db.query('select max(number) max from newselements;');
+            max2 = max2.rows[0].max;
+            let max3 = await db.query('select max(number) max from most_wanted;');
+            max3 = max3.rows[0].max;
+            let max = Math.max(max1,max2,max3);
             let extension = file.originalname.split('.');
             extension = extension[extension.length-1]
             return cb(null,''+(max+1)+'.'+extension);
@@ -242,12 +245,9 @@ app.post('/add-image/:news_id/:user_id',upload.single('image'),async(req,res) =>
     max1 = max1.rows[0].max;
     let max2 = await db.query('select max(number) max from newselements;');
     max2 = max2.rows[0].max;
-    let max = null;
-    if (max2>max1) {
-        max = max2
-    } else {
-        max = max1;
-    }
+    let max3 = await db.query('select max(number) max from most_wanted;');
+    max3 = max3.rows[0].max;
+    let max = Math.max(max1,max2,max3);
     max = max+1;
     let order_number = await db.query('select max(order_number) max from newselements where news_id=$1;',[req.params.news_id]);
     let extension = req.file.originalname.split('.');
@@ -290,12 +290,9 @@ app.post('/add-video/:news_id/:user_id',upload.single('video'),async (req,res) =
     max1 = max1.rows[0].max;
     let max2 = await db.query('select max(number) max from newselements;');
     max2 = max2.rows[0].max;
-    let max = null;
-    if (max2>max1) {
-        max = max2
-    } else {
-        max = max1;
-    }
+    let max3 = await db.query('select max(number) max from most_wanted;');
+    max3 = max3.rows[0].max;
+    let max = Math.max(max1,max2,max3);
     max = max+1;
     let order_number = await db.query('select max(order_number) max from newselements where news_id=$1;',[req.params.news_id]);
     let extension = req.file.originalname.split('.');
@@ -319,12 +316,9 @@ app.post('/update-image/:news_id/:user_id/:order_number',upload.single('image'),
     max1 = max1.rows[0].max;
     let max2 = await db.query('select max(number) max from newselements;');
     max2 = max2.rows[0].max;
-    let max = null;
-    if (max2>max1) {
-        max = max2
-    } else {
-        max = max1;
-    }
+    let max3 = await db.query('select max(number) max from most_wanted;');
+    max3 = max3.rows[0].max;
+    let max = Math.max(max1,max2,max3);
     max = max+1;
     // let order_number = await db.query('select max(order_number) max from newselements where news_id=$1;',[req.params.news_id]);
     let extension = req.file.originalname.split('.');
@@ -347,12 +341,9 @@ app.post('/update-video/:news_id/:user_id/:order_number',upload.single('video'),
     max1 = max1.rows[0].max;
     let max2 = await db.query('select max(number) max from newselements;');
     max2 = max2.rows[0].max;
-    let max = null;
-    if (max2>max1) {
-        max = max2
-    } else {
-        max = max1;
-    }
+    let max3 = await db.query('select max(number) max from most_wanted;');
+    max3 = max3.rows[0].max;
+    let max = Math.max(max1,max2,max3);
     max = max+1;
     // let order_number = await db.query('select max(order_number) max from newselements where news_id=$1;',[req.params.news_id]);
     let extension = req.file.originalname.split('.');
@@ -580,12 +571,9 @@ app.post('/apply-job/:job_id',upload.single('resume'),async(req,res) => {
                 max1 = max1.rows[0].max;
                 let max2 = await db.query('select max(number) max from newselements;');
                 max2 = max2.rows[0].max;
-                let max = null;
-                if (max2>max1) {
-                    max = max2
-                } else {
-                    max = max1;
-                }
+                let max3 = await db.query('select max(number) max from most_wanted;');
+                max3 = max3.rows[0].max;
+                let max = Math.max(max1,max2,max3);
                 let extension = req.file.originalname.split('.');
                 extension = extension[extension.length-1]
                 res.send('You have already applied');
@@ -601,12 +589,9 @@ app.post('/apply-job/:job_id',upload.single('resume'),async(req,res) => {
                 max1 = max1.rows[0].max;
                 let max2 = await db.query('select max(number) max from newselements;');
                 max2 = max2.rows[0].max;
-                let max = null;
-                if (max2>max1) {
-                    max = max2
-                } else {
-                    max = max1;
-                }
+                let max3 = await db.query('select max(number) max from most_wanted;');
+                max3 = max3.rows[0].max;
+                let max = Math.max(max1,max2,max3);
                 let extension = req.file.originalname.split('.');
                 extension = extension[extension.length-1]
                 await db.query('insert into jobapplications(user_id,email,resume_filename,datetime,number,job_id) values($1,$2,$3,$4,$5,$6);',[req.session.user,req.body.email,''+(max+1)+'.'+extension,new Date(),max+1,req.params.job_id]);
@@ -667,6 +652,91 @@ app.get('/logout',(req,res) => {
     req.session.destroy();
     // console.log(req.session.user)
     res.redirect('/');
+})
+
+app.get('/most-wanted-list',async (req,res) => {
+    if (req.session.user) {
+        let user_data = await db.query('select type from users where id=$1;',[req.session.user]);
+        let type = user_data.rows[0].type;
+        if (type == 'Admin') {
+            let data = await db.query('select * from most_wanted order by name;');
+            data = data.rows;
+            res.render('most-wanted-edit.ejs',{data:data});
+        } else {
+            let data = await db.query('select * from most_wanted order by name;');
+            data = data.rows;
+            res.render('most-wanted.ejs',{data:data});
+        }
+    } else {
+        res.send('Unauthorised');
+    }
+})
+
+app.get('/post-wanted-list',async (req,res) => {
+    if (req.session.user) {
+        let user_data = await db.query('select type from users where id=$1;',[req.session.user]);
+        let type = user_data.rows[0].type;
+        if (type == 'Admin') {
+            res.render('most-wanted-list-post.ejs');
+        } else {
+            res.send('Unauthorised');
+        }
+    } else {
+        res.send('Unauthorised');
+    }
+})
+
+app.post('/most-wanted-list-post',upload.single('photo'),async (req,res) => {
+    if (req.session.user) {
+        let user_data = await db.query('select type from users where id=$1;',[req.session.user]);
+        let type = user_data.rows[0].type;
+        if (type == 'Admin') {
+            if (req.file) {
+                let max1 = await db.query('select max(number) max from jobapplications;');
+                max1 = max1.rows[0].max;
+                let max2 = await db.query('select max(number) max from newselements;');
+                max2 = max2.rows[0].max;
+                let max3 = await db.query('select max(number) max from most_wanted;');
+                max3 = max3.rows[0].max;
+                let max = Math.max(max1,max2,max3);
+                let extension = req.file.originalname.split('.');
+                extension = extension[extension.length-1];
+                await db.query('insert into most_wanted(name,alias,nationality,description,image,number) values($1,$2,$3,$4,$5,$6);',[req.body.name,req.body.alias,req.body.nationality,req.body.description,''+(max+1)+'.'+extension,max+1]);
+                res.redirect('/most-wanted-list');
+            } else {
+                await db.query('insert into most_wanted(name,alias,nationality,description,image,number) values($1,$2,$3,$4,$5,$6);',[req.body.name,req.body.alias,req.body.nationality,req.body.description,null,null]);
+                res.redirect('/most-wanted-list');
+            }
+        } else {
+            res.send('Unauthorised');
+        }
+    } else {
+        res.send('Unauthorised');
+    }
+})
+
+app.get('/delete-wanted/:id',async(req,res) => {
+    if (req.session.user) {
+        let user_data = await db.query('select type from users where id=$1;',[req.session.user]);
+        let type = user_data.rows[0].type;
+        if (type == 'Admin') {
+            let filename = await db.query('select image from most_wanted where id=$1;',[req.params.id]);
+            filename = filename.rows[0].image;
+            fs.unlink('./uploads/'+filename,(err) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log('File deleted successfully');
+                }
+            })
+            await db.query('delete from most_wanted where id=$1;',[req.params.id]);
+            res.redirect('/most-wanted-list');
+        } else {
+            res.send('Unauthorised');
+        }
+    } else {
+        res.send('Unauthorised');
+    }
 })
 
 app.listen(3000, () => {
