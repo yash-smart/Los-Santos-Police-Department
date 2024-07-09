@@ -8,12 +8,12 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="welcome">Register to</h1>
+        <h1 class="welcome">Login to</h1>
         <h1 class="header">𝕷𝖔𝖘 𝕾𝖆𝖓𝖙𝖔𝖘  
             <br>𝕻𝖔𝖑𝖎𝖈𝖊 𝕯𝖊𝖕𝖆𝖗𝖙𝖒𝖊𝖓𝖙
         </h1>
         <div class="form-container">
-            <form action="/register" method="POST" class="form">
+            <form action="/login" method="POST" class="form">
                 <div class="input-container">
                     <input class="input" type="text" name="Username" placeholder="Username">
                     <i class="fas fa-user input-icon"></i>
@@ -22,18 +22,12 @@
                     <input class="input" type="password" name="Password" placeholder="Password">
                     <i class="fas fa-lock input-icon"></i>
                 </div>
-                <div class="input-container">
-                    <select name="Type" class="input">
-                        <option value="user">User</option>
-                        <option value="admin">Admin</option>
-                    </select>
-                </div>
-                <input class="button-confirm" type="submit" value="Register">
+                <input class="button-confirm" type="submit" value="Login">
             </form>
             <% if (locals.message) { %>
                 <p class="error-message"><%= message %></p>
             <% } %>
-            <a href="/login" class="register-link">Login here!</a>
+            <a href="/register" class="register-link">Register here!</a>
         </div>
     </div>
 </body>

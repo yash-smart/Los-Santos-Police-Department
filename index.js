@@ -663,6 +663,12 @@ app.get('/delete-job/:job_id',async (req,res) => {
     }
 })
 
+app.get('/logout',(req,res) => {
+    req.session.destroy();
+    // console.log(req.session.user)
+    res.redirect('/');
+})
+
 app.listen(3000, () => {
     console.log(`Connected on localhost:3000`)
 })
