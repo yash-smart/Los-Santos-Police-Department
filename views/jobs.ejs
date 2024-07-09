@@ -4,57 +4,85 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Los Santos Police Department Jobs</title>
+    <link rel="stylesheet" href="/jobs.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <form action="/filter-job-post" method="post">
-        <textarea name="Title" placeholder="Search By Title"></textarea>
-        <textarea name="Description" placeholder="Search By Description"></textarea>
-        <label for="Department">Department: </label>
-        <select name="Department">
-            <option>None</option>
-            <option>Patrol Division</option>
-            <option>Investigative Division</option>
-            <option>Special Operations</option>
-            <option>Support Services</option>
-            <option>Administrative Division</option>
-            <option>Specialized Units</option>
-            <option>Emergency Management</option>
-            <option>Others</option>
-        </select>
-        <label for="Location_type">Location Type: </label>
-        <select name="Location_type">
-            <option>None</option>
-            <option>On Site</option>
-            <option>Work From Home</option>
-            <option>Hybrid</option>
-        </select>
-        <!-- <label for="Location">Location: </label> -->
-        <input type="text" name="Location" placeholder="Location">
-        <select name="Type">
-            <option>None</option>
-            <option>Full Time</option>
-            <option>Part Time</option>
-            <option>Temporary</option>
-            <option>Contract</option>
-            <option>Others</option>
-        </select>
-        <input type="submit" value="Apply Filter">
-    </form>
-    <% for (let i=0;i<data.length;i++) { %>
-        <div class="job">
-            <p id="<%= i %>last_apply_date" style="display: none;"><%= data[i].last_apply_date %></p>
-            <p id="<%= i %>posted_on" style="display: none;"><%= data[i].posted_on %></p>
-            <h3><%= data[i].title %></h3>
-            <p><%= data[i].description %></p>
-            <p>Department: <%= data[i].department %></p>
-            <p><%= data[i].location_type %></p>
-            <p>Location: <%= data[i].location %></p>
-            <p>Type: <%= data[i].type %></p>
-            <p class="time" type="last_apply_date" iterator="<%= i %>" add="date">Last Apply Date: </p>
-            <p class="time" type="posted_on" iterator="<%= i %>" add="datetime">Posted On: </p>
-        </div>
-        <a href="/apply-job/<%= data[i].id %>"><button>Apply</button></a>
-    <% } %>
+    <div class="container">
+        <aside class="job-filter">
+            <h2>Search Jobs</h2>
+            <form action="/filter-job-post" method="post">
+                <div class="form-group">
+                    <label for="Title">Title:</label>
+                    <input type="text" id="Title" name="Title" placeholder="Search by Title">
+                </div>
+                <div class="form-group">
+                    <label for="Description">Description:</label>
+                    <input type="text" id="Description" name="Description" placeholder="Search by Description">
+                </div>
+                <div class="form-group">
+                    <label for="Department">Department</label>
+                    <select name="Department">
+                        <option>None</option>
+                        <option>Patrol Division</option>
+                        <option>Investigative Division</option>
+                        <option>Special Operations</option>
+                        <option>Support Services</option>
+                        <option>Administrative Division</option>
+                        <option>Specialized Units</option>
+                        <option>Emergency Management</option>
+                        <option>Others</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="Location_type">Location Type</label>
+                    <select name="Location_type">
+                        <option>None</option>
+                        <option>On Site</option>
+                        <option>Work From Home</option>
+                        <option>Hybrid</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="Location">Location</label>
+                    <input type="text" name="Location" placeholder="Location">
+                </div>
+                <div class="form-group">
+                    <label for="Type">Type</label>
+                    <select name="Type">
+                        <option>None</option>
+                        <option>Full Time</option>
+                        <option>Part Time</option>
+                        <option>Temporary</option>
+                        <option>Contract</option>
+                        <option>Others</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="apply-button">Apply Filter</button>
+                </div>
+            </form>
+        </aside>
+
+        <section class="job-listings">
+            <h2 class="ownFont">Current Job Openings</h2>
+            <% for (let i=0; i<data.length; i++) { %>
+                <article class="job">
+                    <h3 class="ownFont"><%= data[i].title %></h3>
+                    <div class="job-details">
+                        <p><strong>Description:</strong> <%= data[i].description %></p>
+                        <p><strong>Department:</strong> <%= data[i].department %></p>
+                        <p><strong>Location Type:</strong> <%= data[i].location_type %></p>
+                        <p><strong>Location:</strong> <%= data[i].location %></p>
+                        <p><strong>Type:</strong> <%= data[i].type %></p>
+                    </div>
+                    <p class="posted-on">Posted on: <%= new Date(data[i].posted_on).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %></p>
+                    <a href="/apply-job/<%= data[i].id %>"><button class="apply-button">Apply</button></a>
+                </article>
+            <% } %>
+        </section>
+    </div>
 </body>
-<script src="/jobs-edit.js"></script>
 </html>
