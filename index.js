@@ -553,7 +553,11 @@ app.post('/filter-job-post',async (req,res) => {
             data = await db.query(query,[new Date()]);
         }
         console.log(query);
-        res.render('jobs-edit.ejs',{data:data.rows})
+        if (type == 'Admin') {
+            res.render('jobs-edit.ejs',{data:data.rows})
+        } else {
+            res.render('jobs.ejs',{data:data.rows})
+        }
     }
 })
 
