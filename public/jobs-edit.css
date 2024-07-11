@@ -191,3 +191,24 @@ body {
 .job a.apply-button:hover {
     background-color: #a0a7ad; /* Darker shade on hover */
 }
+
+::-webkit-scrollbar {
+    width: 10px !important; 
+    background-color: aquamarine !important;/* Set the width of the scrollbar */
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #888 !important; /* Color of the scrollbar handle */
+    border-radius: 5px !important; /* Rounded edges for the handle */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: aquamarine !important;
+}
+
+
+::-webkit-scrollbar-track {
+    background-color: #333 !important; 
+    /* background-color: aquamarine; */
+}
+

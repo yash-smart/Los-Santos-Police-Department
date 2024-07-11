@@ -1,0 +1,13 @@
+::-webkit-scrollbar {
+    width: 10px !important; 
+    background-color: aquamarine !important;/* Set the width of the scrollbar */
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #888 !important; /* Color of the scrollbar handle */
+    border-radius: 5px !important; /* Rounded edges for the handle */
+}
+
+::-webkit-scrollbar-track {
+    background-color: #333 !important; /* Color of the scrollbar track */
+}

@@ -458,7 +458,7 @@ app.get('/jobs',async (req,res) => {
             let data = await db.query('select * from jobpostings order by last_apply_date asc;');
             res.render('jobs-edit.ejs',{data:data.rows});
         } else {
-            let data = await db.query('select * from jobpostings where last_apply_date>$1 order by last_apply_date asc;',[new Date()]);
+            let data = await db.query('select * from jobpostings where last_apply_date>=$1 order by last_apply_date asc;',[new Date()]);
             res.render('jobs.ejs',{data:data.rows})
         }
     } else {
@@ -549,7 +549,7 @@ app.post('/filter-job-post',async (req,res) => {
             query = whereClause!==''?'select * from jobpostings '+whereClause+' order by last_apply_date;':'select * from jobpostings '+whereClause+' order by last_apply_date;';    
             data = await db.query(query);
         } else {
-            query = whereClause!==''?'select * from jobpostings '+whereClause+' and last_apply_date>$1 order by last_apply_date;':'select * from jobpostings '+whereClause+' where last_apply_date>$1 order by last_apply_date;';
+            query = whereClause!==''?'select * from jobpostings '+whereClause+' and last_apply_date>$1 order by last_apply_date;':'select * from jobpostings '+whereClause+' where last_apply_date>=$1 order by last_apply_date;';
             data = await db.query(query,[new Date()]);
         }
         console.log(query);

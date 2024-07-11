@@ -1,0 +1,106 @@
+@font-face {
+    font-family: myFont;
+    src: url('./pricedown bl.otf');
+}
+
+@font-face {
+    font-family: yourFont;
+    src: url('./Pacifico.ttf');
+}
+
+@font-face {
+    font-family: applyFont;
+    src: url('./chalet.ttf');
+}
+
+body {
+    background-color: #2c3e50;
+    font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: #ecf0f1;
+}
+
+h1 {
+    font-family: myFont;
+    color: #ffffff;
+    font-size: 3.5rem;
+}
+
+.card {
+    background-color: #34495e;
+    color: #ecf0f1;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border: none;
+    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    max-width: 22rem;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.card-img-top {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    height: 350px;
+    width: 100%; /* Ensure image fits card width */
+    object-fit: cover;
+    object-position: center;
+}
+
+.card-body {
+    flex: 1;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-title {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: red;
+    margin-bottom: 0.75rem;
+}
+
+.card-subtitle {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #f1c40f;
+    margin-bottom: 0.5rem;
+}
+
+.card-text {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #bdc3c7;
+    margin-bottom: 0.5rem;
+    flex: 1;
+}
+
+.label {
+    font-weight: bold;
+    color: cornsilk;
+    margin-bottom: 0.25rem;
+}
+
+.container {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.col {
+    flex: 1 1 21rem; /* Flex-basis of 21rem for each column */
+    display: flex;
+}
