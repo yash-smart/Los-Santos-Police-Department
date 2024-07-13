@@ -60,6 +60,23 @@ main {
     transform: scale(1.02);
 }
 
+.img-text {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.img-text>img {
+    height: 200px;
+    border-radius: 20px;
+}
+.img-text>p {
+    font-weight: bold;
+}
+
+.news-item>p {
+    margin: 10px;
+}
 /* Admin Controls Styling */
 .admin-controls {
     text-align: center;

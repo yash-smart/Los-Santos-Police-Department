@@ -171,10 +171,19 @@ app.get('/news-announcements',async (req,res) => {
     let data = await db.query('select * from newsannouncements,newselements where newsannouncements.id=newselements.news_id and type=\'Heading\' order by datetime desc;');
     if (req.session.user) {
         let user_details = await db.query('select type from users where id=$1;',[req.session.user]);
+        let images_arr = [];
+        for (let i=0;i<data.rows.length;i++) {
+            let images = await db.query('select image_number from newselements where news_id=$1 and type=\'image\' order by order_number asc;',[data.rows[i].id]);
+            if (images.rows.length>0) {
+                images_arr.push(images.rows[0].image_number);
+            } else {
+                images_arr.push(null);
+            }
+        }
         if (user_details.rows[0].type == 'Admin') {
-            res.render('news-announcements.ejs',{admin:true,user_id:req.session.user,data:data.rows});
+            res.render('news-announcements.ejs',{admin:true,user_id:req.session.user,data:data.rows,images_arr:images_arr});
         } else {
-            res.render('news-announcements.ejs',{admin:false,user_id:req.session.user,data:data.rows});
+            res.render('news-announcements.ejs',{admin:false,user_id:req.session.user,data:data.rows,images_arr:images_arr});
         }
     } else {
         res.send('Unauthorised');
@@ -743,6 +752,6 @@ app.get('/delete-wanted/:id',async(req,res) => {
     }
 })
 
-app.listen(3000, () => {
-    console.log(`Connected on localhost:3000`)
+app.listen(4000, () => {
+    console.log(`Connected on localhost:4000`)
 })
