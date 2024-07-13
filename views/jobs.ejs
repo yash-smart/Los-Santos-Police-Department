@@ -8,7 +8,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <link href="/scrollbar.css" rel="stylesheet" >
 </head>
 <body>
     <div class="container">
@@ -80,7 +79,6 @@
                         <p><strong>Type:</strong> <%= data[i].type %></p>
                     </div>
                     <p class="posted-on">Posted on: <%= new Date(data[i].posted_on).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %></p>
-                    <p class="posted-on">Last Apply Date: <%= new Date(data[i].last_apply_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %></p>
                     <a href="/apply-job/<%= data[i].id %>"><button class="apply-button">Apply</button></a>
                 </article>
             <% } %>
