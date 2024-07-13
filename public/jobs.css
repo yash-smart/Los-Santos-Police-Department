@@ -34,23 +34,23 @@ body {
 }
 
 .apply-button {
-    font-family:   'Open Sans', 'Helvetica Neue', sans-serif;;
+    font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
     font-weight: 800;
     font-size: 1.2rem;
     padding: 6px 12px;
 }
 
 .container {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    gap: 20px;
     padding: 20px;
 }
 
 .job-filter {
-    width: 25%;
     background-color: #bdc3c7;
     padding: 20px;
     border-radius: 8px;
-    margin-right: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     box-sizing: border-box;
 }
@@ -84,7 +84,7 @@ body {
 .form-group button[type="submit"] {
     background-color: #2980b9;
     color: #fff;
-    font-family:  'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
     border: none;
     padding: 10px 20px;
     border-radius: 4px;
@@ -98,10 +98,9 @@ body {
 }
 
 .job-listings {
-    width: 75%;
     overflow-y: auto; /* Vertical scrolling for job listings */
-    padding-right: 20px; /* Add padding to avoid content being hidden behind scrollbar */
     height: calc(100vh - 40px); /* Calculate height to fit remaining viewport space */
+    padding-right: 20px; /* Add padding to avoid content being hidden behind scrollbar */
 }
 
 .job-listings h2 {
@@ -166,17 +165,68 @@ a button:hover {
     background-color: #1f6391;
 }
 
-::-webkit-scrollbar {
-    width: 10px !important; 
-    background-color: aquamarine !important;/* Set the width of the scrollbar */
+@media (max-width: 1024px) {
+    .container {
+        grid-template-columns: 1fr;
+    }
+
+    .job-filter, .job-listings {
+        width: 100%;
+    }
 }
 
-::-webkit-scrollbar-thumb {
-    background-color: #888 !important; /* Color of the scrollbar handle */
-    border-radius: 5px !important; /* Rounded edges for the handle */
+@media (max-width: 768px) {
+    .ownFont {
+        font-size: 2.5rem;
+    }
+
+    .job-filter h2, .job-listings h2 {
+        font-size: 1.5rem;
+    }
+
+    .job h3 {
+        font-size: 1.3em;
+    }
+
+    .job p.posted-on {
+        font-size: 0.9em;
+    }
+
+    a button {
+        font-size: 0.9em;
+    }
 }
 
-::-webkit-scrollbar-track {
-    background-color: #333 !important; /* Color of the scrollbar track */
-}
+@media (max-width: 480px) {
+    .ownFont {
+        font-size: 2rem;
+    }
 
+    .apply-button {
+        font-size: 1rem;
+        padding: 5px 10px;
+    }
+
+    .form-group input[type="text"], .form-group select {
+        padding: 8px;
+        font-size: 0.9em;
+    }
+
+    .form-group button[type="submit"] {
+        padding: 8px 15px;
+        font-size: 0.9em;
+    }
+
+    .job h3 {
+        font-size: 1.2em;
+    }
+
+    .job p.posted-on {
+        font-size: 0.9em;
+    }
+
+    a button {
+        padding: 8px 15px;
+        font-size: 0.9em;
+    }
+}
