@@ -51,16 +51,18 @@ body {
     font-weight: 400;
     font-style: normal;
     font-variation-settings: "wdth" 100;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     line-height: 1.6;
     color: wheat;
     margin-bottom: 2rem;
     text-align: center;
-    max-width: 1155px;
+    max-width: 1050px;
     margin-left: auto;
     margin-right: auto;
     padding: 0 1rem;
 }
+
+
 
 .card {
     background-color: #34495e;
