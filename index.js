@@ -286,10 +286,11 @@ app.get('/delete/:news_id/:user_id/:order_number',async (req,res) => {
     if (type == 'Heading') {
         await db.query('delete from newselements where news_id=$1',[req.params.news_id]);
         await db.query('delete from newsannouncements where id=$1;',[req.params.news_id]);
+        res.redirect('/news-announcements');
     } else {
         await db.query('delete from newselements where news_id=$1 and order_number=$2;',[req.params.news_id,req.params.order_number]);
+        res.redirect('/news-update/'+req.params.news_id+'/'+req.params.user_id);
     }
-    res.redirect('/news-update/'+req.params.news_id+'/'+req.params.user_id);
 })
 
 app.post('/add-video/:news_id/:user_id',upload.single('video'),async (req,res) => {
