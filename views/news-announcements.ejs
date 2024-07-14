@@ -4,12 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Los Santos Police Department</title>
-    <link rel="stylesheet" href="/news-announcement.css" >
+    <link rel="stylesheet" href="/news-announcement.css">
 </head>
 <body>
-    <h1>Los Santos Police Department</h1>
-    <section class="news-list">
-        <% for (let i=0;i<data.length;i++) { %>
+    <h1 >News & Announcements</h1>
+    
+    <!-- Scrolling Marquee Container -->
+    <div class="marquee-container">
+        <div class="marquee">
+            <% for (let i = 0; i < data.length; i++) { %>
                 <% if (admin) { %>
                     <a class="news-item" href="/news-update/<%= data[i].id %>/<%= user_id %>">
                         <div class="img-text">
@@ -35,13 +38,89 @@
                         <p><%= new Date(data[i].datetime).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %></p>
                     </a>
                 <% } %>
-        
+            <% } %>
+            
+            <!-- Repeat the news items for continuous scrolling -->
+            <% for (let i = 0; i < data.length; i++) { %>
+                <% if (admin) { %>
+                    <a class="news-item" href="/news-update/<%= data[i].id %>/<%= user_id %>">
+                        <div class="img-text">
+                            <% if (images_arr[i]) { %>
+                                <img src="/images/<%= images_arr[i] %>" >
+                            <% } else { %>
+                                <img src="/image_not_found.png" alt="Image Not Found">
+                            <% } %>
+                            <p><%= data[i].text %></p>
+                        </div>
+                        <p><%= new Date(data[i].datetime).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %></p>
+                    </a>
+                <% } else { %>
+                    <a class="news-item" href="/news/<%= data[i].id %>">
+                        <div class="img-text">
+                            <% if (images_arr[i]) { %>
+                                <img src="/images/<%= images_arr[i] %>" >
+                            <% } else { %>
+                                <img src="/image_not_found.png" alt="Image Not Found">
+                            <% } %>
+                            <p><%= data[i].text %></p>
+                        </div>
+                        <p><%= new Date(data[i].datetime).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %></p>
+                    </a>
+                <% } %>
+            <% } %>
+        </div>
+        <div class="gradient left"></div>
+        <div class="gradient right"></div>
+    </div>
+    
+    <!-- Static News Announcement Section -->
+    <div class="static-news">
+        <h2>Latest News</h2>
+        <% for (let i = 0; i < data.length; i++) { %>
+            <div class="news-item" onclick="showDetails('<%= data[i].id %>')">
+                <div class="img-text">
+                    <% if (images_arr[i]) { %>
+                        <img src="/images/<%= images_arr[i] %>" >
+                    <% } else { %>
+                        <img src="/image_not_found.png" alt="Image Not Found">
+                    <% } %>
+                    <p><%= data[i].text %></p>
+                </div>
+                <p><%= new Date(data[i].datetime).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %></p>
+            </div>
         <% } %>
-    </section>
+    </div>
+    
+    <!-- Admin Controls -->
     <% if (admin) { %>
         <div class="admin-controls">
             <a href="/news-announcements-add/<%= user_id %>"><button class="btn-add">Add</button></a>
         </div>
     <% } %>
+
+    <!-- JavaScript for Hover Pause and Click Details -->
+    <script>
+        // Select all news items
+        const newsItems = document.querySelectorAll('.news-item');
+
+        // Add event listeners for hover
+        newsItems.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                // Pause the marquee animation
+                item.closest('.marquee').style.animationPlayState = 'paused';
+            });
+
+            item.addEventListener('mouseleave', () => {
+                // Resume the marquee animation
+                item.closest('.marquee').style.animationPlayState = 'running';
+            });
+        });
+
+        function showDetails(newsId) {
+            // Redirect to the news details page or expand details in place
+            window.location.href = `/news/${newsId}`;
+        }
+        
+    </script>
 </body>
 </html>
