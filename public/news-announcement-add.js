@@ -30,6 +30,7 @@ function getDateTime(date) {
     return `${day}/${month}/${year} ${hours}:${minutes}`;
 }
 let likes = parseInt(document.getElementById('initial_likes').textContent);
+let comments = parseInt(document.getElementById('initial_comments').textContent);
 document.getElementById('add_text_button').addEventListener('click',add_text);
 document.getElementById('add_image_button').addEventListener('click',add_image);
 document.getElementById('add_video_button').addEventListener('click',add_video);
@@ -75,5 +76,21 @@ socket.addEventListener("message", (event) => {
     } else if (message[0] == '2') {
         likes -= 1;
         document.getElementById('likes').textContent = 'Likes: '+likes;
+    } else if (message[0] == '4') {
+        let data = JSON.parse(message.slice(1));
+        comments += 1;
+        document.getElementById('comments_count').textContent = 'Comments: '+comments;
+        let comment = document.createElement('div');
+        comment.style.margin = '20px';
+        let user = document.createElement('h4');
+        user.textContent = data[0];
+        let comment_element = document.createElement('p');
+        comment_element.textContent = data[1];
+        let datetime_element = document.createElement('p');
+        datetime_element.textContent = 'Posted on: '+getDateTime(new Date(data[2]));
+        comment.append(user);
+        comment.append(comment_element);
+        comment.append(datetime_element);
+        document.getElementById('comments').prepend(comment);
     }
 })

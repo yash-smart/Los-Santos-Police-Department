@@ -479,7 +479,16 @@ app.get('/unlike/:news_id', async (req,res) => {
 
 app.post('/comment/:news_id',async (req,res) => {
     if (req.session.user) {
-        await db.query('insert into comments_news(news_id,user_id,text,posted_on) values($1,$2,$3,$4);',[req.params.news_id,req.session.user,req.body.comment,new Date()]);
+        let date = new Date();
+        await db.query('insert into comments_news(news_id,user_id,text,posted_on) values($1,$2,$3,$4);',[req.params.news_id,req.session.user,req.body.comment,date]);
+        let username = await db.query('select username from users where id=$1;',[req.session.user]);
+        username = username.rows[0].username;
+        let clients = newsclients.get(req.params.news_id);
+        for (let i=0;i<clients.length;i++) {
+            if (clients[i]) {
+                clients[i].send('4'+JSON.stringify([username,req.body.comment,date]));
+            }
+        }
         res.redirect('/news/'+req.params.news_id);
     } else {
         res.send('Unauthorised');
@@ -521,7 +530,16 @@ app.get('/unlike-admin/:news_id', async (req,res) => {
 
 app.post('/comment-admin/:news_id',async (req,res) => {
     if (req.session.user) {
-        await db.query('insert into comments_news(news_id,user_id,text,posted_on) values($1,$2,$3,$4);',[req.params.news_id,req.session.user,req.body.comment,new Date()]);
+        let date = new Date();
+        await db.query('insert into comments_news(news_id,user_id,text,posted_on) values($1,$2,$3,$4);',[req.params.news_id,req.session.user,req.body.comment,date]);
+        let username = await db.query('select username from users where id=$1;',[req.session.user]);
+        username = username.rows[0].username;
+        let clients = newsclients.get(req.params.news_id);
+        for (let i=0;i<clients.length;i++) {
+            if (clients[i]) {
+                clients[i].send('4'+JSON.stringify([username,req.body.comment,date]));
+            }
+        }
         res.redirect('/news-update/'+req.params.news_id+'/'+req.session.user);
     } else {
         res.send('Unauthorised');

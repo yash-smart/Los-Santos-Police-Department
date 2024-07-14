@@ -17,6 +17,7 @@
         <% } else { %>
             <p style="display: none;" id="news_id_data"><%= news_id %></p>
             <p style="display: none;" id="initial_likes"><%= likes %></p>
+            <p style="display: none;" id="initial_comments"><%= comments_count %></p>
             <% for (let i=0;i<newselements.length;i++) { %>
                 <div style="margin: 10px;" id="<%= newselements[i].order_number %>" class="newselement">
                     <% if (newselements[i].type=='Heading' ) { %>
@@ -123,7 +124,7 @@
                     <% } %>
                     <section class="like_comments">
                         <p id="likes">Likes: <%= likes %></p>
-                        <p>Comments: <%= comments_count %></p>
+                        <p id="comments_count">Comments: <%= comments_count %></p>
                         <% if (!liked) { %>
                             <a href="/like-admin/<%= news_id %>" style="margin: 10px;margin-bottom: 10px !important;"><button>Like</button></a>
                         <% } else { %>
@@ -134,14 +135,16 @@
                             <input type="submit" value="Submit" >
                         </form>
                         <h3>Comments</h3>
-                        <% for (let i=0;i<comments.length;i++) { %>
-                            <div style="margin: 20px;">
-                                <h4><%= users[i] %></h4>
-                                <p><%= comments[i].text %></p>
-                                <p id="p<%= i %>">Posted on: </p>
-                                <p style="display: none;" class="posted_on" iterator="<%= i %>"><%= comments[i].posted_on %></p>
-                            </div>
-                        <% } %>
+                        <div id="comments">
+                            <% for (let i=0;i<comments.length;i++) { %>
+                                <div style="margin: 20px;">
+                                    <h4><%= users[i] %></h4>
+                                    <p><%= comments[i].text %></p>
+                                    <p id="p<%= i %>">Posted on: </p>
+                                    <p style="display: none;" class="posted_on" iterator="<%= i %>"><%= comments[i].posted_on %></p>
+                                </div>
+                            <% } %>
+                        </div>
                     </section>
                     <% } %>
 </body>
