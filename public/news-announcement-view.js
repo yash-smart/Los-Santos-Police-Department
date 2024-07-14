@@ -11,6 +11,7 @@ function getDateTime(date) {
     minutes = minutes<10?`0${minutes}`:minutes;
     return `${day}/${month}/${year} ${hours}:${minutes}`;
 }
+let likes = parseInt(document.getElementById('initial_likes').textContent);
 let images = document.getElementsByClassName('image');
 for (let i=0;i<images.length;i++) {
     let width = images[i].offsetWidth;
@@ -31,3 +32,23 @@ for (let i=0;i<posted_on_array.length;i++) {
     let date = new Date(posted_on_array[i].textContent);
     document.getElementById('p'+id).textContent += getDateTime(date);
 }
+let news_id = document.getElementById('news_id_data').textContent;
+const socket = new WebSocket("ws://localhost:4000");
+socket.addEventListener("open", (event) => {
+    console.log('Connected to server')
+    socket.send('1'+news_id);
+});
+function isOpen(ws) {
+    return ws.readyState === ws.OPEN;
+}
+socket.addEventListener("message", (event) => {
+    let message = ''+event.data;
+    console.log('Message Received: '+message);
+    if (message[0] == '3') {
+        likes += 1;
+        document.getElementById('likes').textContent = 'Likes: '+likes;
+    } else if (message[0] == '2') {
+        likes -= 1;
+        document.getElementById('likes').textContent = 'Likes: '+likes;
+    }
+})

@@ -15,6 +15,8 @@
             <input type="submit" value="Add">
         </form>
         <% } else { %>
+            <p style="display: none;" id="news_id_data"><%= news_id %></p>
+            <p style="display: none;" id="initial_likes"><%= likes %></p>
             <% for (let i=0;i<newselements.length;i++) { %>
                 <div style="margin: 10px;" id="<%= newselements[i].order_number %>" class="newselement">
                     <% if (newselements[i].type=='Heading' ) { %>
@@ -120,7 +122,7 @@
                         <p id="posted_on">Posted on: </p>
                     <% } %>
                     <section class="like_comments">
-                        <p>Likes: <%= likes %></p>
+                        <p id="likes">Likes: <%= likes %></p>
                         <p>Comments: <%= comments_count %></p>
                         <% if (!liked) { %>
                             <a href="/like-admin/<%= news_id %>" style="margin: 10px;margin-bottom: 10px !important;"><button>Like</button></a>

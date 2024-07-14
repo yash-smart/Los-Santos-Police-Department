@@ -9,6 +9,9 @@ import multer from "multer";
 import path from "path";
 import { fileURLToPath } from "url";
 import fs from "fs";
+import http from "http";
+import WebSocket,{WebSocketServer} from "ws";
+
 
 // const upload = multer({ dest: 'uploads/' })
 env.config();
@@ -24,6 +27,47 @@ const db = new pg.Client({
     port: 5432,
 });
 db.connect();
+
+const server = http.createServer(app)
+
+let newsclients = new Map();
+
+const wss = new WebSocketServer({server : server})
+
+wss.on('error',console.error)
+
+wss.on('listening',() => {
+    console.log('Connected')
+})
+
+wss.on('connection', function connection(ws) {
+    let id = null;
+    ws.on('error', console.error);
+    ws.on('message', async function message(data) {
+        data = ''+data;
+        console.log('Message Received: '+data);
+        if (data[0] == '1') {
+            id = data;
+            if (newsclients.has(data.slice(1))) {
+                let arr = newsclients.get(data.slice(1));
+                arr.push(ws);
+            } else {
+                newsclients.set(data.slice(1),[ws]);
+            }
+        }
+    });
+    ws.on('close',() => {
+        if (id) {
+            let arr = newsclients.get(id.slice(1));
+            for (let i=0;i<arr.length;i++) {
+                if (arr[i] == ws) {
+                    arr.splice(i,1);
+                    console.log('Item Deleted');
+                }
+            }
+        }
+    });
+});
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
@@ -405,6 +449,12 @@ app.get('/like/:news_id',async (req,res) => {
         let like_data = await db.query('select * from likes_news where news_id=$1 and user_id=$2;',[req.params.news_id,req.session.user]);
         if (like_data.rows.length == 0) {
             await db.query('insert into likes_news(news_id,user_id) values($1,$2);',[req.params.news_id,req.session.user]);
+            let clients = newsclients.get(req.params.news_id);
+            for (let i=0;i<clients.length;i++) {
+                if (clients[i]) {
+                    clients[i].send('3');
+                }
+            }
         }
         res.redirect('/news/'+req.params.news_id);
     } else {
@@ -415,6 +465,12 @@ app.get('/like/:news_id',async (req,res) => {
 app.get('/unlike/:news_id', async (req,res) => {
     if (req.session.user) {
         await db.query('delete from likes_news where news_id=$1 and user_id=$2;',[req.params.news_id,req.session.user]);
+        let clients = newsclients.get(req.params.news_id);
+        for (let i=0;i<clients.length;i++) {
+            if (clients[i]) {
+                clients[i].send('2');
+            }
+        }
         res.redirect('/news/'+req.params.news_id);
     } else {
         res.send('Unauthorised');
@@ -435,6 +491,12 @@ app.get('/like-admin/:news_id',async (req,res) => {
         let like_data = await db.query('select * from likes_news where news_id=$1 and user_id=$2;',[req.params.news_id,req.session.user]);
         if (like_data.rows.length == 0) {
             await db.query('insert into likes_news(news_id,user_id) values($1,$2);',[req.params.news_id,req.session.user]);
+            let clients = newsclients.get(req.params.news_id);
+            for (let i=0;i<clients.length;i++) {
+                if (clients[i]) {
+                    clients[i].send('3');
+                }
+            }
         }
         res.redirect('/news-update/'+req.params.news_id+'/'+req.session.user);
     } else {
@@ -445,6 +507,12 @@ app.get('/like-admin/:news_id',async (req,res) => {
 app.get('/unlike-admin/:news_id', async (req,res) => {
     if (req.session.user) {
         await db.query('delete from likes_news where news_id=$1 and user_id=$2;',[req.params.news_id,req.session.user]);
+        let clients = newsclients.get(req.params.news_id);
+        for (let i=0;i<clients.length;i++) {
+            if (clients[i]) {
+                clients[i].send('2');
+            }
+        }
         res.redirect('/news-update/'+req.params.news_id+'/'+req.session.user);
     } else {
         res.send('Unauthorised');
@@ -753,6 +821,6 @@ app.get('/delete-wanted/:id',async(req,res) => {
     }
 })
 
-app.listen(4000, () => {
+server.listen(4000, () => {
     console.log(`Connected on localhost:4000`)
 })
