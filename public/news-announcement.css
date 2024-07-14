@@ -1,3 +1,17 @@
+@font-face {
+    font-family: myFont;
+    src: url('./pricedown bl.otf');
+}
+
+@font-face {
+    font-family: yourFont;
+    src: url('./Pacifico.ttf');
+}
+
+@font-face {
+    font-family: applyFont;
+    src: url('./chalet.ttf');
+}
 /* Basic Reset */
 * {
     margin: 0;
@@ -14,45 +28,48 @@ body {
 }
 
 /* Header Styling */
-header {
-    background-color: #333;
-    color: #ffcc00;
-    padding: 1em 0;
+h1 {
     text-align: center;
+    margin: 20px 0;
+    font-size: 3.2rem;
+    font-family: myFont;
+    color: yellow;
+}
+
+/* Marquee Container Styling */
+.marquee-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #2a2a2a;
+    border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    margin-bottom: 20px; /* Add spacing between sections */
+    /* height: 200px; Adjust the height as needed */
 }
 
-header h1 {
-    font-size: 2.5em;
-    margin: 0;
+.marquee {
+    display: flex;
+    animation: marquee 30s linear infinite;
 }
 
-/* Main Content Styling */
-main {
-    max-width: 800px;
-    margin: 2em auto;
-    padding: 1em;
-    background: #2a2a2a;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    border-radius: 8px;
-}
-
-/* News List Styling */
-.news-list {
-    list-style: none;
-    padding: 0;
+.marquee.reverse {
+    animation-direction: reverse;
 }
 
 /* News Item Styling */
 .news-item {
-    display: block;
+    display: flex;
+    flex-direction: column;
     background: #444;
-    margin: 0.5em 0;
+    margin: 0.5em;
     padding: 1em;
     border-left: 5px solid #ffcc00;
     text-decoration: none;
     color: #ddd;
     transition: background 0.3s ease, transform 0.3s ease;
+    width: 700px; /* Adjust width as needed */
 }
 
 .news-item:hover {
@@ -60,29 +77,77 @@ main {
     transform: scale(1.02);
 }
 
+.news-item:hover .marquee {
+    animation-play-state: paused;
+}
+
 .img-text {
     display: flex;
     align-items: center;
     gap: 20px;
+    flex-wrap: wrap; /* Ensure items wrap if they exceed width */
 }
 
-.img-text>img {
-    height: 200px;
-    border-radius: 20px;
+.img-text > img {
+    max-height: 100px; /* Set max-height instead of fixed height */
+    width: auto;
+    border-radius: 10px;
 }
-.img-text>p {
+
+.img-text > p {
     font-weight: bold;
+    margin: 10px 0 0 0; /* Adjust margin as needed */
+    flex: 1; /* Allow text to wrap properly */
 }
 
-.news-item>p {
-    margin: 10px;
+.news-item > p {
+    margin: 10px 0 0 0;
 }
+
+/* Gradient for Marquee */
+.gradient {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 33%;
+    pointer-events: none;
+}
+
+.gradient.left {
+    left: 0;
+    background: linear-gradient(to right, #2a2a2a, rgba(42, 42, 42, 0));
+}
+
+.gradient.right {
+    right: 0;
+    background: linear-gradient(to left, #2a2a2a, rgba(42, 42, 42, 0));
+}
+
+/* Static News Section Styling */
+.static-news {
+    margin: 0 auto; /* Center align */
+    max-width: 800px; /* Adjust max-width as needed */
+    padding: 20px;
+    background-color: #2a2a2a;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.static-news h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #ffcc00;
+}
+
+.static-news .news-item {
+    margin-bottom: 20px; /* Add space between news items */
+}
+
 /* Admin Controls Styling */
 .admin-controls {
     text-align: center;
     margin-top: 2em;
 }
-@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 
 .btn-add {
     font-family: 'Lobster', cursive;
@@ -92,12 +157,41 @@ main {
     padding: 10px 30px;
     border-radius: 30px;
     display: inline-block;
+    cursor: pointer;
 }
-
-
-
 
 .btn-add:hover {
     background-color: #9a7810;
     transform: scale(1.05);
+}
+
+@keyframes marquee {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2.8rem;
+    }
+    .marquee-container {
+        height: 150px;
+    }
+    .news-item {
+        width: 90%;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 2.4rem;
+    }
+    .marquee-container {
+        height: 120px;
+    }
 }
