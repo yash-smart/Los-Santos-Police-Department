@@ -1,0 +1,108 @@
+/* styles.css */
+@font-face {
+    font-family: myFont;
+    src: url('./pricedown bl.otf');
+}
+
+@font-face {
+    font-family: yourFont;
+    src: url('./Pacifico.ttf');
+}
+
+@font-face {
+    font-family: applyFont;
+    src: url('./chalet.ttf');
+}
+
+/* General body styling */
+body {
+    background-color: #2c3e50; /* Midnight Blue */
+    color: #ecf0f1; /* Light Gray */
+    font-family: 'Anybody', sans-serif;
+    margin: 0;
+    padding: 20px;
+    line-height: 1.6;
+}
+
+h1 {
+    color: white;
+    font-family: myFont;
+    font-size: 3.5rem;
+    text-align: center;
+    margin-top: 10px; /* Reduce top margin */
+}
+
+/* Header styling */
+h3 {
+    color: wheat; /* Wheat color */
+    margin-bottom: 10px;
+    margin-top: 0; /* Reduce top margin */
+    font-size: 1.8em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Paragraph styling */
+p {
+    margin: 5px 0;
+    color: #bdc3c7; /* Silver */
+    font-size: 1.2em;
+}
+
+/* Bold text styling */
+strong {
+    font-weight: bold;
+    color: #ecf0f1; /* Light Gray */
+}
+
+/* Link styling */
+a {
+    color: #f1c40f; /* Electric Yellow */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #e67e22; /* Slightly darker yellow */
+    text-decoration: underline;
+}
+
+/* Container for the job listings */
+.job-container {
+    background-color: #34495e; /* Dark Gray */
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 90%; /* Reduce the width */
+    margin: 0 auto 20px auto; /* Center align the containers */
+}
+
+.job-container:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* Additional styling for visual enhancement */
+.job-container h3::before {
+    content: "👮‍♂️ ";
+}
+
+.job-container p::before {
+    content: "📧 ";
+    margin-right: 5px;
+}
+
+.job-container a::before {
+    content: "📄 ";
+    margin-right: 5px;
+}
+
+/* Animation styles */
+.animated-container {
+    transition: all 0.3s ease-in-out;
+}
+
+.animated-container:hover {
+    transform: scale(1.03);
+}
