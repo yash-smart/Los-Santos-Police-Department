@@ -106,3 +106,40 @@ a:hover {
 .animated-container:hover {
     transform: scale(1.03);
 }
+
+@media only screen and (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+    }
+    h3 {
+        font-size: 1.2em;
+    }
+    .job-container {
+        padding: 15px;
+    }
+}
+
+/* Media Query for Smaller Mobile Devices */
+/* Media Query for Devices <= 480px */
+@media only screen and (max-width: 480px) {
+    h1 {
+        font-size: 1.8rem; /* Decrease font size for h1 */
+    }
+    h3 {
+        font-size: 1em; /* Decrease font size for h3 */
+    }
+    p {
+        font-size: 1em; /* Decrease font size for paragraphs */
+    }
+    strong {
+        font-size: 1em; /* Decrease font size for strong text */
+    }
+    .job-container {
+        padding: 10px; /* Adjust padding for job containers */
+    }
+    .job-container h3::before,
+    .job-container p::before,
+    .job-container a::before {
+        font-size: 0.8em; /* Decrease font size for icons */
+    }
+}
