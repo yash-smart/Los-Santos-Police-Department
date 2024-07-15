@@ -148,7 +148,7 @@ const storage = multer.diskStorage({
   const upload = multer({ storage: storage })
 
 app.get("/",(req,res) => {
-    res.render('main.ejs')
+    res.render('main.ejs',{logged:req.session.user})
 })
 
 app.get("/login", (req, res) => {
@@ -780,7 +780,9 @@ app.get('/most-wanted-list',async (req,res) => {
             res.render('most-wanted.ejs',{data:data});
         }
     } else {
-        res.send('Unauthorised');
+        let data = await db.query('select * from most_wanted order by name;');
+        data = data.rows;
+        res.render('most-wanted.ejs',{data:data});
     }
 })
 

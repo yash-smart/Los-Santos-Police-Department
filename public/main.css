@@ -1,33 +1,110 @@
+/* main.css */
+
+/* General Page Styles */
 body {
-    height: 100vh;
-    display:  flex;
-    flex-direction: column;
+    background-color: #1c1c1c;
+    color: #f8f9fa;
+    font-family: 'Pricedown', sans-serif;
 }
-#rest {
-    background-color: black;
-    background-image: url("logo-cropped.jpg");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
-    flex-grow: 1;
-    filter: opacity(0.3);
-}
-.bg-text {
-    position: absolute;
-    top: 50%;
-    left: 51%;
-    z-index: 2;
-    transform: translate(-50%, -50%);
-}
-.bg-text>p {
-    font-family: 'Pricedown Bl', sans-serif;
-}
-.container-fluid {
-    background-color: aquamarine !important;
-    color: aquamarine;
-}
+
+/* Navbar Styles */
 .navbar {
-    background-color: aquamarine !important;
-    color: aquamarine;
+    background-color: #2b2b2b !important;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.navbar:hover {
+    background-color: #333 !important;
+}
+
+.navbar-brand {
+    font-size: 2rem;
+    transition: transform 0.3s ease-in-out;
+}
+
+.navbar-brand:hover {
+    transform: scale(1.1);
+}
+
+/* Navbar Link Styles */
+.navbar-nav .nav-link {
+    font-size: 1.2rem;
+    color: #ffcc00 !important;
+    transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
+    font-family: "Anybody", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+    font-variation-settings: "wdth" 100;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #ffffff !important;
+    transform: scale(1.1);
+}
+
+/* Background Text Styles */
+.bg-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 50px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #00aaff;
+    animation: fadeIn 2s ease-in-out;
+}
+
+p {
+    color: #f8f9fa;
+}
+
+p.text-primary {
+    color: #00aaff !important;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-10px); }
+    to { transform: translateY(0); }
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 768px) {
+    .navbar-brand {
+        font-size: 1.5rem;
+    }
+
+    .navbar-nav .nav-link {
+        font-size: 1rem;
+    }
+
+    .bg-text {
+        padding: 20px;
+    }
+
+    p {
+        width: auto;
+    }
+}
+/* Style the dropdown container */
+.custom-dropdown {
+    color: #ffcc00;
+    background: none;
+    border: none;
+    appearance: none;
+    font-size: 16px; /* Adjust font size as needed */
+    width: min-content;
+}
+
+/* Style the arrow icon (you can use an SVG or a Unicode arrow) */
+.custom-dropdown::after {
+    content: "\25BC"; /* Unicode down arrow symbol */
+    margin-left: 5px; /* Add some spacing between text and arrow */
 }
 

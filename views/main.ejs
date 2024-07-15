@@ -6,34 +6,39 @@
     <title>Los Santos Police Department</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="https://fonts.cdnfonts.com/css/pricedown" rel="stylesheet">
-    <link href="/main.css" rel="stylesheet" >
+    <link href="https://fonts.googleapis.com/css2?family=Anybody:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="/main.css" rel="stylesheet">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <nav class="navbar navbar-expand-lg bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/">Los Santos Police Department</a>
+            <a class="navbar-brand text-white" href="/" style="font-family: 'Pricedown'">𝕷𝖔𝖘 𝕾𝖆𝖓𝖙𝖔𝖘 𝕻𝖔𝖑𝖎𝖈𝖊 𝕯𝖊𝖕𝖆𝖗𝖙𝖒𝖊𝖓𝖙</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <ul class="navbar-nav">
+                <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+                        <a class="nav-link text-warning" aria-current="page" href="/">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/news-announcements">News and Announcements</a>
+                        <a class="nav-link text-warning" href="/news-announcements">News and Announcements</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/jobs">Jobs</a>
+                        <a class="nav-link text-warning" href="/jobs">Jobs</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/most-wanted-list">Most Wanted List</a>
+                        <select class="custom-dropdown nav-link">
+                            <option disabled selected>More</option>
+                            <a href="/most-wanted-list"><option>Most Wanted List</option></a>
+                        </select>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/login">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/logout">Logout</a>
+                        <% if (logged) { %>
+                            <a class="nav-link text-warning" href="/logout">Logout</a>
+                        <% } else { %>
+                            <a class="nav-link text-warning" href="/login">Login</a>
+                        <% } %>
                     </li>
                 </ul>
             </div>
@@ -42,8 +47,10 @@
     <div style="height: 99vh;width: 100%;" id="rest">
     </div>
     <div class="bg-text">
-        <p style="color: blue;font-weight: bold;z-index: 1;width: 500px;">Welcome to the Los Santos Police Department, where a simple cheat code won't save you from the law! In the wild and unpredictable world of Los Santos, amidst the glitz of Vinewood and the chaos of the streets, the LSPD stands vigilant. Discover our most wanted criminals, submit anonymous tips, and stay updated with the latest news. Dive into the heart of Los Santos, where every story is a thrilling adventure, and join us in our relentless pursuit to keep the city safe and exciting</p>
+        <p class="text-primary fw-bold" style="width: 500px; z-index: 1;">
+            Welcome to the Los Santos Police Department, where a simple cheat code won't save you from the law! In the wild and unpredictable world of Los Santos, amidst the glitz of Vinewood and the chaos of the streets, the LSPD stands vigilant. Discover our most wanted criminals, submit anonymous tips, and stay updated with the latest news. Dive into the heart of Los Santos, where every story is a thrilling adventure, and join us in our relentless pursuit to keep the city safe and exciting.
+        </p>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </html>
