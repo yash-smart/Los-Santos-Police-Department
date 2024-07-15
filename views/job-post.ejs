@@ -4,36 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Los Santos Police Department Job Post</title>
+    <link rel="stylesheet" href="/job-post.css">
 </head>
 <body>
-    <form action="/job-post" method="post">
-        <textarea name="title" placeholder="Job Title"></textarea>
-        <textarea name="description" placeholder="Job Description" style="white-space: pre-wrap;"></textarea>
-        <select name="department">
-            <option>Patrol Division</option>
-            <option>Investigative Division</option>
-            <option>Special Operations</option>
-            <option>Support Services</option>
-            <option>Administrative Division</option>
-            <option>Specialized Units</option>
-            <option>Emergency Management</option>
-            <option>Others</option>
-        </select>
-        <select name="location_type" >
-            <option>On Site</option>
-            <option>Work From Home</option>
-            <option>Hybrid</option>
-        </select>
-        <input type="text" name="location" placeholder="Location">
-        <select name="type">
-            <option>Full Time</option>
-            <option>Part Time</option>
-            <option>Temporary</option>
-            <option>Contract</option>
-            <option>Others</option>
-        </select>
-        <input type="date" name="last_apply_date" >
-        <input type="submit" value="Post" > 
-    </form>
+    <div class="container">
+        <form class="job-post-form" action="/job-post" method="post">
+            <h1 class="form-title">Post a Job</h1>
+            <textarea class="input-field" name="title" placeholder="Job Title"></textarea>
+            <textarea class="input-field" name="description" placeholder="Job Description"></textarea>
+            <select class="input-field" name="department">
+                <option>Patrol Division</option>
+                <option>Investigative Division</option>
+                <option>Special Operations</option>
+                <option>Support Services</option>
+                <option>Administrative Division</option>
+                <option>Specialized Units</option>
+                <option>Emergency Management</option>
+                <option>Others</option>
+            </select>
+            <select class="input-field" name="location_type">
+                <option>On Site</option>
+                <option>Work From Home</option>
+                <option>Hybrid</option>
+            </select>
+            <input class="input-field" type="text" name="location" placeholder="Location">
+            <select class="input-field" name="type">
+                <option>Full Time</option>
+                <option>Part Time</option>
+                <option>Temporary</option>
+                <option>Contract</option>
+                <option>Others</option>
+            </select>
+            <input class="input-field" type="date" name="last_apply_date">
+            <input class="submit-btn" type="submit" value="Post">
+        </form>
+    </div>
 </body>
 </html>
