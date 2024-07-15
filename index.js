@@ -450,9 +450,11 @@ app.get('/like/:news_id',async (req,res) => {
         if (like_data.rows.length == 0) {
             await db.query('insert into likes_news(news_id,user_id) values($1,$2);',[req.params.news_id,req.session.user]);
             let clients = newsclients.get(req.params.news_id);
-            for (let i=0;i<clients.length;i++) {
-                if (clients[i]) {
-                    clients[i].send('3');
+            if (clients) {
+                for (let i=0;i<clients.length;i++) {
+                    if (clients[i]) {
+                        clients[i].send('3');
+                    }
                 }
             }
         }
@@ -466,9 +468,11 @@ app.get('/unlike/:news_id', async (req,res) => {
     if (req.session.user) {
         await db.query('delete from likes_news where news_id=$1 and user_id=$2;',[req.params.news_id,req.session.user]);
         let clients = newsclients.get(req.params.news_id);
-        for (let i=0;i<clients.length;i++) {
-            if (clients[i]) {
-                clients[i].send('2');
+        if (clients) {
+            for (let i=0;i<clients.length;i++) {
+                if (clients[i]) {
+                    clients[i].send('2');
+                }
             }
         }
         res.redirect('/news/'+req.params.news_id);
@@ -484,9 +488,11 @@ app.post('/comment/:news_id',async (req,res) => {
         let username = await db.query('select username from users where id=$1;',[req.session.user]);
         username = username.rows[0].username;
         let clients = newsclients.get(req.params.news_id);
-        for (let i=0;i<clients.length;i++) {
-            if (clients[i]) {
-                clients[i].send('4'+JSON.stringify([username,req.body.comment,date]));
+        if (clients) {
+            for (let i=0;i<clients.length;i++) {
+                if (clients[i]) {
+                    clients[i].send('4'+JSON.stringify([username,req.body.comment,date]));
+                }
             }
         }
         res.redirect('/news/'+req.params.news_id);
@@ -501,9 +507,11 @@ app.get('/like-admin/:news_id',async (req,res) => {
         if (like_data.rows.length == 0) {
             await db.query('insert into likes_news(news_id,user_id) values($1,$2);',[req.params.news_id,req.session.user]);
             let clients = newsclients.get(req.params.news_id);
-            for (let i=0;i<clients.length;i++) {
-                if (clients[i]) {
-                    clients[i].send('3');
+            if (clients) {
+                for (let i=0;i<clients.length;i++) {
+                    if (clients[i]) {
+                        clients[i].send('3');
+                    }
                 }
             }
         }
@@ -517,9 +525,11 @@ app.get('/unlike-admin/:news_id', async (req,res) => {
     if (req.session.user) {
         await db.query('delete from likes_news where news_id=$1 and user_id=$2;',[req.params.news_id,req.session.user]);
         let clients = newsclients.get(req.params.news_id);
-        for (let i=0;i<clients.length;i++) {
-            if (clients[i]) {
-                clients[i].send('2');
+        if (clients) {
+            for (let i=0;i<clients.length;i++) {
+                if (clients[i]) {
+                    clients[i].send('2');
+                }
             }
         }
         res.redirect('/news-update/'+req.params.news_id+'/'+req.session.user);
@@ -535,9 +545,11 @@ app.post('/comment-admin/:news_id',async (req,res) => {
         let username = await db.query('select username from users where id=$1;',[req.session.user]);
         username = username.rows[0].username;
         let clients = newsclients.get(req.params.news_id);
-        for (let i=0;i<clients.length;i++) {
-            if (clients[i]) {
-                clients[i].send('4'+JSON.stringify([username,req.body.comment,date]));
+        if (clients) {
+            for (let i=0;i<clients.length;i++) {
+                if (clients[i]) {
+                    clients[i].send('4'+JSON.stringify([username,req.body.comment,date]));
+                }
             }
         }
         res.redirect('/news-update/'+req.params.news_id+'/'+req.session.user);
