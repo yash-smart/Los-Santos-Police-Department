@@ -107,4 +107,6 @@ p.text-primary {
     content: "\25BC"; /* Unicode down arrow symbol */
     margin-left: 5px; /* Add some spacing between text and arrow */
 }
-
+.navbar-toggler {
+    background-color: #ffcc00;
+}
