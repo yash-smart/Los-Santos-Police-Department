@@ -230,7 +230,7 @@ app.get('/news-announcements',async (req,res) => {
             res.render('news-announcements.ejs',{admin:false,user_id:req.session.user,data:data.rows,images_arr:images_arr});
         }
     } else {
-        res.send('Unauthorised');
+        res.render("unauthorised.ejs");
     }
 })
 
@@ -246,7 +246,7 @@ app.get('/news-announcements-add/:user_id',async (req,res) => {
             res.send('You are not authorised to view this page.');
         }
     } else {
-        res.send('Unauthorised');
+        res.render("unauthorised.ejs");
     }
 })
 
@@ -440,7 +440,7 @@ app.get('/news/:news_id',async (req,res) => {
             res.render('news-announcements-view.ejs',{newselements:newselements,posted_on:posted_on,logged_in:true,likes:likes,comments_count:comments_count,comments:comments,users,news_id:req.params.news_id,liked:true});
         }
     } else{
-        res.send('Unauthorised');
+        res.render("unauthorised.ejs");
     }
 })
 
@@ -460,7 +460,7 @@ app.get('/like/:news_id',async (req,res) => {
         }
         res.redirect('/news/'+req.params.news_id);
     } else {
-        res.send('Unauthorised');
+        res.render("unauthorised.ejs");
     }
 })
 
@@ -477,7 +477,7 @@ app.get('/unlike/:news_id', async (req,res) => {
         }
         res.redirect('/news/'+req.params.news_id);
     } else {
-        res.send('Unauthorised');
+        res.render("unauthorised.ejs");
     }
 })
 
@@ -497,7 +497,7 @@ app.post('/comment/:news_id',async (req,res) => {
         }
         res.redirect('/news/'+req.params.news_id);
     } else {
-        res.send('Unauthorised');
+        res.render("unauthorised.ejs");
     }
 })
 
@@ -517,7 +517,7 @@ app.get('/like-admin/:news_id',async (req,res) => {
         }
         res.redirect('/news-update/'+req.params.news_id+'/'+req.session.user);
     } else {
-        res.send('Unauthorised');
+        res.render("unauthorised.ejs");
     }
 })
 
@@ -534,7 +534,7 @@ app.get('/unlike-admin/:news_id', async (req,res) => {
         }
         res.redirect('/news-update/'+req.params.news_id+'/'+req.session.user);
     } else {
-        res.send('Unauthorised');
+        res.render("unauthorised.ejs");
     }
 })
 
@@ -554,7 +554,7 @@ app.post('/comment-admin/:news_id',async (req,res) => {
         }
         res.redirect('/news-update/'+req.params.news_id+'/'+req.session.user);
     } else {
-        res.send('Unauthorised');
+        res.render("unauthorised.ejs");
     }
 })
 
@@ -570,7 +570,7 @@ app.get('/jobs',async (req,res) => {
             res.render('jobs.ejs',{data:data.rows,logged:req.session.user})
         }
     } else {
-        res.send('Unauthorised');
+        res.render("unauthorised.ejs");
     }
 })
 
@@ -584,7 +584,7 @@ app.get('/job-post',async (req,res) => {
             res.send('You are not authorised to visit this page');
         }
     } else {
-        res.send('Unauthorised');
+        res.render("unauthorised.ejs");
     }
 })
 
@@ -601,7 +601,7 @@ app.post('/job-post',async (req,res) => {
             res.send('You are not authorised to visit this page');
         }
     } else {
-        res.send('Unauthorised');
+        res.render("unauthorised.ejs");
     }
 })
 
@@ -714,7 +714,7 @@ app.post('/apply-job/:job_id',upload.single('resume'),async(req,res) => {
             res.send('An Error occured. Try again later.');
         }
     } else {
-        res.send('Unauthorised');
+        res.render("unauthorised.ejs");
     }
 })
 
@@ -729,7 +729,7 @@ app.get('/applications/:job_id',async (req,res) => {
             res.send('You are not authorised to view this page')
         }
     } else {
-        res.send('Unauthorised');
+        res.render("unauthorised.ejs");
     }
 })
 
@@ -753,10 +753,10 @@ app.get('/delete-job/:job_id',async (req,res) => {
             await db.query('delete from jobpostings where id=$1;',[req.params.job_id]);
             res.redirect('/jobs')
         } else {
-            res.send('Unauthorised');
+            res.render("unauthorised.ejs");
         }
     } else {
-        res.send('Unauthorised');
+        res.render("unauthorised.ejs");
     }
 })
 
@@ -793,10 +793,10 @@ app.get('/post-wanted-list',async (req,res) => {
         if (type == 'Admin') {
             res.render('most-wanted-list-post.ejs');
         } else {
-            res.send('Unauthorised');
+            res.render("unauthorised.ejs");
         }
     } else {
-        res.send('Unauthorised');
+        res.render("unauthorised.ejs");
     }
 })
 
@@ -822,10 +822,10 @@ app.post('/most-wanted-list-post',upload.single('photo'),async (req,res) => {
                 res.redirect('/most-wanted-list');
             }
         } else {
-            res.send('Unauthorised');
+            res.render("unauthorised.ejs");
         }
     } else {
-        res.send('Unauthorised');
+        res.render("unauthorised.ejs");
     }
 })
 
@@ -846,10 +846,10 @@ app.get('/delete-wanted/:id',async(req,res) => {
             await db.query('delete from most_wanted where id=$1;',[req.params.id]);
             res.redirect('/most-wanted-list');
         } else {
-            res.send('Unauthorised');
+            res.render("unauthorised.ejs");
         }
     } else {
-        res.send('Unauthorised');
+        res.render("unauthorised.ejs");
     }
 })
 
