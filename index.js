@@ -564,10 +564,10 @@ app.get('/jobs',async (req,res) => {
         let type = user_data.rows[0].type;
         if (type == 'Admin') {
             let data = await db.query('select * from jobpostings order by last_apply_date asc;');
-            res.render('jobs-edit.ejs',{data:data.rows});
+            res.render('jobs-edit.ejs',{data:data.rows,logged:req.session.user});
         } else {
             let data = await db.query('select * from jobpostings where last_apply_date>=$1 order by last_apply_date asc;',[new Date()]);
-            res.render('jobs.ejs',{data:data.rows})
+            res.render('jobs.ejs',{data:data.rows,logged:req.session.user})
         }
     } else {
         res.send('Unauthorised');
@@ -662,9 +662,9 @@ app.post('/filter-job-post',async (req,res) => {
         }
         console.log(query);
         if (type == 'Admin') {
-            res.render('jobs-edit.ejs',{data:data.rows})
+            res.render('jobs-edit.ejs',{data:data.rows,logged:req.session.user})
         } else {
-            res.render('jobs.ejs',{data:data.rows})
+            res.render('jobs.ejs',{data:data.rows,logged:req.session.user})
         }
     }
 })

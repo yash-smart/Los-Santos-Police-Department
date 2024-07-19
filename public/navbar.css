@@ -1,0 +1,72 @@
+.navbar {
+    background-color: #2b2b2b !important;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.navbar:hover {
+    background-color: #333 !important;
+}
+
+.navbar-brand {
+    font-size: 2rem;
+    transition: transform 0.3s ease-in-out;
+}
+
+.navbar-brand:hover {
+    transform: scale(1.1);
+}
+
+/* Navbar Link Styles */
+.navbar-nav .nav-link {
+    font-size: 1.2rem;
+    color: #ffcc00 !important;
+    transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
+    font-family: "Anybody", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+    font-variation-settings: "wdth" 100;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #ffffff !important;
+    transform: scale(1.1);
+}
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-10px); }
+    to { transform: translateY(0); }
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 768px) {
+    .navbar-brand {
+        font-size: 1.5rem;
+    }
+
+    .navbar-nav .nav-link {
+        font-size: 1rem;
+    }
+}
+/* Style the dropdown container */
+.custom-dropdown {
+    color: #ffcc00;
+    background: none;
+    border: none;
+    appearance: none;
+    font-size: 16px; /* Adjust font size as needed */
+    width: min-content;
+}
+
+/* Style the arrow icon (you can use an SVG or a Unicode arrow) */
+.custom-dropdown::after {
+    content: "\25BC"; /* Unicode down arrow symbol */
+    margin-left: 5px; /* Add some spacing between text and arrow */
+}
+.navbar-toggler {
+    background-color: #ffcc00 !important;
+}
