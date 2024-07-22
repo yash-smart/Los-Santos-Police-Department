@@ -147,8 +147,15 @@ const storage = multer.diskStorage({
   
   const upload = multer({ storage: storage })
 
-app.get("/",(req,res) => {
-    res.render('main.ejs',{logged:req.session.user})
+app.get("/",async (req,res) => {
+    if (req.session.user) {
+        let user_details = await db.query('select type from users where id=$1;',[req.session.user]);
+        let type = user_details.rows[0].type;
+        console.log(type);
+        res.render('main.ejs',{logged:req.session.user,admin:type})
+    } else {
+        res.render('main.ejs',{logged:req.session.user});
+    }
 })
 
 app.get("/login", (req, res) => {
@@ -197,7 +204,7 @@ app.post('/register', async (req, res) => {
         } else {
             bcrypt.hash(req.body.Password, 10, async function (err, hash) {
                 try {
-                    await db.query('insert into users(username,password,type) values($1,$2,$3);', [req.body.Username.trim(), hash, req.body.Type]);
+                    await db.query('insert into users(username,password,type) values($1,$2,$3);', [req.body.Username.trim(), hash, 'user']);
                     res.redirect('/')
                 } catch (err) {
                     res.render('register.ejs', { message: 'Something went wrong. Try again.' })
@@ -564,10 +571,10 @@ app.get('/jobs',async (req,res) => {
         let type = user_data.rows[0].type;
         if (type == 'Admin') {
             let data = await db.query('select * from jobpostings order by last_apply_date asc;');
-            res.render('jobs-edit.ejs',{data:data.rows,logged:req.session.user});
+            res.render('jobs-edit.ejs',{data:data.rows,logged:req.session.user,admin:type});
         } else {
             let data = await db.query('select * from jobpostings where last_apply_date>=$1 order by last_apply_date asc;',[new Date()]);
-            res.render('jobs.ejs',{data:data.rows,logged:req.session.user})
+            res.render('jobs.ejs',{data:data.rows,logged:req.session.user,admin:type})
         }
     } else {
         res.render("unauthorised.ejs");
@@ -850,6 +857,32 @@ app.get('/delete-wanted/:id',async(req,res) => {
         }
     } else {
         res.render("unauthorised.ejs");
+    }
+})
+
+app.get('/register-admin',(req,res) => {
+    res.render('register-admin.ejs');
+})
+
+app.post('/register-admin',async (req,res) => {
+    try {
+        let user_exist_data = await db.query('select * from users where username=$1;', [req.body.Username.trim()]);
+        if (user_exist_data.rows.length > 0) {
+            res.render('register-admin.ejs', { message: 'User already exists.' })
+        } else {
+            bcrypt.hash(req.body.Password, 10, async function (err, hash) {
+                try {
+                    await db.query('insert into users(username,password,type) values($1,$2,$3);', [req.body.Username.trim(), hash, 'Admin']);
+                    res.redirect('/')
+                } catch (err) {
+                    res.render('register-admin.ejs', { message: 'Something went wrong. Try again.' })
+                    console.log(err)
+                }
+            });
+        }
+    } catch (err) {
+        res.render('register-admin.ejs', { message: 'Something went wrong. Try again.' })
+        console.log(err)
     }
 })
 

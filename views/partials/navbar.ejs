@@ -21,10 +21,14 @@
                         </a>
                         <ul class="dropdown-menu">
                           <!-- <li><a class="dropdown-item" href="/jobs">Jobs</a></li> -->
-                          <li><a class="dropdown-item" href="/most-wanted-list">Most Wanted List</a></li>
+                            <li><a class="dropdown-item" href="/most-wanted-list">Most Wanted List</a></li>
+                            <% if (locals.admin) { %>
+                                <% if (admin == 'Admin') { %>
+                                    <li><a class="dropdown-item" href="/register-admin">Register a Admin</a></li>
+                                <% } %>
+                            <% } %>
                           <!-- <li><a class="dropdown-item" href="#">Something else here</a></li> -->
                         </ul>
-                      </li>
                     <li class="nav-item">
                         <% if (logged) { %>
                             <a class="nav-link text-warning" href="/logout">Logout</a>
