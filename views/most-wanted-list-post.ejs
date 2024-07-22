@@ -4,16 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Los Santos Police Department Most Wanted List</title>
+    <link rel="stylesheet" href="/most-wanted-list-post.css">
+    <link href="https://fonts.googleapis.com/css2?family=Anybody:wght@300;400;700&family=Pacifico&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>Most Wanted List</h1>
-    <form action="/most-wanted-list-post" method="post" enctype="multipart/form-data">
-        <input type="text" name="name" placeholder="Name of the Person" required>
-        <input type="text" name="alias" placeholder="Alias of the Person" >
-        <input type="file" name="photo" placeholder="Photo of the Person" accept="image/*">
-        <input type="text" name="nationality" placeholder="Nationality of the Person" >
-        <textarea name="description" placeholder="Description" style="white-space: pre-wrap;"></textarea>
-        <input type="submit" value="Post" >
-    </form>
+    <div class="container">
+        <h1>Most Wanted List</h1>
+        <form action="/most-wanted-list-post" method="post" enctype="multipart/form-data">
+            <input type="text" name="name" placeholder="Name of Criminal" required>
+            <input type="text" name="alias" placeholder="Alias of Criminal">
+            <input type="file" name="photo" placeholder="Photo of Criminal" accept="image/*">
+            <input type="text" name="nationality" placeholder="Nationality of Criminal">
+            <textarea name="description" placeholder="Description" style="white-space: pre-wrap;" class="desc"></textarea>
+            <input type="submit" value="Post">
+        </form>
+    </div>
 </body>
 </html>
+
+
