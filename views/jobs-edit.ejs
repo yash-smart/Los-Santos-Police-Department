@@ -13,6 +13,7 @@
 </head>
 <body>
     <%- include('partials/navbar') %>
+    <p style="display: none;" id="job_data"><%= JSON.stringify(data) %></p>
     <div class="container">
         <div class="job-filter">
             <h2>Search Jobs</h2>
@@ -86,10 +87,11 @@
                     <a href="/delete-job/<%= data[i].id %>"><button class="apply-button delete-button">Delete Job</button></a>
                 </article>
             <% } %>
-            <a href="/job-post"><button class="apply-button">New Post</button></a>
+            <a href="/job-post"><button class="apply-button" id="job-post">New Post</button></a>
         </section>
     </div>
     <script src="/jobs-edit.js"></script>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="/jobs_edit.js" ></script>
 </html>
