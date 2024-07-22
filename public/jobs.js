@@ -24,13 +24,13 @@ function updateList() {
         descriptionElement.style.whiteSpace = 'pre-wrap';
         descriptionElement.innerHTML = '<strong>Description:</strong><br>'+newData[i].description+'</br>';
         let departmentElement = document.createElement('p');
-        departmentElement.innerHTML = '<strong>Department:</strong>'+newData[i].department;
+        departmentElement.innerHTML = '<strong>Department:</strong> '+newData[i].department;
         let location_type_element = document.createElement('p');
-        location_type_element.innerHTML = '<strong>Location Type:</strong>'+newData[i].location_type;
+        location_type_element.innerHTML = '<strong>Location Type:</strong> '+newData[i].location_type;
         let location_element = document.createElement('p');
-        location_element.innerHTML = '<strong>Location:</strong>'+newData[i].location;
+        location_element.innerHTML = '<strong>Location:</strong> '+newData[i].location;
         let type_element = document.createElement('p');
-        type_element.innerHTML = '<strong>Type:</strong>'+newData[i].type;
+        type_element.innerHTML = '<strong>Type:</strong> '+newData[i].type;
         jobDetailsElement.append(descriptionElement);
         jobDetailsElement.append(departmentElement);
         jobDetailsElement.append(location_type_element);
