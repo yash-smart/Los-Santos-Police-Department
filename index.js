@@ -82,6 +82,7 @@ app.use(session({
         maxAge: 3600000
     } // Set secure to true in production with HTTPS
 }));
+app.use(express.json())
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -885,6 +886,27 @@ app.post('/register-admin',async (req,res) => {
         console.log(err)
     }
 })
+
+app.post('/save-job', async (req, res) => {
+    console.log(req.body);
+    if (req.session.user) {
+        const jobId = req.body.jobId;
+        const userId = req.session.user;
+        try {
+            if (jobId) {
+                await db.query('INSERT INTO saved_jobs (user_id, job_id) VALUES ($1, $2) ON CONFLICT DO NOTHING;', [userId, jobId]);
+                res.json({ success: true });
+            } else {
+                res.json({ success: false, error: 'Job ID is missing.' });
+            }
+        } catch (error) {
+            console.error('Error saving job:', error);
+            res.json({ success: false, error: 'Database error' });
+        }
+    } else {
+        res.status(401).json({ success: false, error: 'Unauthorized'});
+    }
+});
 
 server.listen(4000, () => {
     console.log(`Connected on localhost:4000`)

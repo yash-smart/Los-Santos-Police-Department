@@ -45,11 +45,20 @@ function updateList() {
         let ApplyButton = document.createElement('a');
         ApplyButton.href = 'apply-job/'+newData[i].id;
         ApplyButton.innerHTML = '<button class="apply-button">Apply</button>';
+        let saveForLaterButton = document.createElement('button');
+        saveForLaterButton.classList.add('save-button');
+        saveForLaterButton.setAttribute('data-job-id',newData[i].id);
+        saveForLaterButton.textContent = 'Save for Later';
+        saveForLaterButton.style.marginLeft = '10px';
+        let jobActions = document.createElement('div');
+        jobActions.classList.add('job-actions');
+        jobActions.append(ApplyButton);
+        jobActions.append(saveForLaterButton);
         new_job_element.append(h3);
         new_job_element.append(jobDetailsElement);
         new_job_element.append(posted_on_element);
         new_job_element.append(last_apply_date_element);
-        new_job_element.append(ApplyButton);
+        new_job_element.append(jobActions);
         job_listings.append(new_job_element);
     }
 }
@@ -57,3 +66,36 @@ let job_data = JSON.parse(document.getElementById('job_data').textContent);
 // console.log(job_data)
 document.getElementById('Title').addEventListener('keyup',updateList);
 document.getElementById('Description').addEventListener('keyup',updateList);
+function saveJob(jobId) { 
+    fetch('/save-job', {
+        method: 'POST',
+        mode:'cors',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({jobId:jobId}),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Job saved for later!');
+        } else {
+            alert('Error saving job: ' + data.error);
+        }
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}
+
+document.querySelectorAll('.save-button').forEach(button => {
+    button.addEventListener('click', (event) => {
+        const jobId = event.target.getAttribute('data-job-id');
+        if (jobId) {
+            saveJob(jobId);
+        } else {
+            console.log('Job ID not found');
+            alert('Job ID not found.');
+        }
+    });
+});
