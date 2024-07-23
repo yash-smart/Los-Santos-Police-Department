@@ -908,6 +908,30 @@ app.post('/save-job', async (req, res) => {
     }
 });
 
+app.get('/saved-jobs',async (req,res) => {
+    if (req.session.user) {
+        try {
+            let savedJobs = await db.query(
+                'SELECT jp.* FROM jobpostings jp INNER JOIN saved_jobs sj ON jp.id = sj.job_id WHERE sj.user_id = $1 and last_apply_date>=$2 ORDER BY jp.last_apply_date ASC;',
+                [req.session.user,new Date()]
+            );
+            res.render('saved-jobs.ejs', { data: savedJobs.rows, logged: req.session.user });
+        } catch (error) {
+            console.error('Error fetching saved jobs:', error);
+            res.status(500).send('Server error');
+        }
+    } else {
+        res.render("unauthorised.ejs");
+    }
+})
+
+app.get('/delete-saved-job/:job_id',async (req,res) => {
+    if (req.session.user) {
+        await db.query('delete from saved_jobs where job_id=$1 and user_id=$2;',[req.params.job_id,req.session.user]);
+        res.redirect('/saved-jobs');
+    }
+})
+
 server.listen(4000, () => {
     console.log(`Connected on localhost:4000`)
 })
