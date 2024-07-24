@@ -31,6 +31,7 @@ db.connect();
 const server = http.createServer(app)
 
 let newsclients = new Map();
+let anonymous_tip_clients = [];
 
 const wss = new WebSocketServer({server : server})
 
@@ -54,6 +55,8 @@ wss.on('connection', function connection(ws) {
             } else {
                 newsclients.set(data.slice(1),[ws]);
             }
+        } else if (data[0] == '5') {
+            anonymous_tip_clients.push(ws);
         }
     });
     ws.on('close',() => {
@@ -63,6 +66,13 @@ wss.on('connection', function connection(ws) {
                 if (arr[i] == ws) {
                     arr.splice(i,1);
                     console.log('Item Deleted');
+                }
+            }
+        } else {
+            for (let i=0;i<anonymous_tip_clients.length;i++) {
+                if (anonymous_tip_clients[i] == ws) {
+                    anonymous_tip_clients.splice(i,1);
+                    console.log('Anonymous client deleted');
                 }
             }
         }
@@ -97,7 +107,9 @@ const storage = multer.diskStorage({
             max2 = max2.rows[0].max;
             let max3 = await db.query('select max(number) max from most_wanted;');
             max3 = max3.rows[0].max;
-            let max = Math.max(max1,max2,max3);
+            let max4 = await db.query('select max(number) max from anonymous_tip;');
+            max4 = max4.rows[0].max;
+            let max = Math.max(max1,max2,max3,max4);
             max = max+1;
             // let order_number = await db.query('select max(order_number) max from newselements where news_id=$1;',[req.params.news_id]);
             let extension = file.originalname.split('.');
@@ -112,7 +124,9 @@ const storage = multer.diskStorage({
             max2 = max2.rows[0].max;
             let max3 = await db.query('select max(number) max from most_wanted;');
             max3 = max3.rows[0].max;
-            let max = Math.max(max1,max2,max3);
+            let max4 = await db.query('select max(number) max from anonymous_tip;');
+            max4 = max4.rows[0].max;
+            let max = Math.max(max1,max2,max3,max4);
             max = max+1;
             // let order_number = await db.query('select max(order_number) max from newselements where news_id=$1;',[req.params.news_id]);
             let extension = file.originalname.split('.');
@@ -126,23 +140,42 @@ const storage = multer.diskStorage({
             max2 = max2.rows[0].max;
             let max3 = await db.query('select max(number) max from most_wanted;');
             max3 = max3.rows[0].max;
-            let max = Math.max(max1,max2,max3);
+            let max4 = await db.query('select max(number) max from anonymous_tip;');
+            max4 = max4.rows[0].max;
+            let max = Math.max(max1,max2,max3,max4);
             let extension = file.originalname.split('.');
             extension = extension[extension.length-1]
             return cb(null,''+(max+1)+'.'+extension);
-        }
-        if (file.fieldname == 'photo') {
+        }else if (file.fieldname == 'photo') {
             let max1 = await db.query('select max(number) max from jobapplications;');
             max1 = max1.rows[0].max;
             let max2 = await db.query('select max(number) max from newselements;');
             max2 = max2.rows[0].max;
             let max3 = await db.query('select max(number) max from most_wanted;');
             max3 = max3.rows[0].max;
-            let max = Math.max(max1,max2,max3);
+            let max4 = await db.query('select max(number) max from anonymous_tip;');
+            max4 = max4.rows[0].max;
+            let max = Math.max(max1,max2,max3,max4);
             let extension = file.originalname.split('.');
             extension = extension[extension.length-1]
             return cb(null,''+(max+1)+'.'+extension);
+        } else if (file.fieldname == 'tip-file') {
+            if (file) {
+                let max1 = await db.query('select max(number) max from jobapplications;');
+                max1 = max1.rows[0].max;
+                let max2 = await db.query('select max(number) max from newselements;');
+                max2 = max2.rows[0].max;
+                let max3 = await db.query('select max(number) max from most_wanted;');
+                max3 = max3.rows[0].max;
+                let max4 = await db.query('select max(number) max from anonymous_tip;');
+                max4 = max4.rows[0].max;
+                let max = Math.max(max1,max2,max3,max4);
+                let extension = file.originalname.split('.');
+                extension = extension[extension.length-1]
+                return cb(null,''+(max+1)+'.'+extension);
+            }
         }
+
     }
   })
   
@@ -308,7 +341,9 @@ app.post('/add-image/:news_id/:user_id',upload.single('image'),async(req,res) =>
     max2 = max2.rows[0].max;
     let max3 = await db.query('select max(number) max from most_wanted;');
     max3 = max3.rows[0].max;
-    let max = Math.max(max1,max2,max3);
+    let max4 = await db.query('select max(number) max from anonymous_tip;');
+    max4 = max4.rows[0].max;
+    let max = Math.max(max1,max2,max3,max4);
     max = max+1;
     let order_number = await db.query('select max(order_number) max from newselements where news_id=$1;',[req.params.news_id]);
     let extension = req.file.originalname.split('.');
@@ -354,7 +389,9 @@ app.post('/add-video/:news_id/:user_id',upload.single('video'),async (req,res) =
     max2 = max2.rows[0].max;
     let max3 = await db.query('select max(number) max from most_wanted;');
     max3 = max3.rows[0].max;
-    let max = Math.max(max1,max2,max3);
+    let max4 = await db.query('select max(number) max from anonymous_tip;');
+    max4 = max4.rows[0].max;
+    let max = Math.max(max1,max2,max3,max4);
     max = max+1;
     let order_number = await db.query('select max(order_number) max from newselements where news_id=$1;',[req.params.news_id]);
     let extension = req.file.originalname.split('.');
@@ -380,7 +417,9 @@ app.post('/update-image/:news_id/:user_id/:order_number',upload.single('image'),
     max2 = max2.rows[0].max;
     let max3 = await db.query('select max(number) max from most_wanted;');
     max3 = max3.rows[0].max;
-    let max = Math.max(max1,max2,max3);
+    let max4 = await db.query('select max(number) max from anonymous_tip;');
+    max4 = max4.rows[0].max;
+    let max = Math.max(max1,max2,max3,max4);
     max = max+1;
     // let order_number = await db.query('select max(order_number) max from newselements where news_id=$1;',[req.params.news_id]);
     let extension = req.file.originalname.split('.');
@@ -405,7 +444,9 @@ app.post('/update-video/:news_id/:user_id/:order_number',upload.single('video'),
     max2 = max2.rows[0].max;
     let max3 = await db.query('select max(number) max from most_wanted;');
     max3 = max3.rows[0].max;
-    let max = Math.max(max1,max2,max3);
+    let max4 = await db.query('select max(number) max from anonymous_tip;');
+    max4 = max4.rows[0].max;
+    let max = Math.max(max1,max2,max3,max4);
     max = max+1;
     // let order_number = await db.query('select max(order_number) max from newselements where news_id=$1;',[req.params.news_id]);
     let extension = req.file.originalname.split('.');
@@ -693,7 +734,9 @@ app.post('/apply-job/:job_id',upload.single('resume'),async(req,res) => {
                 max2 = max2.rows[0].max;
                 let max3 = await db.query('select max(number) max from most_wanted;');
                 max3 = max3.rows[0].max;
-                let max = Math.max(max1,max2,max3);
+                let max4 = await db.query('select max(number) max from anonymous_tip;');
+                max4 = max4.rows[0].max;
+                let max = Math.max(max1,max2,max3,max4);
                 let extension = req.file.originalname.split('.');
                 extension = extension[extension.length-1]
                 res.send('You have already applied');
@@ -711,7 +754,9 @@ app.post('/apply-job/:job_id',upload.single('resume'),async(req,res) => {
                 max2 = max2.rows[0].max;
                 let max3 = await db.query('select max(number) max from most_wanted;');
                 max3 = max3.rows[0].max;
-                let max = Math.max(max1,max2,max3);
+                let max4 = await db.query('select max(number) max from anonymous_tip;');
+                max4 = max4.rows[0].max;
+                let max = Math.max(max1,max2,max3,max4);
                 let extension = req.file.originalname.split('.');
                 extension = extension[extension.length-1]
                 await db.query('insert into jobapplications(user_id,email,resume_filename,datetime,number,job_id) values($1,$2,$3,$4,$5,$6);',[req.session.user,req.body.email,''+(max+1)+'.'+extension,new Date(),max+1,req.params.job_id]);
@@ -820,7 +865,9 @@ app.post('/most-wanted-list-post',upload.single('photo'),async (req,res) => {
                 max2 = max2.rows[0].max;
                 let max3 = await db.query('select max(number) max from most_wanted;');
                 max3 = max3.rows[0].max;
-                let max = Math.max(max1,max2,max3);
+                let max4 = await db.query('select max(number) max from anonymous_tip;');
+                max4 = max4.rows[0].max;
+                let max = Math.max(max1,max2,max3,max4);
                 let extension = req.file.originalname.split('.');
                 extension = extension[extension.length-1];
                 await db.query('insert into most_wanted(name,alias,nationality,description,image,number) values($1,$2,$3,$4,$5,$6);',[req.body.name,req.body.alias,req.body.nationality,req.body.description,''+(max+1)+'.'+extension,max+1]);
@@ -929,6 +976,57 @@ app.get('/delete-saved-job/:job_id',async (req,res) => {
     if (req.session.user) {
         await db.query('delete from saved_jobs where job_id=$1 and user_id=$2;',[req.params.job_id,req.session.user]);
         res.redirect('/saved-jobs');
+    }
+})
+
+app.get('/anonymous-tip-send',(req,res) => {
+    if (req.session.user) {
+        res.render('anonymous-tip-send.ejs');
+    } else {
+        res.render('unauthorised.ejs');
+    }
+})
+
+app.post('/post-anonymous-tip',upload.single('tip-file'),async (req,res) => {
+    let date = new Date();
+    if (req.file) {
+        let max1 = await db.query('select max(number) max from jobapplications;');
+        max1 = max1.rows[0].max;
+        let max2 = await db.query('select max(number) max from newselements;');
+        max2 = max2.rows[0].max;
+        let max3 = await db.query('select max(number) max from most_wanted;');
+        max3 = max3.rows[0].max;
+        let max4 = await db.query('select max(number) max from anonymous_tip;');
+        max4 = max4.rows[0].max;
+        let max = Math.max(max1,max2,max3,max4);
+        let extension = req.file.originalname.split('.');
+        extension = extension[extension.length-1]
+        await db.query('insert into anonymous_tip(tip,posted_on,file_name,number) values($1,$2,$3,$4);',[req.body.tip,date,(max+1)+'.'+extension,max+1]);
+        for (let i=0;i<anonymous_tip_clients.length;i++) {
+            anonymous_tip_clients[i].send('6'+JSON.stringify([req.body.tip,date,(max+1)+'.'+extension]));
+        }
+    } else {
+        await db.query('insert into anonymous_tip(tip,posted_on) values($1,$2);',[req.body.tip,date]);
+        for (let i=0;i<anonymous_tip_clients.length;i++) {
+            anonymous_tip_clients[i].send('6'+JSON.stringify([req.body.tip,date]));
+        }
+    }
+    res.redirect('/anonymous-tip-send');
+})
+
+app.get('/anonymous-tips',async (req,res)=> {
+    if (req.session.user) {
+        let user_data = await db.query('select type from users where id=$1;',[req.session.user]);
+        let type = user_data.rows[0].type;
+        if (type == 'Admin') {
+            let anonymousTips = await db.query('select * from anonymous_tip order by posted_on desc;');
+            anonymousTips = anonymousTips.rows;
+            res.render('anonymous-tips.ejs',{data:anonymousTips});
+        } else {
+            res.render('unauthorised.ejs');
+        }
+    } else {
+        res.render('unauthorised.ejs');
     }
 })
 

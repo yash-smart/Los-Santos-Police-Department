@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Los Santos Police Department - anonymous tips</title>
+</head>
+<body>
+    <h1>Anonymous Tips</h1>
+    <div class="tips">
+        <% for (let i=0;i<data.length;i++) { %>
+            <div class="tip">
+                <p style="white-space: pre-wrap;"><%= data[i].tip %></p>
+                <% if (data[i].file_name) { %>
+                    <a href="/images/<%= data[i].file_name %>">File Attached</a>
+                <% } %>
+                <p class="posted_on">Posted On : <%= new Date(data[i].posted_on).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' , hour:'numeric', minute: "numeric"}) %></p>
+            </div>
+            <hr>
+        <% } %>
+    </div>
+</body>
+<script src="/anonymous-tips.js"></script>
+</html>

@@ -25,7 +25,12 @@
                             <% if (locals.admin) { %>
                                 <% if (admin == 'Admin') { %>
                                     <li><a class="dropdown-item" href="/register-admin">Register a Admin</a></li>
+                                    <li><a class="dropdown-item" href="/anonymous-tips">Anonymous Tips</a></li>
+                                <% } else {%>
+                                    <li><a class="dropdown-item" href="/anonymous-tip-send" >Send an anonymous tip</a></li>
                                 <% } %>
+                            <% } else { %>
+                                <li><a class="dropdown-item" href="/anonymous-tip-send" >Send an anonymous tip</a></li>
                             <% } %>
                           <!-- <li><a class="dropdown-item" href="#">Something else here</a></li> -->
                         </ul>
