@@ -3,22 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Los Santos Police Department - anonymous tips</title>
+    <title>Los Santos Police Department - Anonymous Tips</title>
+    <link rel="stylesheet" href="/anonymous-tips.css"> 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anybody:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
     <h1>Anonymous Tips</h1>
+    <p class="intro">Below is the list of anonymous tips submitted by vigilant citizens. <br>Please review the tips carefully and follow up on any actionable information.</p>
     <div class="tips">
-        <% for (let i=0;i<data.length;i++) { %>
-            <div class="tip">
-                <p style="white-space: pre-wrap;"><%= data[i].tip %></p>
+        <% for (let i = 0; i < data.length; i++) { %>
+            <div class="tip animated-container">
+                <p><%= data[i].tip %></p>
                 <% if (data[i].file_name) { %>
-                    <a href="/images/<%= data[i].file_name %>">File Attached</a>
+                    <a href="/images/<%= data[i].file_name%>">Attached File</a>
                 <% } %>
-                <p class="posted_on">Posted On : <%= new Date(data[i].posted_on).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' , hour:'numeric', minute: "numeric"}) %></p>
+                <p class="posted_on">Posted On: <%= new Date(data[i].posted_on).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }) %></p>
             </div>
-            <hr>
         <% } %>
     </div>
+    <script src="/anonymous-tips.js"></script>
 </body>
-<script src="/anonymous-tips.js"></script>
 </html>
