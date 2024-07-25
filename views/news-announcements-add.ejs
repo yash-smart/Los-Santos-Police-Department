@@ -5,10 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Los Santos Police Department</title>
+    <link rel="stylesheet" href="/navbar.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="/news-announcements-add.css">
 </head>
 
 <body>
+    <%- include('partials/navbar') %>
     <% if (new_news) { %>
         <form action="/add-heading/<%= news_id %>/<%= user_id %>" method="post">
             <textarea name="heading" placeholder="Add Heading"></textarea>

@@ -275,9 +275,9 @@ app.get('/news-announcements',async (req,res) => {
             }
         }
         if (user_details.rows[0].type == 'Admin') {
-            res.render('news-announcements.ejs',{admin:true,user_id:req.session.user,data:data.rows,images_arr:images_arr});
+            res.render('news-announcements.ejs',{admin:true,user_id:req.session.user,data:data.rows,images_arr:images_arr,logged:req.session.user});
         } else {
-            res.render('news-announcements.ejs',{admin:false,user_id:req.session.user,data:data.rows,images_arr:images_arr});
+            res.render('news-announcements.ejs',{admin:false,user_id:req.session.user,data:data.rows,images_arr:images_arr,logged:req.session.user});
         }
     } else {
         res.render("unauthorised.ejs");
@@ -291,7 +291,7 @@ app.get('/news-announcements-add/:user_id',async (req,res) => {
             let news_id = await db.query('insert into newsannouncements(user_id,datetime) values($1,$2) RETURNING id,datetime;',[req.params.user_id,new Date()]);
             let posted_on = news_id.rows[0].datetime;
             news_id = news_id.rows[0].id;
-            res.render('news-announcements-add.ejs',{news_id:news_id,new_news:true,user_id:req.params.user_id,posted_on:posted_on});
+            res.render('news-announcements-add.ejs',{news_id:news_id,new_news:true,user_id:req.params.user_id,posted_on:posted_on,logged:req.session.user});
         } else {
             res.send('You are not authorised to view this page.');
         }
@@ -327,12 +327,12 @@ app.get('/news-update/:news_id/:user_id',async (req,res)=> {
         }
         let like_data = await db.query('select * from likes_news where news_id=$1 and user_id=$2;',[req.params.news_id,req.session.user]);
         if (like_data.rows.length == 0) {
-            res.render('news-announcements-add.ejs',{news_id:req.params.news_id,new_news:false,user_id:req.params.user_id,newselements:newselements,posted_on:posted_on,likes:likes,comments_count:comments_count,comments:comments,users,liked:false});
+            res.render('news-announcements-add.ejs',{news_id:req.params.news_id,new_news:false,user_id:req.params.user_id,newselements:newselements,posted_on:posted_on,likes:likes,comments_count:comments_count,comments:comments,users,liked:false,logged:req.session.user});
         } else {
-            res.render('news-announcements-add.ejs',{news_id:req.params.news_id,new_news:false,user_id:req.params.user_id,newselements:newselements,posted_on:posted_on,likes:likes,comments_count:comments_count,comments:comments,users,liked:true});
+            res.render('news-announcements-add.ejs',{news_id:req.params.news_id,new_news:false,user_id:req.params.user_id,newselements:newselements,posted_on:posted_on,likes:likes,comments_count:comments_count,comments:comments,users,liked:true,logged:req.session.user});
         }
     } else {
-        res.render('news-announcements-add.ejs',{news_id:req.params.news_id,new_news:true,user_id:req.params.user_id,posted_on:posted_on,likes:likes});
+        res.render('news-announcements-add.ejs',{news_id:req.params.news_id,new_news:true,user_id:req.params.user_id,posted_on:posted_on,likes:likes,logged:req.session.user});
     }
 })
 
@@ -493,9 +493,9 @@ app.get('/news/:news_id',async (req,res) => {
         }
         let like_data = await db.query('select * from likes_news where news_id=$1 and user_id=$2;',[req.params.news_id,req.session.user]);
         if (like_data.rows.length == 0) {
-            res.render('news-announcements-view.ejs',{newselements:newselements,posted_on:posted_on,logged_in:true,likes:likes,comments_count:comments_count,comments:comments,users,news_id:req.params.news_id,liked:false});
+            res.render('news-announcements-view.ejs',{newselements:newselements,posted_on:posted_on,logged_in:true,likes:likes,comments_count:comments_count,comments:comments,users,news_id:req.params.news_id,liked:false,logged:req.session.user});
         } else {
-            res.render('news-announcements-view.ejs',{newselements:newselements,posted_on:posted_on,logged_in:true,likes:likes,comments_count:comments_count,comments:comments,users,news_id:req.params.news_id,liked:true});
+            res.render('news-announcements-view.ejs',{newselements:newselements,posted_on:posted_on,logged_in:true,likes:likes,comments_count:comments_count,comments:comments,users,news_id:req.params.news_id,liked:true,logged:req.session.user});
         }
     } else{
         res.render("unauthorised.ejs");
