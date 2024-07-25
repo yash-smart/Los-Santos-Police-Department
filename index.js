@@ -835,16 +835,16 @@ app.get('/most-wanted-list',async (req,res) => {
         if (type == 'Admin') {
             let data = await db.query('select * from most_wanted order by name;');
             data = data.rows;
-            res.render('most-wanted-edit.ejs',{data:data});
+            res.render('most-wanted-edit.ejs',{data:data,logged:req.session.user});
         } else {
             let data = await db.query('select * from most_wanted order by name;');
             data = data.rows;
-            res.render('most-wanted.ejs',{data:data});
+            res.render('most-wanted.ejs',{data:data,logged:req.session.user});
         }
     } else {
         let data = await db.query('select * from most_wanted order by name;');
         data = data.rows;
-        res.render('most-wanted.ejs',{data:data});
+        res.render('most-wanted.ejs',{data:data,logged:req.session.user});
     }
 })
 
