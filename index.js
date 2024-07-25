@@ -11,6 +11,7 @@ import { fileURLToPath } from "url";
 import fs from "fs";
 import http from "http";
 import WebSocket,{WebSocketServer} from "ws";
+import nodemailer from "nodemailer";
 
 
 // const upload = multer({ dest: 'uploads/' })
@@ -18,6 +19,14 @@ env.config();
 
 const app = express();
 const port = 3000;
+
+const transporter = nodemailer.createTransport({
+    service:'gmail',
+    auth: {
+        user:'smartyash334@gmail.com',
+        pass:process.env.EMAIL_PASSWORD
+    }
+})
 
 const db = new pg.Client({
     user: "postgres",
@@ -913,24 +922,33 @@ app.get('/register-admin',(req,res) => {
 })
 
 app.post('/register-admin',async (req,res) => {
-    try {
-        let user_exist_data = await db.query('select * from users where username=$1;', [req.body.Username.trim()]);
-        if (user_exist_data.rows.length > 0) {
-            res.render('register-admin.ejs', { message: 'User already exists.' })
-        } else {
-            bcrypt.hash(req.body.Password, 10, async function (err, hash) {
-                try {
-                    await db.query('insert into users(username,password,type) values($1,$2,$3);', [req.body.Username.trim(), hash, 'Admin']);
-                    res.redirect('/')
-                } catch (err) {
-                    res.render('register-admin.ejs', { message: 'Something went wrong. Try again.' })
-                    console.log(err)
+    if (req.session.user) {
+        let user_details = await db.query('select * from users where id=$1;',[req.session.user]);
+        if (user_details.rows[0].type == 'Admin') {
+            try {
+                let user_exist_data = await db.query('select * from users where username=$1;', [req.body.Username.trim()]);
+                if (user_exist_data.rows.length > 0) {
+                    res.render('register-admin.ejs', { message: 'User already exists.' })
+                } else {
+                    bcrypt.hash(req.body.Password, 10, async function (err, hash) {
+                        try {
+                            await db.query('insert into users(username,password,type,email) values($1,$2,$3,$4);', [req.body.Username.trim(), hash, 'Admin',req.body.Email]);
+                            res.redirect('/')
+                        } catch (err) {
+                            res.render('register-admin.ejs', { message: 'Something went wrong. Try again.' })
+                            console.log(err)
+                        }
+                    });
                 }
-            });
+            } catch (err) {
+                res.render('register-admin.ejs', { message: 'Something went wrong. Try again.' })
+                console.log(err)
+            }
+        } else {
+            res.render('unauthorised.ejs');
         }
-    } catch (err) {
-        res.render('register-admin.ejs', { message: 'Something went wrong. Try again.' })
-        console.log(err)
+    } else {
+        res.render('unauthorised.ejs');
     }
 })
 
@@ -1010,6 +1028,54 @@ app.post('/post-anonymous-tip',upload.single('tip-file'),async (req,res) => {
         for (let i=0;i<anonymous_tip_clients.length;i++) {
             anonymous_tip_clients[i].send('6'+JSON.stringify([req.body.tip,date]));
         }
+    }
+    let description = req.body.tip;
+    let datetime = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' });
+    let emailText = `
+Priority: High
+
+Dear Admin,
+
+We have received a new anonymous tip through the LSPD website. Please review the details below and take appropriate action.
+
+Tip Details:
+
+Received On: ${datetime}
+Description:
+${description}
+
+This tip has been submitted anonymously. The submitter’s identity remains confidential as per our protocols.
+
+Action Required:
+1. Review the tip information carefully.
+2. Determine the urgency and relevance of the tip.
+3. Coordinate with the necessary departments for further investigation.
+4. Log this tip in the internal database for future reference.
+
+For any further inquiries or actions, please refer to the internal guidelines or contact the IT support team for technical assistance.
+
+Thank you for your immediate attention to this matter. Together, we ensure the safety and security of Los Santos.
+
+Best Regards,
+LSPD Tip Coordination Team
+
+Note: This is an automated message from the LSPD Anonymous Tip System. Do not reply directly to this email. For any follow-up actions, please use the internal communication channels.`
+    let admins = await db.query('select email from users where type=\'Admin\' and email is not null;');
+    admins = admins.rows;
+    for (let i=0;i<admins.length;i++) {
+        let mailOptions = {
+            from:'smartyash334@gmail.com',
+            to:admins[i].email,
+            subject:'Urgent: New Anonymous Tip Received',
+            text:emailText
+        }
+        transporter.sendMail(mailOptions,(error,info)=> {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log('Email sent successfully');
+            }
+        });
     }
     res.redirect('/anonymous-tip-send');
 })

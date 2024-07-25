@@ -14,6 +14,7 @@ socket.addEventListener("message", (event) => {
         if (tip_data.length == 3) {
             let tip_element = document.createElement('div');
             tip_element.classList.add('tip');
+            tip_element.classList.add('animated-container');
             let tip_para = document.createElement('p');
             tip_para.textContent = tip_data[0];
             let file = document.createElement('a');
