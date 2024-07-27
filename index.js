@@ -1102,11 +1102,8 @@ app.get('/delete-saved-job/:job_id',async (req,res) => {
 })
 
 app.get('/anonymous-tip-send',(req,res) => {
-    if (req.session.user) {
-        res.render('anonymous-tip-send.ejs');
-    } else {
-        res.render('unauthorised.ejs');
-    }
+    // if (req.session.user) {
+    res.render('anonymous-tip-send.ejs');
 })
 
 app.post('/post-anonymous-tip',upload.single('tip-file'),async (req,res) => {
