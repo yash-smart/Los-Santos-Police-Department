@@ -25,9 +25,7 @@ body {
     white-space: nowrap;
     margin: 0 auto;
     letter-spacing: 0em;
-    animation: 
-        typing 3.5s steps(40, end),
-        blink-caret .75s step-end infinite;
+    animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
     font-family: myFont;
     color: red;
     font-size: 3.2rem;
@@ -43,6 +41,11 @@ body {
 @keyframes blink-caret {
     from, to { border-color: transparent }
     50% { border-color: black; }
+}
+
+/* New keyframe to hide the cursor after typing */
+@keyframes hide-caret {
+    from, to { border-color: transparent }
 }
 
 .anybody-engaging {
@@ -61,8 +64,6 @@ body {
     margin-right: auto;
     padding: 0 1rem;
 }
-
-
 
 .card {
     background-color: #34495e;
