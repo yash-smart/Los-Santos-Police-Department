@@ -10,6 +10,7 @@
     <h1>Applications</h1>
     <% for (let i = 0; i < data.length; i++) { %>
         <div class="job-container animated-container">
+            <% console.log(data) %>
             <h3><%= data[i].username %></h3>
             <p><strong>Email:</strong> <%= data[i].email %></p>
             <p><strong>Resume:</strong> <a href="/images/<%= data[i].resume_filename %>"><%= data[i].resume_filename %></a></p>

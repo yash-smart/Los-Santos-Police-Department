@@ -887,7 +887,7 @@ app.get('/applications/:job_id',async (req,res) => {
         let user_data = await db.query('select type from users where id=$1;',[req.session.user]);
         let type = user_data.rows[0].type;
         if (type == 'Admin') {
-            let data = await db.query('select * from jobapplications,users where job_id=$1 and jobapplications.user_id=users.id;',[req.params.job_id]);
+            let data = await db.query('select jobapplications.email,jobapplications.resume_filename,jobapplications.datetime,jobapplications.job_id,users.username from jobapplications,users where job_id=$1 and jobapplications.user_id=users.id;',[req.params.job_id]);
             res.render('applications.ejs',{data:data.rows});
         } else {
             res.send('You are not authorised to view this page')
@@ -1103,7 +1103,7 @@ app.get('/delete-saved-job/:job_id',async (req,res) => {
 
 app.get('/anonymous-tip-send',(req,res) => {
     // if (req.session.user) {
-    res.render('anonymous-tip-send.ejs');
+    res.render('anonymous-tip-send.ejs',{logged:req.session.user});
 })
 
 app.post('/post-anonymous-tip',upload.single('tip-file'),async (req,res) => {

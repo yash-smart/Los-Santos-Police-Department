@@ -110,3 +110,276 @@ p.text-primary {
 .navbar-toggler {
     background-color: #ffcc00;
 }
+.carousel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    max-width: 750px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.carousel img {
+    width: auto;
+    max-width: 100%;
+    display: block;
+    border-radius: 10px;
+    transition: opacity 1s ease-in-out;
+}
+
+@font-face {
+    font-family: 'ChaletComprime';
+    src: url('/ChaletComprime\ CologneSixty.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Chalet';
+    src: url('/chalet_londonnineteensixty.otf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+body {
+    font-family: 'Chalet', sans-serif;
+    background-color: #000;
+    font-weight: 400;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+}
+
+.header-section {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.header-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('/bgFinal.png') no-repeat center center/cover;
+    filter: blur(5px);
+    z-index: -1;
+}
+
+.header-content {
+    z-index: 1;
+    padding: 20px;
+    color: #fff;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+}
+
+.header-title {
+    font-size: 4rem;
+    line-height: 66px;
+    margin-bottom: 1rem;
+    margin-top: 10rem;
+    font-weight: 700;
+    font-family: 'ChaletComprime';
+    letter-spacing: 2px;
+}
+
+.header-text {
+    font-family: 'Chalet', sans-serif;
+    font-size: 20px;
+    line-height: 32px;
+    color: rgb(232, 232, 232);
+}
+
+.sub-head {
+    font-family: 'ChaletComprime', sans-serif;
+    font-size: 3.5rem;
+    color: #fff;
+    margin-bottom: 5px;
+    letter-spacing: 1px;
+}
+
+.sec {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 60px 5%;
+    background-color: rgba(232, 232, 232, 0.1);
+    transition: background-color 0.5s;
+}
+
+.sec:not(.in-view) {
+    background-color: rgba(232, 232, 232, 0);
+}
+
+.blur-fade {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.blur-fade.in-view {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.apply-link {
+    color: #00aaff;
+    text-decoration: none;
+}
+
+.join-force .carousel img[src='force2.png'] {
+    width: auto;
+    max-width: 60%;
+    margin: 0 auto;
+    display: block;
+}
+
+.apply-link:hover {
+    text-decoration: none;
+    color: yellow;
+}
+
+.about-los-santos p, .about-lspd p, .about-mission p, .join-force p {
+    font-size: 20px;
+    line-height: 30px;
+    color: rgb(232, 232, 232);
+}
+
+.section-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.section-content img {
+    width: 100%;
+    max-width: 750px;
+    margin-bottom: 25px;
+    border-radius: 10px;
+    order: 2;
+}
+
+@-webkit-keyframes tracking-in-expand-fwd-bottom {
+    0% {
+        letter-spacing: -0.5em;
+        -webkit-transform: translateZ(-700px) translateY(500px);
+        transform: translateZ(-700px) translateY(500px);
+        opacity: 0;
+    }
+    40% {
+        opacity: 0.6;
+    }
+    100% {
+        -webkit-transform: translateZ(0) translateY(0);
+        transform: translateZ(0) translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes tracking-in-expand-fwd-bottom {
+    0% {
+        letter-spacing: -0.5em;
+        -webkit-transform: translateZ(-700px) translateY(500px);
+        transform: translateZ(-700px) translateY(500px);
+        opacity: 0;
+    }
+    40% {
+        opacity: 0.6;
+    }
+    100% {
+        -webkit-transform: translateZ(0) translateY(0);
+        transform: translateZ(0) translateY(0);
+        opacity: 1;
+    }
+}
+
+.tracking-in-expand-fwd-bottom {
+    -webkit-animation: tracking-in-expand-fwd-bottom 0.8s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
+    animation: tracking-in-expand-fwd-bottom 0.8s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .section-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .about-los-santos:nth-of-type(odd) .section-content,
+    .about-lspd:nth-of-type(even) .section-content {
+        flex-direction: column;
+    }
+
+    .section-content img {
+        margin-top: 20px;
+        max-width: 95%;
+    }
+
+    .section-content div {
+        padding: 10px 0;
+    }
+}
+
+@media (max-width: 767px) {
+    .section-content {
+        flex-direction: column;
+        padding: 0 10px;
+    }
+
+    .section-content div {
+        text-align: center;
+        padding: 10px 0;
+    }
+
+    .section-content img {
+        margin-top: 20px;
+        max-width: 95%;
+    }
+}
+
+@media (max-width: 480px) {
+    .section-content {
+        flex-direction: column;
+        padding: 0 10px;
+    }
+
+    .section-content div {
+        text-align: center;
+        padding: 10px 0;
+        order: 1;
+    }
+
+    .section-content img {
+        order: 2;
+        margin-top: 20px;
+        max-width: 100%;
+    }
+
+    .header-title {
+        font-size: 2.5rem;
+        line-height: 3rem;
+        margin-top: 5rem;
+    }
+
+    .header-text {
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    .sub-head {
+        font-size: 2.5rem;
+        line-height: 3rem;
+    }
+
+    .about-los-santos p, .about-lspd p {
+        font-size: 18px;
+        line-height: 28px;
+    }
+}
