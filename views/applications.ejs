@@ -14,6 +14,11 @@
             <h3><%= data[i].username %></h3>
             <p><strong>Email:</strong> <%= data[i].email %></p>
             <p><strong>Resume:</strong> <a href="/images/<%= data[i].resume_filename %>"><%= data[i].resume_filename %></a></p>
+            <% if (data[i].status == 'applied') { %>
+                <a href="/accept/<%= job_id %>/<%= data[i].user_id %>"><button>Accept</button></a>
+                <a href="/decline/<%= job_id %>/<%= data[i].user_id %>"><button>Decline</button></a>
+            <% } %>
+            <p class="<%= data[i].status %>">Status: <%= data[i].status.charAt(0).toUpperCase() + data[i].status.slice(1) %></p>
         </div>
     <% } %>
 </body>

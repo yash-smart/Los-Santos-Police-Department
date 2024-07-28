@@ -887,8 +887,8 @@ app.get('/applications/:job_id',async (req,res) => {
         let user_data = await db.query('select type from users where id=$1;',[req.session.user]);
         let type = user_data.rows[0].type;
         if (type == 'Admin') {
-            let data = await db.query('select jobapplications.email,jobapplications.resume_filename,jobapplications.datetime,jobapplications.job_id,users.username from jobapplications,users where job_id=$1 and jobapplications.user_id=users.id;',[req.params.job_id]);
-            res.render('applications.ejs',{data:data.rows});
+            let data = await db.query('select jobapplications.email,jobapplications.resume_filename,jobapplications.datetime,jobapplications.job_id,users.username,jobapplications.user_id,jobapplications.status from jobapplications,users where job_id=$1 and jobapplications.user_id=users.id;',[req.params.job_id]);
+            res.render('applications.ejs',{data:data.rows,job_id:req.params.job_id});
         } else {
             res.send('You are not authorised to view this page')
         }
@@ -1192,6 +1192,45 @@ app.get('/anonymous-tips',async (req,res)=> {
         } else {
             res.render('unauthorised.ejs');
         }
+    } else {
+        res.render('unauthorised.ejs');
+    }
+})
+
+app.get('/accept/:job_id/:user_id',async (req,res) => {
+    if (req.session.user) {
+        let user_data = await db.query('select type from users where id=$1;',[req.session.user]);
+        let type = user_data.rows[0].type;
+        if (type == 'Admin') {
+            await db.query('update jobapplications set status=\'accepted\' where job_id=$1 and user_id=$2;',[req.params.job_id,req.params.user_id]);
+            res.redirect('/applications/'+req.params.job_id);
+        } else {
+            res.render('unauthorised.ejs');
+        }
+    } else {
+        res.render('unauthorised.ejs');
+    }
+})
+
+app.get('/decline/:job_id/:user_id',async (req,res) => {
+    if (req.session.user) {
+        let user_data = await db.query('select type from users where id=$1;',[req.session.user]);
+        let type = user_data.rows[0].type;
+        if (type == 'Admin') {
+            await db.query('update jobapplications set status=\'declined\' where job_id=$1 and user_id=$2;',[req.params.job_id,req.params.user_id]);
+            res.redirect('/applications/'+req.params.job_id);
+        } else {
+            res.render('unauthorised.ejs');
+        }
+    } else {
+        res.render('unauthorised.ejs');
+    }
+})
+
+app.get('/applied-jobs',async (req,res) => {
+    if (req.session.user) {
+        let data = await db.query('select * from jobapplications,jobpostings where user_id=$1 and jobpostings.id=jobapplications.job_id order by datetime desc;',[req.session.user]);
+        res.render('your_jobs.ejs',{data:data.rows,logged:req.session.user});
     } else {
         res.render('unauthorised.ejs');
     }
