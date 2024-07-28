@@ -1,11 +1,11 @@
-/* Basic Reset */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Body Styling */
 body {
     font-family: 'Arial', sans-serif;
     background-color: #1e1e1e;
@@ -13,22 +13,7 @@ body {
     line-height: 1.6;
 }
 
-/* Header Styling */
-header {
-    background-color: #333;
-    color: #ffcc00;
-    padding: 1em 0;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-header h1 {
-    font-size: 2.5em;
-    margin: 0;
-}
-
-/* Main Content Styling */
-.main {
+.news-container {
     max-width: 800px;
     margin: 2em auto;
     padding: 1em;
@@ -37,62 +22,32 @@ header h1 {
     border-radius: 8px;
 }
 
-/* Form Styling */
-.form-container {
-    margin-bottom: 2em;
-    background-color: #444;
-    padding: 1em;
-    border-radius: 8px;
-}
-
-textarea {
-    width: 100%;
-    padding: 0.5em;
-    border-radius: 4px;
-    border: none;
-    margin-bottom: 1em;
-    background: #555;
-    color: #ddd;
-}
-
-input[type="submit"] {
-    background-color: #ffcc00;
-    color: #333;
-    border: none;
-    padding: 0.5em 1em;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background 0.3s ease;
-}
-
-input[type="submit"]:hover {
-    background-color: #e6b800;
-}
-
-/* News Elements Styling */
 .news-element {
-    background-color: #444;
+    background-color: #333;
     padding: 1em;
     margin: 1em 0;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-.news-element h2,
-.news-element p,
-.news-element img,
-.news-element video {
+.news-heading {
+    font-size: 1.8em;
+    margin-bottom: 0.5em;
+    color: #ffcc00;
+}
+
+.news-text {
+    white-space: pre-wrap;
     margin-bottom: 1em;
 }
 
-/* Image Container */
 .image-container {
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
     border-radius: 4px;
-    height: 300px; /* Adjust as needed */
+    height: 300px;
     margin-bottom: 1em;
 }
 
@@ -103,7 +58,7 @@ input[type="submit"]:hover {
     border-radius: 4px;
 }
 
-.news-element video {
+.news-video {
     max-width: 100%;
     border-radius: 4px;
 }
@@ -113,58 +68,132 @@ input[type="submit"]:hover {
     font-size: 0.9em;
 }
 
-/* Control Buttons */
-.control-buttons {
-    display: flex;
-    justify-content: space-between;
+.like-comments {
+    margin-top: 2em;
+    padding: 1em;
+    background: #2a2a2a;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
 }
 
-.control-buttons a {
-    text-decoration: none;
-}
-
-button {
-    background-color: #ffcc00;
-    color: #333;
+.like-button button {
+    font-family: 'Open Sans', sans-serif;
+    background: #3498db;
+    color: #fff;
     border: none;
-    padding: 0.5em 1em;
+    padding: 0.6em 1.2em;
     cursor: pointer;
     border-radius: 4px;
+    font-weight: bold;
     transition: background 0.3s ease;
 }
 
-button:hover {
-    background-color: #e6b800;
+.like-button button:hover {
+    background: #2980b9;
 }
 
-/* Update Forms */
-.update-form {
-    display: none;
-    background-color: #333;
-    padding: 1em;
-    border-radius: 8px;
-    margin-top: 1em;
-}
-
-/* Add Buttons */
-.add-buttons {
+.comment-form {
     display: flex;
-    justify-content: space-around;
-    margin-top: 2em;
+    flex-direction: column;
+    margin-top: 1em;
 }
 
-.add-form {
-    display: none;
-    background-color: #333;
+.comment-textarea {
+    padding: 0.5em;
+    border-radius: 4px;
+    border: 1px solid #444;
+    margin-bottom: 1em;
+    background: #333;
+    color: #ddd;
+}
+
+.submit-button {
+    font-family: 'Open Sans', sans-serif;
+    background: #2ecc71;
+    color: #fff;
+    border: none;
+    padding: 0.6em 1.2em;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.3s ease;
+    width: fit-content;
+    align-self: flex-start;
+    font-weight: bold;
+}
+
+.submit-button:hover {
+    background: #27ae60;
+}
+
+.comment-element {
+    margin-top: 1em;
     padding: 1em;
+    background: #333;
     border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.comment-element h4 {
+    margin-bottom: 0.5em;
+    color: #3498db;
+}
+
+.comment-element p {
+    margin-bottom: 0.5em;
+}
+
+#posted_on {
+    font-weight: bold;
+    color: #bbb;
+    text-align: center;
+    display: block;
     margin-top: 1em;
 }
 
-.add-form textarea {
-    background: #555;
+.like-comments-container {
+    margin-top: 2em;
+    padding: 1em;
+    background: #2a2a2a;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    text-align: center;
 }
 
-.add-form input[type="file"] {
-    margin-top: 1em;
+.like-comments-container p {
+    display: inline-block;
+    margin: 0 1em;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #3498db;
+    background: #1e1e1e;
+    padding: 0.5em 1em;
+    border-radius: 20px;
+    transition: transform 0.3s ease;
+}
+
+.like-comments-container p:hover {
+    transform: scale(1.1);
+}
+
+.like-comments-container p::before {
+    content: attr(data-icon);
+    margin-right: 0.5em;
+    color: #3498db;
+    font-size: 1.4em;
+}
+
+.like-comments-container .like-button button {
+    font-family: 'Open Sans', sans-serif;
+    background: #3498db;
+    color: #fff;
+    border: none;
+    padding: 0.6em 1.2em;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: background 0.3s ease;
+}
+
+.like-comments-container .like-button button:hover {
+    background: #2980b9;
 }
