@@ -43,7 +43,6 @@ body {
     50% { border-color: black; }
 }
 
-/* New keyframe to hide the cursor after typing */
 @keyframes hide-caret {
     from, to { border-color: transparent }
 }
@@ -72,7 +71,7 @@ body {
     border: none;
     border-radius: 10px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    max-width: 22rem;
+    max-width: 18rem; 
     margin: auto;
     display: flex;
     flex-direction: column;
@@ -86,7 +85,7 @@ body {
 .card-img-top {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-    height: 350px;
+    height: 250px;
     width: 100%;
     object-fit: cover;
     object-position: center;
@@ -100,21 +99,21 @@ body {
 }
 
 .card-title {
-    font-size: 1.3rem;
+    font-size: 1.1rem; 
     font-weight: bold;
     color: red;
     margin-bottom: 0.75rem;
 }
 
 .card-subtitle {
-    font-size: 1rem;
+    font-size: 0.9rem; 
     font-weight: 500;
     color: #f1c40f;
     margin-bottom: 0.5rem;
 }
 
 .card-text {
-    font-size: 1rem;
+    font-size: 0.9rem;
     line-height: 1.5;
     color: #bdc3c7;
     margin-bottom: 0.5rem;
@@ -137,11 +136,11 @@ body {
 .row {
     display: flex;
     flex-wrap: wrap;
-    gap: 2rem;
+    gap: 1rem;
 }
 
 .col {
-    flex: 1 1 21rem;
+    flex: 1 1 18rem; 
     display: flex;
 }
 
