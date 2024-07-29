@@ -59,6 +59,29 @@ body {
     background-color: black;
     color: whitesmoke;
 }
+.saved-jobs-container {
+    text-align: right; /* Right align button in larger screens */
+    margin-bottom: 20px;
+}
+
+.saved-jobs {
+    font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+    padding: 6px 12px;
+    border-radius: 9px;
+    margin-top: -1rem; /* Adjusted margin for spacing */
+    margin-bottom: -0.2rem;
+}
+
+.saved-jobs:hover {
+    background-color: wheat;
+}
+
+.saved-jobs a {
+    text-decoration: none;
+    color: inherit;
+}
 
 
 .job-filter {
@@ -179,6 +202,8 @@ a button:hover {
     background-color: #1f6391;
 }
 
+
+
 @media (max-width: 1024px) {
     .container {
         grid-template-columns: 1fr;
@@ -186,6 +211,9 @@ a button:hover {
 
     .job-filter, .job-listings {
         width: 100%;
+    }
+    .saved-jobs-container {
+        text-align: left; /* Center align button for tablets */
     }
 }
 
@@ -200,6 +228,10 @@ a button:hover {
 
     .job h3 {
         font-size: 1.3em;
+    }
+    .saved-jobs {
+        font-size: 0.9rem;
+        padding: 5px 10px;
     }
 
     .job p.posted-on {
@@ -224,6 +256,10 @@ a button:hover {
     .form-group input[type="text"], .form-group select {
         padding: 8px;
         font-size: 0.9em;
+    }
+    .saved-jobs {
+        font-size: 0.8rem;
+        padding: 4px 8px;
     }
 
     .form-group button[type="submit"] {
