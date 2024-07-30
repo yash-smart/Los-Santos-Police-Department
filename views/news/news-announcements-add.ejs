@@ -12,7 +12,7 @@
 </head>
 
 <body>
-    <%- include('partials/navbar') %>
+    <%- include('../partials/navbar') %>
     <% if (new_news) { %>
         <form action="/add-heading/<%= news_id %>/<%= user_id %>" method="post">
             <textarea name="heading" placeholder="Add Heading"></textarea>
