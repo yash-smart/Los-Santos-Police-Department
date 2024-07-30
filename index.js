@@ -203,7 +203,7 @@ app.get("/",async (req,res) => {
 
 app.get("/login", (req, res) => {
     if (req.session.user === undefined) {
-        res.render("login.ejs")
+        res.render("auth/login.ejs")
     } else {
         res.redirect('/');
     }
@@ -219,21 +219,21 @@ app.post('/login', async (req, res) => {
                     req.session.user = user_data.rows[0].id;
                     res.redirect('/');
                 } else {
-                    res.render('login.ejs', { message: 'Invalid Password.' })
+                    res.render('auth/login.ejs', { message: 'Invalid Password.' })
                 }
             });
         } else {
-            res.render('login.ejs', { message: 'User doesn\'t exists.' })
+            res.render('auth/login.ejs', { message: 'User doesn\'t exists.' })
         }
     } catch (err) {
         console.log(err)
-        res.render('login.ejs', { message: 'Something went wrong. Try again.' })
+        res.render('auth/login.ejs', { message: 'Something went wrong. Try again.' })
     }
 })
 
 app.get('/register', (req, res) => {
     if (req.session.user == undefined) {
-        res.render('register.ejs')
+        res.render('auth/register.ejs')
     } else {
         res.redirect('/')
     }
@@ -243,20 +243,20 @@ app.post('/register', async (req, res) => {
     try {
         let user_exist_data = await db.query('select * from users where username=$1;', [req.body.Username.trim()]);
         if (user_exist_data.rows.length > 0) {
-            res.render('register.ejs', { message: 'User already exists.' })
+            res.render('auth/register.ejs', { message: 'User already exists.' })
         } else {
             bcrypt.hash(req.body.Password, 10, async function (err, hash) {
                 try {
                     await db.query('insert into users(username,password,type) values($1,$2,$3);', [req.body.Username.trim(), hash, 'user']);
                     res.redirect('/')
                 } catch (err) {
-                    res.render('register.ejs', { message: 'Something went wrong. Try again.' })
+                    res.render('auth/register.ejs', { message: 'Something went wrong. Try again.' })
                     console.log(err)
                 }
             });
         }
     } catch (err) {
-        res.render('register.ejs', { message: 'Something went wrong. Try again.' })
+        res.render('auth/register.ejs', { message: 'Something went wrong. Try again.' })
         console.log(err)
     }
 })
@@ -275,9 +275,9 @@ app.get('/news-announcements',async (req,res) => {
             }
         }
         if (user_details.rows[0].type == 'Admin') {
-            res.render('news-announcements.ejs',{admin:true,user_id:req.session.user,data:data.rows,images_arr:images_arr,logged:req.session.user});
+            res.render('news/news-announcements.ejs',{admin:true,user_id:req.session.user,data:data.rows,images_arr:images_arr,logged:req.session.user});
         } else {
-            res.render('news-announcements.ejs',{admin:false,user_id:req.session.user,data:data.rows,images_arr:images_arr,logged:req.session.user});
+            res.render('news/news-announcements.ejs',{admin:false,user_id:req.session.user,data:data.rows,images_arr:images_arr,logged:req.session.user});
         }
     } else {
         res.render("unauthorised.ejs");
@@ -291,7 +291,7 @@ app.get('/news-announcements-add/:user_id',async (req,res) => {
             let news_id = await db.query('insert into newsannouncements(user_id,datetime) values($1,$2) RETURNING id,datetime;',[req.params.user_id,new Date()]);
             let posted_on = news_id.rows[0].datetime;
             news_id = news_id.rows[0].id;
-            res.render('news-announcements-add.ejs',{news_id:news_id,new_news:true,user_id:req.params.user_id,posted_on:posted_on,logged:req.session.user});
+            res.render('news/news-announcements-add.ejs',{news_id:news_id,new_news:true,user_id:req.params.user_id,posted_on:posted_on,logged:req.session.user});
         } else {
             res.send('You are not authorised to view this page.');
         }
@@ -341,12 +341,12 @@ app.get('/news-update/:news_id/:user_id',async (req,res)=> {
                 }
                 let like_data = await db.query('select * from likes_news where news_id=$1 and user_id=$2;',[req.params.news_id,req.session.user]);
                 if (like_data.rows.length == 0) {
-                    res.render('news-announcements-add.ejs',{news_id:req.params.news_id,new_news:false,user_id:req.params.user_id,newselements:newselements,posted_on:posted_on,likes:likes,comments_count:comments_count,comments:comments,users,liked:false,logged:req.session.user});
+                    res.render('news/news-announcements-add.ejs',{news_id:req.params.news_id,new_news:false,user_id:req.params.user_id,newselements:newselements,posted_on:posted_on,likes:likes,comments_count:comments_count,comments:comments,users,liked:false,logged:req.session.user});
                 } else {
-                    res.render('news-announcements-add.ejs',{news_id:req.params.news_id,new_news:false,user_id:req.params.user_id,newselements:newselements,posted_on:posted_on,likes:likes,comments_count:comments_count,comments:comments,users,liked:true,logged:req.session.user});
+                    res.render('news/news-announcements-add.ejs',{news_id:req.params.news_id,new_news:false,user_id:req.params.user_id,newselements:newselements,posted_on:posted_on,likes:likes,comments_count:comments_count,comments:comments,users,liked:true,logged:req.session.user});
                 }
             } else {
-                res.render('news-announcements-add.ejs',{news_id:req.params.news_id,new_news:true,user_id:req.params.user_id,posted_on:posted_on,likes:likes,logged:req.session.user});
+                res.render('news/news-announcements-add.ejs',{news_id:req.params.news_id,new_news:true,user_id:req.params.user_id,posted_on:posted_on,likes:likes,logged:req.session.user});
             }
         } else {
             res.render('unauthorised.ejs')
@@ -593,9 +593,9 @@ app.get('/news/:news_id',async (req,res) => {
         }
         let like_data = await db.query('select * from likes_news where news_id=$1 and user_id=$2;',[req.params.news_id,req.session.user]);
         if (like_data.rows.length == 0) {
-            res.render('news-announcements-view.ejs',{newselements:newselements,posted_on:posted_on,logged_in:true,likes:likes,comments_count:comments_count,comments:comments,users,news_id:req.params.news_id,liked:false,logged:req.session.user});
+            res.render('news/news-announcements-view.ejs',{newselements:newselements,posted_on:posted_on,logged_in:true,likes:likes,comments_count:comments_count,comments:comments,users,news_id:req.params.news_id,liked:false,logged:req.session.user});
         } else {
-            res.render('news-announcements-view.ejs',{newselements:newselements,posted_on:posted_on,logged_in:true,likes:likes,comments_count:comments_count,comments:comments,users,news_id:req.params.news_id,liked:true,logged:req.session.user});
+            res.render('news/news-announcements-view.ejs',{newselements:newselements,posted_on:posted_on,logged_in:true,likes:likes,comments_count:comments_count,comments:comments,users,news_id:req.params.news_id,liked:true,logged:req.session.user});
         }
     } else{
         res.render("unauthorised.ejs");
@@ -722,10 +722,10 @@ app.get('/jobs',async (req,res) => {
         let type = user_data.rows[0].type;
         if (type == 'Admin') {
             let data = await db.query('select * from jobpostings order by last_apply_date asc;');
-            res.render('jobs-edit.ejs',{data:data.rows,logged:req.session.user,admin:type});
+            res.render('job/jobs-edit.ejs',{data:data.rows,logged:req.session.user,admin:type});
         } else {
             let data = await db.query('select * from jobpostings where last_apply_date>=$1 order by last_apply_date asc;',[new Date()]);
-            res.render('jobs.ejs',{data:data.rows,logged:req.session.user,admin:type})
+            res.render('job/jobs.ejs',{data:data.rows,logged:req.session.user,admin:type})
         }
     } else {
         res.render("unauthorised.ejs");
@@ -737,7 +737,7 @@ app.get('/job-post',async (req,res) => {
         let user_data = await db.query('select type from users where id=$1;',[req.session.user]);
         let type = user_data.rows[0].type;
         if (type == 'Admin') {
-            res.render('job-post.ejs');
+            res.render('job/job-post.ejs');
         } else {
             res.send('You are not authorised to visit this page');
         }
@@ -820,9 +820,9 @@ app.post('/filter-job-post',async (req,res) => {
         }
         console.log(query);
         if (type == 'Admin') {
-            res.render('jobs-edit.ejs',{data:data.rows,logged:req.session.user})
+            res.render('job/jobs-edit.ejs',{data:data.rows,logged:req.session.user})
         } else {
-            res.render('jobs.ejs',{data:data.rows,logged:req.session.user})
+            res.render('job/jobs.ejs',{data:data.rows,logged:req.session.user})
         }
     } else {
         res.render('unauthorised.ejs');
@@ -830,7 +830,7 @@ app.post('/filter-job-post',async (req,res) => {
 })
 
 app.get('/apply-job/:job_id',async (req,res) => {
-    res.render('job-apply.ejs',{job_id:req.params.job_id});
+    res.render('job/job-apply.ejs',{job_id:req.params.job_id});
 })
 
 app.post('/apply-job/:job_id',upload.single('resume'),async(req,res) => {
@@ -888,7 +888,7 @@ app.get('/applications/:job_id',async (req,res) => {
         let type = user_data.rows[0].type;
         if (type == 'Admin') {
             let data = await db.query('select jobapplications.email,jobapplications.resume_filename,jobapplications.datetime,jobapplications.job_id,users.username,jobapplications.user_id,jobapplications.status from jobapplications,users where job_id=$1 and jobapplications.user_id=users.id;',[req.params.job_id]);
-            res.render('applications.ejs',{data:data.rows,job_id:req.params.job_id});
+            res.render('job/applications.ejs',{data:data.rows,job_id:req.params.job_id});
         } else {
             res.send('You are not authorised to view this page')
         }
@@ -937,16 +937,16 @@ app.get('/most-wanted-list',async (req,res) => {
         if (type == 'Admin') {
             let data = await db.query('select * from most_wanted order by name;');
             data = data.rows;
-            res.render('most-wanted-edit.ejs',{data:data,logged:req.session.user});
+            res.render('mostWanted/most-wanted-edit.ejs',{data:data,logged:req.session.user});
         } else {
             let data = await db.query('select * from most_wanted order by name;');
             data = data.rows;
-            res.render('most-wanted.ejs',{data:data,logged:req.session.user});
+            res.render('mostWanted/most-wanted.ejs',{data:data,logged:req.session.user});
         }
     } else {
         let data = await db.query('select * from most_wanted order by name;');
         data = data.rows;
-        res.render('most-wanted.ejs',{data:data,logged:req.session.user});
+        res.render('mostWanted/most-wanted.ejs',{data:data,logged:req.session.user});
     }
 })
 
@@ -955,7 +955,7 @@ app.get('/post-wanted-list',async (req,res) => {
         let user_data = await db.query('select type from users where id=$1;',[req.session.user]);
         let type = user_data.rows[0].type;
         if (type == 'Admin') {
-            res.render('most-wanted-list-post.ejs');
+            res.render('mostWanted/most-wanted-list-post.ejs');
         } else {
             res.render("unauthorised.ejs");
         }
@@ -1020,7 +1020,7 @@ app.get('/delete-wanted/:id',async(req,res) => {
 })
 
 app.get('/register-admin',(req,res) => {
-    res.render('register-admin.ejs');
+    res.render('auth/register-admin.ejs');
 })
 
 app.post('/register-admin',async (req,res) => {
@@ -1030,20 +1030,20 @@ app.post('/register-admin',async (req,res) => {
             try {
                 let user_exist_data = await db.query('select * from users where username=$1;', [req.body.Username.trim()]);
                 if (user_exist_data.rows.length > 0) {
-                    res.render('register-admin.ejs', { message: 'User already exists.' })
+                    res.render('auth/register-admin.ejs', { message: 'User already exists.' })
                 } else {
                     bcrypt.hash(req.body.Password, 10, async function (err, hash) {
                         try {
                             await db.query('insert into users(username,password,type,email) values($1,$2,$3,$4);', [req.body.Username.trim(), hash, 'Admin',req.body.Email]);
                             res.redirect('/')
                         } catch (err) {
-                            res.render('register-admin.ejs', { message: 'Something went wrong. Try again.' })
+                            res.render('auth/register-admin.ejs', { message: 'Something went wrong. Try again.' })
                             console.log(err)
                         }
                     });
                 }
             } catch (err) {
-                res.render('register-admin.ejs', { message: 'Something went wrong. Try again.' })
+                res.render('auth/register-admin.ejs', { message: 'Something went wrong. Try again.' })
                 console.log(err)
             }
         } else {
@@ -1082,7 +1082,7 @@ app.get('/saved-jobs',async (req,res) => {
                 'SELECT jp.* FROM jobpostings jp INNER JOIN saved_jobs sj ON jp.id = sj.job_id WHERE sj.user_id = $1 and last_apply_date>=$2 ORDER BY jp.last_apply_date ASC;',
                 [req.session.user,new Date()]
             );
-            res.render('saved-jobs.ejs', { data: savedJobs.rows, logged: req.session.user });
+            res.render('job/saved-jobs.ejs', { data: savedJobs.rows, logged: req.session.user });
         } catch (error) {
             console.error('Error fetching saved jobs:', error);
             res.status(500).send('Server error');
@@ -1103,7 +1103,7 @@ app.get('/delete-saved-job/:job_id',async (req,res) => {
 
 app.get('/anonymous-tip-send',(req,res) => {
     // if (req.session.user) {
-    res.render('anonymous-tip-send.ejs',{logged:req.session.user});
+    res.render('anonymousTip/anonymous-tip-send.ejs',{logged:req.session.user});
 })
 
 app.post('/post-anonymous-tip',upload.single('tip-file'),async (req,res) => {
@@ -1188,7 +1188,7 @@ app.get('/anonymous-tips',async (req,res)=> {
         if (type == 'Admin') {
             let anonymousTips = await db.query('select * from anonymous_tip order by posted_on desc;');
             anonymousTips = anonymousTips.rows;
-            res.render('anonymous-tips.ejs',{data:anonymousTips});
+            res.render('anonymousTip/anonymous-tips.ejs',{data:anonymousTips});
         } else {
             res.render('unauthorised.ejs');
         }
@@ -1230,7 +1230,7 @@ app.get('/decline/:job_id/:user_id',async (req,res) => {
 app.get('/applied-jobs',async (req,res) => {
     if (req.session.user) {
         let data = await db.query('select * from jobapplications,jobpostings where user_id=$1 and jobpostings.id=jobapplications.job_id order by datetime desc;',[req.session.user]);
-        res.render('your_jobs.ejs',{data:data.rows,logged:req.session.user});
+        res.render('job/your_jobs.ejs',{data:data.rows,logged:req.session.user});
     } else {
         res.render('unauthorised.ejs');
     }
