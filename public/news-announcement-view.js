@@ -25,14 +25,6 @@ for (let i=0;i<images.length;i++) {
         images[i].style.width = '500px'
     }
 }
-let posted_on = new Date(document.getElementById('posted_on_data').textContent);
-document.getElementById('posted_on').textContent+=getDateTime(posted_on);
-let posted_on_array = document.getElementsByClassName('posted_on');
-for (let i=0;i<posted_on_array.length;i++) {
-    let id = posted_on_array[i].getAttribute('iterator');
-    let date = new Date(posted_on_array[i].textContent);
-    document.getElementById('p'+id).textContent += getDateTime(date);
-}
 let news_id = document.getElementById('news_id_data').textContent;
 const socket = new WebSocket("ws://localhost:4000");
 socket.addEventListener("open", (event) => {

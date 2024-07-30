@@ -22,10 +22,11 @@
             <p style="display: none;" id="news_id_data"><%= news_id %></p>
             <p style="display: none;" id="initial_likes"><%= likes %></p>
             <p style="display: none;" id="initial_comments"><%= comments_count %></p>
+            <section class="news-container" >
             <% for (let i=0;i<newselements.length;i++) { %>
-                <div style="margin: 10px;" id="<%= newselements[i].order_number %>" class="newselement">
+                <div style="margin: 10px;" id="<%= newselements[i].order_number %>" class="news-element">
                     <% if (newselements[i].type=='Heading' ) { %>
-                        <h2>
+                        <h2 class="news-heading">
                             <%= newselements[i].text %>
                         </h2>
                         <div style="display: none;" id="u<%= newselements[i].order_number %>">
@@ -38,7 +39,7 @@
                             <a href="/news-update/<%= news_id %>/<%= user_id %>"><button>Cancel</button></a>
                         </div>
                         <% } else if (newselements[i].type=='text' ) {%>
-                            <p style="white-space: pre-wrap;"><%= newselements[i].text.trim() %></p>
+                            <p style="white-space: pre-wrap;" class="news-text"><%= newselements[i].text.trim() %></p>
                             <div style="display: none;" id="u<%= newselements[i].order_number %>">
                                 <form
                                     action="/update-text/<%= news_id %>/<%= user_id %>/<%= newselements[i].order_number %>"
@@ -50,9 +51,11 @@
                                 <a href="/news-update/<%= news_id %>/<%= user_id %>"><button>Cancel</button></a>
                             </div>
                             <% } else if (newselements[i].type=='image' ) {%>
+                                <div class="image-container">
                                 <img src="/images/<%= newselements[i].image_number %>"
                                     class="<%= newselements[i].type %>">
-                                <p style="color: gray">
+                                </div>
+                                <p class="caption">
                                     <%= newselements[i].caption %>
                                 </p>
                                 <div style="display: none;" id="u<%= newselements[i].order_number %>">
@@ -66,12 +69,10 @@
                                     <a href="/news-update/<%= news_id %>/<%= user_id %>"><button>Cancel</button></a>
                                 </div>
                                 <% } else if (newselements[i].type=='video' ){ %>
-                                    <video width="500px" src="/images/<%= newselements[i].image_number %>" controls>
-                                        <!-- <source src="/images" type="video/*"> -->
+                                    <video class="news-video" controls>
+                                        <source src="/images/<%= newselements[i].image_number %>" type="video/*">
                                     </video>
-                                    <p style="color: gray">
-                                        <%= newselements[i].caption %>
-                                    </p>
+                                    <p class="caption"><%= newselements[i].caption %></p>
                                     <div style="display: none;" id="u<%= newselements[i].order_number %>">
                                         <form
                                             action="/update-video/<%= news_id %>/<%= user_id %>/<%= newselements[i].order_number %>"
@@ -91,6 +92,7 @@
                                     </div>
                 </div>
                 <% } %>
+            </section>
                     <div id="add">
                         <button id="add_text_button">Add Text</button>
                         <button id="add_image_button">Add Image</button>
@@ -126,28 +128,32 @@
                         <p style="display: none;" id="posted_on_data"><%= posted_on %></p>
                         <p id="posted_on">Posted on: </p>
                     <% } %>
-                    <section class="like_comments">
-                        <p id="likes">Likes: <%= likes %></p>
-                        <p id="comments_count">Comments: <%= comments_count %></p>
+                    <section class="like-comments">
+                        <div class="like-comments-container">
+                        <p id="likes" data-icon="👍">Likes: <%= likes %></p>
+                        <p id="comments_count" data-icon="💬">Comments: <%= comments_count %></p>
                         <% if (!liked) { %>
-                            <a href="/like-admin/<%= news_id %>" style="margin: 10px;margin-bottom: 10px !important;"><button>Like</button></a>
+                            <a href="/like-admin/<%= news_id %>" class="like-button"><button>Like</button></a>
                         <% } else { %>
-                            <a href="/unlike-admin/<%= news_id %>" style="margin: 10px;margin-bottom: 10px !important;"><button>Unlike</button></a>
+                            <a href="/unlike-admin/<%= news_id %>" class="like-button"><button>Unlike</button></a>
                         <% } %>
-                        <form action="/comment-admin/<%= news_id %>" method="post">
-                            <textarea name="comment" style="white-space: pre-wrap;margin-top: 20px;margin-bottom: 20px;"></textarea>
-                            <input type="submit" value="Submit" >
+                        </div>
+                        <form action="/comment-admin/<%= news_id %>" method="post" class="comment-form">
+                            <textarea name="comment" class="comment-textarea"></textarea>
+                            <input type="submit" value="Submit" class="submit-button">
                         </form>
-                        <h3>Comments</h3>
-                        <div id="comments">
-                            <% for (let i=0;i<comments.length;i++) { %>
-                                <div style="margin: 20px;">
-                                    <h4><%= users[i] %></h4>
-                                    <p><%= comments[i].text %></p>
-                                    <p id="p<%= i %>">Posted on: </p>
-                                    <p style="display: none;" class="posted_on" iterator="<%= i %>"><%= comments[i].posted_on %></p>
-                                </div>
-                            <% } %>
+                        <div class="original-comments">
+                            <h3>Comments</h3>
+                            <div id="comments">
+                                <% for (let i=0;i<comments.length;i++) { %>
+                                    <div style="margin: 20px;">
+                                        <h4><%= users[i] %></h4>
+                                        <p><%= comments[i].text %></p>
+                                        <p id="p<%= i %>">Posted on: </p>
+                                        <p style="display: none;" class="posted_on" iterator="<%= i %>"><%= comments[i].posted_on %></p>
+                                    </div>
+                                <% } %>
+                            </div>
                         </div>
                     </section>
                     <% } %>
