@@ -1,0 +1,156 @@
+/* Basic Reset */
+@font-face {
+    font-family: myFont;
+    src: url('../../pricedown bl.otf');
+}
+
+@font-face {
+    font-family: yourFont;
+    src: url('../../Pacifico.ttf');
+}
+
+body {
+    background: url('../../bg-police.png') no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Lobster', cursive;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.container {
+    text-align: center;
+    background: rgba(44, 62, 80, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    width: 90%;
+    max-width: 400px;
+    margin-top: 20px;
+}
+
+.header {
+    font-family: 'Pacifico', cursive;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.form-container {
+    margin-top: 20px;
+}
+
+.input-container {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.input {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #ecf0f1;
+    border-radius: 5px;
+    padding: 12px; /* Adjust padding for better spacing */
+    width: calc(100% - 24px); /* Adjust width to accommodate padding */
+    font-size: 1rem;
+    color: #ecf0f1;
+    transition: background 0.3s, border 0.3s;
+}
+
+.input:focus {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid #3498db;
+    outline: none;
+}
+
+.input-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    color: #bdc3c7;
+    font-size: 1.2rem;
+}
+
+.button-confirm {
+    background: #3498db;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+    font-family: yourFont;
+}
+
+.button-confirm:hover {
+    background: #f1c40f;
+    transform: scale(1.05);
+}
+
+.error-message {
+    color: #e74c3c;
+    margin-top: 10px;
+    font-size: 0.9rem;
+}
+
+.register-link {
+    display: block;
+    margin-top: 20px;
+    color: #3498db;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s;
+}
+
+.register-link:hover {
+    color: #f1c40f;
+}
+
+.disclaimer {
+    color: #bdc3c7;
+    margin-top: 20px;
+    font-size: 0.9rem;
+}
+
+/* Dropdown styling */
+/* Dropdown styling */
+.input select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: rgba(44, 62, 80, 0.9); /* Dark background color */
+    border: 1px solid #ecf0f1;
+    border-radius: 5px;
+    padding: 12px;
+    width: calc(100% - 24px);
+    color: #ecf0f1;
+    font-size: 1rem;
+    transition: background 0.3s, border 0.3s;
+}
+
+.input select:focus {
+    background-color: rgba(44, 62, 80, 0.7); /* Darken background color on focus */
+    border: 1px solid #3498db;
+    outline: none;
+}
+
+.input select option {
+    background-color: rgba(44, 62, 80, 0.9); /* Dark background color */
+    color: #ffffff; /* White text color */
+    font-size: 1rem;
+}
+.welcome{
+    font-family: myFont;
+    font-size: 3rem;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}

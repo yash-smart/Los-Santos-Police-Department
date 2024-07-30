@@ -1,16 +1,16 @@
 @font-face {
     font-family: myFont;
-    src: url('./pricedown bl.otf');
+    src: url('../../pricedown bl.otf');
 }
 
 @font-face {
     font-family: yourFont;
-    src: url('./Pacifico.ttf');
+    src: url('../../Pacifico.ttf');
 }
 
 @font-face {
     font-family: applyFont;
-    src: url('./chalet.ttf');
+    src: url('../../chalet.ttf');
 }
 
 body {
