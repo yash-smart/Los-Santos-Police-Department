@@ -870,7 +870,7 @@ app.post('/apply-job/:job_id',upload.single('resume'),async(req,res) => {
                 let max = Math.max(max1,max2,max3,max4);
                 let extension = req.file.originalname.split('.');
                 extension = extension[extension.length-1]
-                await db.query('insert into jobapplications(user_id,email,resume_filename,datetime,number,job_id) values($1,$2,$3,$4,$5,$6);',[req.session.user,req.body.email,''+(max+1)+'.'+extension,new Date(),max+1,req.params.job_id]);
+                await db.query('insert into jobapplications(user_id,email,resume_filename,datetime,number,job_id,status) values($1,$2,$3,$4,$5,$6,\'applied\');',[req.session.user,req.body.email,''+(max+1)+'.'+extension,new Date(),max+1,req.params.job_id]);
                 res.redirect('/')
             }
         } catch(err) {
