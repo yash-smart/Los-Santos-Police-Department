@@ -1232,6 +1232,6 @@ app.get('/applied-jobs',async (req,res) => {
     }
 })
 
-server.listen(4000, () => {
+server.listen(port, () => {
     console.log(`Connected on localhost:4000`)
 })
