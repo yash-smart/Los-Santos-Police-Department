@@ -18,7 +18,7 @@ import nodemailer from "nodemailer";
 env.config();
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
 
 const transporter = nodemailer.createTransport({
     service:'gmail',
@@ -29,7 +29,10 @@ const transporter = nodemailer.createTransport({
 })
 
 const db = new pg.Client({
-    connectionString:process.env.CONNECTION_STRING
+    connectionString:process.env.CONNECTION_STRING,
+    ssl: {
+        rejectUnauthorized: false,
+    }
 });
 db.connect();
 
