@@ -29,11 +29,7 @@ const transporter = nodemailer.createTransport({
 })
 
 const db = new pg.Client({
-    user: "postgres",
-    host: "localhost",
-    database: "los-santos-police-department",
-    password: process.env.DB_PASSWORD,
-    port: 5432,
+    connectionString:process.env.CONNECTION_STRING
 });
 db.connect();
 
