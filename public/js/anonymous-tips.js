@@ -1,4 +1,4 @@
-const socket = new WebSocket("ws://los-santos-police-department.onrender.com");
+const socket = new WebSocket("wss://los-santos-police-department.onrender.com");
 socket.addEventListener("open", (event) => {
     console.log('Connected to server')
     socket.send('5');

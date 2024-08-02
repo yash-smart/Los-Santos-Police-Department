@@ -26,7 +26,7 @@ for (let i=0;i<images.length;i++) {
     }
 }
 let news_id = document.getElementById('news_id_data').textContent;
-const socket = new WebSocket("ws://los-santos-police-department.onrender.com");
+const socket = new WebSocket("wss://los-santos-police-department.onrender.com");
 socket.addEventListener("open", (event) => {
     console.log('Connected to server')
     socket.send('1'+news_id);
