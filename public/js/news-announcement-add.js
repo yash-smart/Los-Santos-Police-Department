@@ -59,7 +59,7 @@ for (let i=0;i<posted_on_array.length;i++) {
     document.getElementById('p'+id).textContent += getDateTime(date);
 }
 let news_id = document.getElementById('news_id_data').textContent;
-const socket = new WebSocket("ws://localhost:4000");
+const socket = new WebSocket("ws://los-santos-police-department.onrender.com");
 socket.addEventListener("open", (event) => {
     console.log('Connected to server')
     socket.send('1'+news_id);
