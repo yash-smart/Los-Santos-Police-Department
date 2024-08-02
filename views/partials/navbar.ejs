@@ -23,7 +23,7 @@
                           <!-- <li><a class="dropdown-item" href="/jobs">Jobs</a></li> -->
                             <li><a class="dropdown-item" href="/most-wanted-list">Most Wanted List</a></li>
                             <% if (locals.admin) { %>
-                                <% if (admin == 'Admin' || admin) { %>
+                                <% if (admin == 'Admin' || admin==true) { %>
                                     <li><a class="dropdown-item" href="/register-admin">Register a Admin</a></li>
                                     <li><a class="dropdown-item" href="/anonymous-tips">Anonymous Tips</a></li>
                                 <% } else {%>
