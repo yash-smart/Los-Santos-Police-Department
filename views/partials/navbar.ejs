@@ -23,16 +23,17 @@
                           <!-- <li><a class="dropdown-item" href="/jobs">Jobs</a></li> -->
                             <li><a class="dropdown-item" href="/most-wanted-list">Most Wanted List</a></li>
                             <% if (locals.admin) { %>
-                                <% if (admin == 'Admin') { %>
+                                <% if (admin == 'Admin' || admin) { %>
                                     <li><a class="dropdown-item" href="/register-admin">Register a Admin</a></li>
                                     <li><a class="dropdown-item" href="/anonymous-tips">Anonymous Tips</a></li>
                                 <% } else {%>
                                     <li><a class="dropdown-item" href="/anonymous-tip-send" >Send an anonymous tip</a></li>
+                                    <li><a class="dropdown-item" href="/applied-jobs">Your Jobs</a></li>
                                 <% } %>
                             <% } else { %>
+                                <li><a class="dropdown-item" href="/applied-jobs">Your Jobs</a></li>
                                 <li><a class="dropdown-item" href="/anonymous-tip-send" >Send an anonymous tip</a></li>
                             <% } %>
-                            <li><a class="dropdown-item" href="/applied-jobs">Your Jobs</a></li>
                           <!-- <li><a class="dropdown-item" href="#">Something else here</a></li> -->
                         </ul>
                     <li class="nav-item">

@@ -290,7 +290,7 @@ app.get('/news-announcements-add/:user_id',async (req,res) => {
             let news_id = await db.query('insert into newsannouncements(user_id,datetime) values($1,$2) RETURNING id,datetime;',[req.params.user_id,new Date()]);
             let posted_on = news_id.rows[0].datetime;
             news_id = news_id.rows[0].id;
-            res.render('news/news-announcements-add.ejs',{news_id:news_id,new_news:true,user_id:req.params.user_id,posted_on:posted_on,logged:req.session.user});
+            res.render('news/news-announcements-add.ejs',{news_id:news_id,new_news:true,user_id:req.params.user_id,posted_on:posted_on,logged:req.session.user,admin:user_details.rows[0].type});
         } else {
             res.send('You are not authorised to view this page.');
         }
@@ -340,12 +340,12 @@ app.get('/news-update/:news_id/:user_id',async (req,res)=> {
                 }
                 let like_data = await db.query('select * from likes_news where news_id=$1 and user_id=$2;',[req.params.news_id,req.session.user]);
                 if (like_data.rows.length == 0) {
-                    res.render('news/news-announcements-add.ejs',{news_id:req.params.news_id,new_news:false,user_id:req.params.user_id,newselements:newselements,posted_on:posted_on,likes:likes,comments_count:comments_count,comments:comments,users,liked:false,logged:req.session.user});
+                    res.render('news/news-announcements-add.ejs',{news_id:req.params.news_id,new_news:false,user_id:req.params.user_id,newselements:newselements,posted_on:posted_on,likes:likes,comments_count:comments_count,comments:comments,users,liked:false,logged:req.session.user,admin:true});
                 } else {
-                    res.render('news/news-announcements-add.ejs',{news_id:req.params.news_id,new_news:false,user_id:req.params.user_id,newselements:newselements,posted_on:posted_on,likes:likes,comments_count:comments_count,comments:comments,users,liked:true,logged:req.session.user});
+                    res.render('news/news-announcements-add.ejs',{news_id:req.params.news_id,new_news:false,user_id:req.params.user_id,newselements:newselements,posted_on:posted_on,likes:likes,comments_count:comments_count,comments:comments,users,liked:true,logged:req.session.user,admin:true});
                 }
             } else {
-                res.render('news/news-announcements-add.ejs',{news_id:req.params.news_id,new_news:true,user_id:req.params.user_id,posted_on:posted_on,likes:likes,logged:req.session.user});
+                res.render('news/news-announcements-add.ejs',{news_id:req.params.news_id,new_news:true,user_id:req.params.user_id,posted_on:posted_on,likes:likes,logged:req.session.user,admin:true});
             }
         } else {
             res.render('unauthorised.ejs')
@@ -585,6 +585,8 @@ app.get('/news/:news_id',async (req,res) => {
         let comments = await db.query('select * from comments_news where news_id=$1 order by posted_on DESC;',[req.params.news_id]);
         comments = comments.rows;
         let users = [];
+        let user_data = await db.query('select type from users where id=$1;',[req.session.user]);
+        let type = user_data.rows[0].type;
         for (let i=0;i<comments.length;i++) {
             let user_id = comments[i].user_id;
             let username = await db.query('select username from users where id=$1;',[user_id]);
@@ -592,9 +594,9 @@ app.get('/news/:news_id',async (req,res) => {
         }
         let like_data = await db.query('select * from likes_news where news_id=$1 and user_id=$2;',[req.params.news_id,req.session.user]);
         if (like_data.rows.length == 0) {
-            res.render('news/news-announcements-view.ejs',{newselements:newselements,posted_on:posted_on,logged_in:true,likes:likes,comments_count:comments_count,comments:comments,users,news_id:req.params.news_id,liked:false,logged:req.session.user});
+            res.render('news/news-announcements-view.ejs',{newselements:newselements,posted_on:posted_on,logged_in:true,likes:likes,comments_count:comments_count,comments:comments,users,news_id:req.params.news_id,liked:false,logged:req.session.user,admin:type});
         } else {
-            res.render('news/news-announcements-view.ejs',{newselements:newselements,posted_on:posted_on,logged_in:true,likes:likes,comments_count:comments_count,comments:comments,users,news_id:req.params.news_id,liked:true,logged:req.session.user});
+            res.render('news/news-announcements-view.ejs',{newselements:newselements,posted_on:posted_on,logged_in:true,likes:likes,comments_count:comments_count,comments:comments,users,news_id:req.params.news_id,liked:true,logged:req.session.user,admin:type});
         }
     } else{
         res.render("unauthorised.ejs");
@@ -819,9 +821,9 @@ app.post('/filter-job-post',async (req,res) => {
         }
         console.log(query);
         if (type == 'Admin') {
-            res.render('job/jobs-edit.ejs',{data:data.rows,logged:req.session.user})
+            res.render('job/jobs-edit.ejs',{data:data.rows,logged:req.session.user,admin:type})
         } else {
-            res.render('job/jobs.ejs',{data:data.rows,logged:req.session.user})
+            res.render('job/jobs.ejs',{data:data.rows,logged:req.session.user,admin:type})
         }
     } else {
         res.render('unauthorised.ejs');
@@ -936,16 +938,16 @@ app.get('/most-wanted-list',async (req,res) => {
         if (type == 'Admin') {
             let data = await db.query('select * from most_wanted order by name;');
             data = data.rows;
-            res.render('mostWanted/most-wanted-edit.ejs',{data:data,logged:req.session.user});
+            res.render('mostWanted/most-wanted-edit.ejs',{data:data,logged:req.session.user,admin:type});
         } else {
             let data = await db.query('select * from most_wanted order by name;');
             data = data.rows;
-            res.render('mostWanted/most-wanted.ejs',{data:data,logged:req.session.user});
+            res.render('mostWanted/most-wanted.ejs',{data:data,logged:req.session.user,admin:type});
         }
     } else {
         let data = await db.query('select * from most_wanted order by name;');
         data = data.rows;
-        res.render('mostWanted/most-wanted.ejs',{data:data,logged:req.session.user});
+        res.render('mostWanted/most-wanted.ejs',{data:data,logged:req.session.user,admin:false});
     }
 })
 
