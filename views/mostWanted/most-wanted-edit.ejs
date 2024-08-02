@@ -30,9 +30,9 @@
                         <% } %>
                         <div class="card-body">
                             <h5 class="card-title"> <span class="label">Name:</span> <%= data[i].name %></h5>
-                            <h6 class="card-subtitle mb-2"><%= data[i].alias %></h6>
-                            <h6 class="card-subtitle mb-2"><%= data[i].nationality %></h6>
-                            <p class="card-text"><%= data[i].description %></p>
+                            <h6 class="card-subtitle mb-2"><span class="label">Alias:</span> <%= data[i].alias %></h6>
+                            <h6 class="card-subtitle mb-2"><span class="label">Nationality:</span> <%= data[i].nationality %></h6>
+                            <p class="card-text"><span class="label">Description:</span> <%= data[i].description %></p>
                             <a href="/delete-wanted/<%= data[i].id %>" class="btn btn-danger">Delete</a>
                         </div>
                     </div>
