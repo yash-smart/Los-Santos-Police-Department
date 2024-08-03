@@ -11,7 +11,7 @@
 -->
 [![Contributors][contributors-shield]](https://github.com/yash-smart/Los-Santos-Police-Department/graphs/contributors)
 [![Forks][forks-shield]](https://github.com/yash-smart/Los-Santos-Police-Department/fork)
-[![Stargazers][stars-shield]](https://github.com/yash-smart/Los-Santos-Police-Department/startgazers)
+[![Stargazers][stars-shield]](https://github.com/yash-smart/Los-Santos-Police-Department/stargazers)
 [![Issues][issues-shield]](https://github.com/yash-smart/Los-Santos-Police-Department/issues)
 [![MIT License][license-shield]](https://github.com/yash-smart/Los-Santos-Police-Department/blob/main/LICENSE)
 
