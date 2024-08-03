@@ -10,13 +10,11 @@
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
 [![Contributors][contributors-shield]](https://github.com/yash-smart/Los-Santos-Police-Department/graphs/contributors)
-
-
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
+[![Forks][forks-shield]](https://github.com/yash-smart/Los-Santos-Police-Department/fork)
+[![Stargazers][stars-shield]](https://github.com/yash-smart/Los-Santos-Police-Department/startgazers)
+[![Issues][issues-shield]](https://github.com/yash-smart/Los-Santos-Police-Department/issues)
+[![MIT License][license-shield]](https://github.com/yash-smart/Los-Santos-Police-Department/graphs/contributors)
+[![LinkedIn][linkedin-shield]](https://github.com/yash-smart/Los-Santos-Police-Department/graphs/contributors)
 
 
 
