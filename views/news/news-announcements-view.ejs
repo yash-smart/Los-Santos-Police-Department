@@ -24,8 +24,7 @@
                     </div>
                     <p class="caption"><%= newselements[i].caption %></p>
                 <% } else if (newselements[i].type == 'video') { %>
-                    <video class="news-video" controls>
-                        <source src="/images/<%= newselements[i].image_number %>" type="video/*">
+                    <video class="news-video" src="/images/<%= newselements[i].image_number %>" controls>
                     </video>
                     <p class="caption"><%= newselements[i].caption %></p>
                 <% } %>
