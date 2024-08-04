@@ -303,3 +303,6 @@ body {
 .cancel-button:hover {
     background-color: #c82333;
 }
+.add_heading {
+    display: block;
+}

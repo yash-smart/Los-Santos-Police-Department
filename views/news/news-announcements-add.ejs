@@ -14,10 +14,12 @@
 <body>
     <%- include('../partials/navbar') %>
     <% if (new_news) { %>
-        <form action="/add-heading/<%= news_id %>/<%= user_id %>" method="post">
-            <textarea name="heading" placeholder="Add Heading"></textarea>
-            <input type="submit" value="Add">
-        </form>
+        <div class="add_heading add_text">
+            <form action="/add-heading/<%= news_id %>/<%= user_id %>" method="post">
+                <textarea name="heading" placeholder="Add Heading"></textarea>
+                <input type="submit" value="Add">
+            </form>
+        </div>
         <% } else { %>
             <p style="display: none;" id="news_id_data"><%= news_id %></p>
             <p style="display: none;" id="initial_likes"><%= likes %></p>
