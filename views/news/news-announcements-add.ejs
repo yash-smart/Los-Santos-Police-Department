@@ -29,7 +29,7 @@
                         <h2 class="news-heading">
                             <%= newselements[i].text %>
                         </h2>
-                        <div style="display: none;" id="u<%= newselements[i].order_number %>">
+                        <div style="display: none;" id="u<%= newselements[i].order_number %>" class="add_text">
                             <form
                                 action="/update-heading/<%= news_id %>/<%= user_id %>/<%= newselements[i].order_number %>"
                                 method="post">
@@ -40,7 +40,7 @@
                         </div>
                         <% } else if (newselements[i].type=='text' ) {%>
                             <p style="white-space: pre-wrap;" class="news-text"><%= newselements[i].text.trim() %></p>
-                            <div style="display: none;" id="u<%= newselements[i].order_number %>">
+                            <div style="display: none;" id="u<%= newselements[i].order_number %>" class="add_text">
                                 <form
                                     action="/update-text/<%= news_id %>/<%= user_id %>/<%= newselements[i].order_number %>"
                                     method="post">
@@ -61,12 +61,12 @@
                                 <div style="display: none;" id="u<%= newselements[i].order_number %>">
                                     <form
                                         action="/update-image/<%= news_id %>/<%= user_id %>/<%= newselements[i].order_number %>"
-                                        method="post" enctype="multipart/form-data">
-                                        <input type="file" name="image" accept="image/*" required>
-                                        <textarea name="caption" placeholder="Add Caption"></textarea>
-                                        <input type="submit" name="Add">
+                                        method="post" enctype="multipart/form-data"  class="image-form">
+                                        <input type="file" name="image" accept="image/*" class="file-input" required>
+                                        <textarea name="caption" placeholder="Add Caption" class="caption-textarea"></textarea>
+                                        <input type="submit" name="Add" class="submit-button-2">
                                     </form>
-                                    <a href="/news-update/<%= news_id %>/<%= user_id %>"><button>Cancel</button></a>
+                                    <a href="/news-update/<%= news_id %>/<%= user_id %>"><button class="cancel-button">Cancel</button></a>
                                 </div>
                                 <% } else if (newselements[i].type=='video' ){ %>
                                     <video class="news-video" src="/images/<%= newselements[i].image_number %>" controls>
@@ -75,29 +75,29 @@
                                     <div style="display: none;" id="u<%= newselements[i].order_number %>">
                                         <form
                                             action="/update-video/<%= news_id %>/<%= user_id %>/<%= newselements[i].order_number %>"
-                                            method="post" enctype="multipart/form-data">
-                                            <input type="file" name="video" accept="video/*" required>
-                                            <textarea name="caption" placeholder="Add Caption"></textarea>
-                                            <input type="submit" name="Add">
+                                            method="post" enctype="multipart/form-data" class="image-form">
+                                            <input type="file" name="video" accept="video/*" class="file-input" required>
+                                            <textarea name="caption" placeholder="Add Caption" class="caption-textarea"></textarea>
+                                            <input type="submit" name="Add" class="submit-button-2">
                                         </form>
                                         <a href="/news-update/<%= news_id %>/<%= user_id %>"><button>Cancel</button></a>
                                     </div>
                                     <% } %>
                                     <div id="updatedelete<%= newselements[i].order_number %>">
                                         <a
-                                            href="/delete/<%= news_id %>/<%= user_id %>/<%= newselements[i].order_number %>"><button>Delete</button></a>
-                                        <button class="update"
+                                            href="/delete/<%= news_id %>/<%= user_id %>/<%= newselements[i].order_number %>"><button class="btn btn-danger">Delete</button></a>
+                                        <button class="update btn btn-primary"
                                             order_number="<%= newselements[i].order_number %>">Update</button>
                                     </div>
                 </div>
                 <% } %>
             </section>
                     <div id="add">
-                        <button id="add_text_button">Add Text</button>
-                        <button id="add_image_button">Add Image</button>
-                        <button id="add_video_button">Add Video</button>
+                        <button id="add_text_button" class="btn btn-primary">Add Text</button>
+                        <button id="add_image_button" class="btn btn-primary">Add Image</button>
+                        <button id="add_video_button" class="btn btn-primary">Add Video</button>
                     </div>
-                    <div id="add_text" style="display: none;">
+                    <div class="add_text" style="display: none;">
                         <form action="/add-text/<%= news_id %>/<%= user_id %>" method="post">
                             <textarea name="content" placeholder="Add Text" style="white-space: pre-wrap;" required></textarea>
                             <input type="submit" name="Add">
@@ -106,21 +106,21 @@
                     </div>
                     <div id="add_image" style="display: none;">
                         <form action="/add-image/<%= news_id %>/<%= user_id %>" method="post"
-                            enctype="multipart/form-data">
-                            <input type="file" name="image" accept="image/*" required>
-                            <textarea name="caption" placeholder="Add Caption"></textarea>
-                            <input type="submit" name="Add">
+                            enctype="multipart/form-data" class="image-form">
+                            <input type="file" name="image" accept="image/*" class="file-input" required>
+                            <textarea name="caption" placeholder="Add Caption" class="caption-textarea"></textarea>
+                            <input type="submit" name="Add" class="submit-button-2">
                         </form>
-                        <a href="/news-update/<%= news_id %>/<%= user_id %>"><button>Cancel</button></a>
+                        <a href="/news-update/<%= news_id %>/<%= user_id %>"><button class="cancel-button">Cancel</button></a>
                     </div>
                     <div id="add_video" style="display: none;">
                         <form action="/add-video/<%= news_id %>/<%= user_id %>" method="post"
-                            enctype="multipart/form-data">
-                            <input type="file" name="video" accept="video/*" required>
-                            <textarea name="caption" placeholder="Add Caption"></textarea>
-                            <input type="submit" name="Add">
+                            enctype="multipart/form-data" class="image-form">
+                            <input type="file" name="video" accept="video/*" class="file-input" required>
+                            <textarea name="caption" placeholder="Add Caption" class="caption-textarea"></textarea>
+                            <input type="submit" name="Add" class="submit-button-2">
                         </form>
-                        <a href="/news-update/<%= news_id %>/<%= user_id %>"><button>Cancel</button></a>
+                        <a href="/news-update/<%= news_id %>/<%= user_id %>"><button class="cancel-button">Cancel</button></a>
                     </div>
                     
                     <% if (locals.posted_on) { %>
