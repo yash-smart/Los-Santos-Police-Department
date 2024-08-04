@@ -306,3 +306,15 @@ body {
 .add_heading {
     display: block;
 }
+.cancel-button-2 {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    background-color: #dc3545;
+}
+.cancel-button-2:hover {
+    background-color: #c82333;
+}

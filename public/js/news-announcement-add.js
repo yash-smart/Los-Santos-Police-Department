@@ -1,20 +1,31 @@
 function add_text() {
-    document.getElementById('add').remove();
+    document.getElementById('add').style.display = 'none';
     document.getElementById('add_text').style.display = 'block';
     // document.getElementById('add_image').style.display = 'block';
 }
 function add_image() {
-    document.getElementById('add').remove();
+    document.getElementById('add').style.display = 'none';
     document.getElementById('add_image').style.display = 'block';
 }
 function add_video() {
-    document.getElementById('add').remove();
+    document.getElementById('add').style.display = 'none';
     document.getElementById('add_video').style.display = 'block';
 }
 function update() {
     let ordernumber = this.getAttribute('order_number');
-    document.getElementById('updatedelete'+ordernumber).remove();
+    document.getElementById('updatedelete'+ordernumber).style.display = 'none';
     document.getElementById('u'+ordernumber).style.display = 'block';
+}
+function cancel_add() {
+    let toremove = this.getAttribute('to_remove');
+    document.getElementById(toremove).style.display = 'none';
+    document.getElementById('add').style.display = 'block';
+}
+function cancel_update() {
+    let order_number = this.getAttribute('order_number');
+    console.log(order_number);
+    document.getElementById('u'+order_number).style.display = 'none';
+    document.getElementById('updatedelete'+order_number).style.display = 'block';
 }
 function getDateTime(date) {
     let day = date.getDate();
@@ -93,4 +104,10 @@ socket.addEventListener("message", (event) => {
         comment.append(datetime_element);
         document.getElementById('comments').prepend(comment);
     }
+})
+document.querySelectorAll('.cancel-button').forEach((button) => {
+    button.addEventListener('click',cancel_add);
+})
+document.querySelectorAll('.cancel-button-2').forEach((button) => {
+    button.addEventListener('click',cancel_update)
 })

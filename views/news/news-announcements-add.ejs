@@ -38,7 +38,7 @@
                                 <textarea name="heading" placeholder="Updated Heading" required></textarea>
                                 <input type="submit" value="Update">
                             </form>
-                            <a href="/news-update/<%= news_id %>/<%= user_id %>"><button>Cancel</button></a>
+                            <button class="cancel-button-2" order_number="<%= newselements[i].order_number %>">Cancel</button>
                         </div>
                         <% } else if (newselements[i].type=='text' ) {%>
                             <p style="white-space: pre-wrap;" class="news-text"><%= newselements[i].text.trim() %></p>
@@ -50,7 +50,7 @@
                                         style="white-space: pre-wrap;" required></textarea>
                                     <input type="submit" name="Add">
                                 </form>
-                                <a href="/news-update/<%= news_id %>/<%= user_id %>"><button>Cancel</button></a>
+                                <button class="cancel-button-2" order_number="<%= newselements[i].order_number %>">Cancel</button>
                             </div>
                             <% } else if (newselements[i].type=='image' ) {%>
                                 <div class="image-container">
@@ -68,7 +68,7 @@
                                         <textarea name="caption" placeholder="Add Caption" class="caption-textarea"></textarea>
                                         <input type="submit" name="Add" class="submit-button-2">
                                     </form>
-                                    <a href="/news-update/<%= news_id %>/<%= user_id %>"><button class="cancel-button">Cancel</button></a>
+                                    <button class="cancel-button-2" order_number="<%= newselements[i].order_number %>">Cancel</button>
                                 </div>
                                 <% } else if (newselements[i].type=='video' ){ %>
                                     <video class="news-video" src="/images/<%= newselements[i].image_number %>" controls>
@@ -82,7 +82,7 @@
                                             <textarea name="caption" placeholder="Add Caption" class="caption-textarea"></textarea>
                                             <input type="submit" name="Add" class="submit-button-2">
                                         </form>
-                                        <a href="/news-update/<%= news_id %>/<%= user_id %>"><button>Cancel</button></a>
+                                        <button class="cancel-button-2" order_number="<%= newselements[i].order_number %>">Cancel</button>
                                     </div>
                                     <% } %>
                                     <div id="updatedelete<%= newselements[i].order_number %>">
@@ -103,7 +103,7 @@
                         <textarea name="content" placeholder="Add Text" style="white-space: pre-wrap;" required></textarea>
                         <input type="submit" name="Add">
                     </form>
-                    <a href="/news-update/<%= news_id %>/<%= user_id %>"><button>Cancel</button></a>
+                    <button id="add_text_cancel_button" class="cancel-button" to_remove="add_text">Cancel</button>
                 </div>
                 <div id="add_image" style="display: none;">
                     <form action="/add-image/<%= news_id %>/<%= user_id %>" method="post"
@@ -112,7 +112,7 @@
                         <textarea name="caption" placeholder="Add Caption" class="caption-textarea"></textarea>
                         <input type="submit" name="Add" class="submit-button-2">
                     </form>
-                    <a href="/news-update/<%= news_id %>/<%= user_id %>"><button class="cancel-button">Cancel</button></a>
+                    <button class="cancel-button" id="add_image_cancel_button" to_remove="add_image">Cancel</button>
                 </div>
                 <div id="add_video" style="display: none;">
                     <form action="/add-video/<%= news_id %>/<%= user_id %>" method="post"
@@ -121,7 +121,7 @@
                         <textarea name="caption" placeholder="Add Caption" class="caption-textarea"></textarea>
                         <input type="submit" name="Add" class="submit-button-2">
                     </form>
-                    <a href="/news-update/<%= news_id %>/<%= user_id %>"><button class="cancel-button">Cancel</button></a>
+                    <button class="cancel-button" id="add_video_cancel_button" to_remove="add_video">Cancel</button>
                 </div>
                 
             </section>
