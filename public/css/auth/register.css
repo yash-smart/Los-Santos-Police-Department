@@ -88,7 +88,7 @@ body {
     color: #ffffff;
     cursor: pointer;
     transition: background 0.3s, transform 0.3s;
-    font-family: yourFont;
+    font-family: 'Open Sans', sans-serif;
 }
 
 .button-confirm:hover {
