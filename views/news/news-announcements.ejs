@@ -102,7 +102,7 @@
             <div class="news-item" onclick="showDetails('<%= data[i].id %>')">
                 <div class="img-text">
                     <% if (images_arr[i]) { %>
-                        <img src="/images/<%= images_arr[i] %>" >
+                        <img src="<%= images_arr[i] %>" >
                     <% } else { %>
                         <img src="/image_not_found.png" alt="Image Not Found">
                     <% } %>

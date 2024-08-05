@@ -20,11 +20,11 @@
                     <p class="news-text"><%= newselements[i].text.trim() %></p>
                 <% } else if (newselements[i].type == 'image') { %>
                     <div class="image-container">
-                        <img src="/images/<%= newselements[i].image_number %>" class="news-image">
+                        <img src="<%= newselements[i].path %>" class="news-image">
                     </div>
                     <p class="caption"><%= newselements[i].caption %></p>
                 <% } else if (newselements[i].type == 'video') { %>
-                    <video class="news-video" src="/images/<%= newselements[i].image_number %>" controls>
+                    <video class="news-video" src="<%= newselements[i].path %>" controls>
                     </video>
                     <p class="caption"><%= newselements[i].caption %></p>
                 <% } %>

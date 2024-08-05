@@ -24,7 +24,7 @@
                 <div class="col blur-fade" data-delay="<%= i * 0.3 %>s">
                     <div class="card h-100">
                         <% if (data[i].image) { %>
-                            <img src="/images/<%= data[i].image %>" class="card-img-top" alt="<%= data[i].name %>">
+                            <img src="<%= data[i].path %>" class="card-img-top" alt="<%= data[i].name %>">
                         <% } else { %>
                             <img src="/image_not_found.png" class="card-img-top" alt="Image not found">
                         <% } %>

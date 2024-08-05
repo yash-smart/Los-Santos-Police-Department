@@ -12,7 +12,28 @@ import fs from "fs";
 import http from "http";
 import WebSocket,{WebSocketServer} from "ws";
 import nodemailer from "nodemailer";
+import cloudinary from "cloudinary";
+import { error } from "console";
+let cloudinaryv2 = cloudinary.v2
+import { CloudinaryStorage } from 'multer-storage-cloudinary';
 
+async function getFileName(file) {
+    let max1 = await db.query('select max(number) max from jobapplications;');
+    max1 = max1.rows[0].max;
+    let max2 = await db.query('select max(number) max from newselements;');
+    max2 = max2.rows[0].max;
+    let max3 = await db.query('select max(number) max from most_wanted;');
+    max3 = max3.rows[0].max;
+    let max4 = await db.query('select max(number) max from anonymous_tip;');
+    max4 = max4.rows[0].max;
+    let max = Math.max(max1,max2,max3,max4);
+    max = max+1;
+    // let order_number = await db.query('select max(order_number) max from newselements where news_id=$1;',[req.params.news_id]);
+    let extension = file.originalname.split('.');
+    extension = extension[extension.length-1]
+    // await db.query('insert into newselements values($1,\'image\',$2,null,$3,$4,$5)',[req.params.news_id,order_number.rows[0].max+1,req.body.caption,''+max+'.'+extension,max]);
+    return ''+max+'.'+extension; 
+}
 
 // const upload = multer({ dest: 'uploads/' })
 env.config();
@@ -102,91 +123,23 @@ app.use(session({
 }));
 app.use(express.json())
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, './uploads')
-    },
-    filename: async function (req, file, cb) {
-        console.log(file);
-        if (file.fieldname == 'image') {
-            let max1 = await db.query('select max(number) max from jobapplications;');
-            max1 = max1.rows[0].max;
-            let max2 = await db.query('select max(number) max from newselements;');
-            max2 = max2.rows[0].max;
-            let max3 = await db.query('select max(number) max from most_wanted;');
-            max3 = max3.rows[0].max;
-            let max4 = await db.query('select max(number) max from anonymous_tip;');
-            max4 = max4.rows[0].max;
-            let max = Math.max(max1,max2,max3,max4);
-            max = max+1;
-            // let order_number = await db.query('select max(order_number) max from newselements where news_id=$1;',[req.params.news_id]);
-            let extension = file.originalname.split('.');
-            extension = extension[extension.length-1]
-            // await db.query('insert into newselements values($1,\'image\',$2,null,$3,$4,$5)',[req.params.news_id,order_number.rows[0].max+1,req.body.caption,''+max+'.'+extension,max]);
-            return cb(null,''+max+'.'+extension); 
-        } else if (file.fieldname == 'video') {
-            console.log(req.body);
-            let max1 = await db.query('select max(number) max from jobapplications;');
-            max1 = max1.rows[0].max;
-            let max2 = await db.query('select max(number) max from newselements;');
-            max2 = max2.rows[0].max;
-            let max3 = await db.query('select max(number) max from most_wanted;');
-            max3 = max3.rows[0].max;
-            let max4 = await db.query('select max(number) max from anonymous_tip;');
-            max4 = max4.rows[0].max;
-            let max = Math.max(max1,max2,max3,max4);
-            max = max+1;
-            // let order_number = await db.query('select max(order_number) max from newselements where news_id=$1;',[req.params.news_id]);
-            let extension = file.originalname.split('.');
-            extension = extension[extension.length-1]
-            // await db.query('insert into newselements values($1,\'video\',$2,null,$3,$4,$5)',[req.params.news_id,order_number.rows[0].max+1,req.body.caption,''+max+'.'+extension,max]);
-            return cb(null,''+max+'.'+extension); 
-        } else if (file.fieldname == 'resume') {
-            let max1 = await db.query('select max(number) max from jobapplications;');
-            max1 = max1.rows[0].max;
-            let max2 = await db.query('select max(number) max from newselements;');
-            max2 = max2.rows[0].max;
-            let max3 = await db.query('select max(number) max from most_wanted;');
-            max3 = max3.rows[0].max;
-            let max4 = await db.query('select max(number) max from anonymous_tip;');
-            max4 = max4.rows[0].max;
-            let max = Math.max(max1,max2,max3,max4);
-            let extension = file.originalname.split('.');
-            extension = extension[extension.length-1]
-            return cb(null,''+(max+1)+'.'+extension);
-        }else if (file.fieldname == 'photo') {
-            let max1 = await db.query('select max(number) max from jobapplications;');
-            max1 = max1.rows[0].max;
-            let max2 = await db.query('select max(number) max from newselements;');
-            max2 = max2.rows[0].max;
-            let max3 = await db.query('select max(number) max from most_wanted;');
-            max3 = max3.rows[0].max;
-            let max4 = await db.query('select max(number) max from anonymous_tip;');
-            max4 = max4.rows[0].max;
-            let max = Math.max(max1,max2,max3,max4);
-            let extension = file.originalname.split('.');
-            extension = extension[extension.length-1]
-            return cb(null,''+(max+1)+'.'+extension);
-        } else if (file.fieldname == 'tip-file') {
-            if (file) {
-                let max1 = await db.query('select max(number) max from jobapplications;');
-                max1 = max1.rows[0].max;
-                let max2 = await db.query('select max(number) max from newselements;');
-                max2 = max2.rows[0].max;
-                let max3 = await db.query('select max(number) max from most_wanted;');
-                max3 = max3.rows[0].max;
-                let max4 = await db.query('select max(number) max from anonymous_tip;');
-                max4 = max4.rows[0].max;
-                let max = Math.max(max1,max2,max3,max4);
-                let extension = file.originalname.split('.');
-                extension = extension[extension.length-1]
-                return cb(null,''+(max+1)+'.'+extension);
-            }
+cloudinaryv2.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+  });
+  
+  const storage = new CloudinaryStorage({
+    cloudinary: cloudinaryv2,
+    params: async (req, file) => {
+        let filename = await getFileName(file)
+        console.log(filename); 
+        return {
+            folder:'uploads',
+            public_id:filename
         }
-
     }
   })
-  
   const upload = multer({ storage: storage })
 
 app.get("/",async (req,res) => {
@@ -266,9 +219,9 @@ app.get('/news-announcements',async (req,res) => {
         let user_details = await db.query('select type from users where id=$1;',[req.session.user]);
         let images_arr = [];
         for (let i=0;i<data.rows.length;i++) {
-            let images = await db.query('select image_number from newselements where news_id=$1 and type=\'image\' order by order_number asc;',[data.rows[i].id]);
+            let images = await db.query('select path from newselements where news_id=$1 and type=\'image\' order by order_number asc;',[data.rows[i].id]);
             if (images.rows.length>0) {
-                images_arr.push(images.rows[0].image_number);
+                images_arr.push(images.rows[0].path);
             } else {
                 images_arr.push(null);
             }
@@ -377,6 +330,7 @@ app.post('/add-image/:news_id/:user_id',upload.single('image'),async(req,res) =>
         let user_data = await db.query('select type from users where id=$1;',[req.session.user]);
         let type = user_data.rows[0].type;
         if (type == 'Admin') {
+            console.log('Test');
             let max1 = await db.query('select max(number) max from jobapplications;');
             max1 = max1.rows[0].max;
             let max2 = await db.query('select max(number) max from newselements;');
@@ -390,7 +344,7 @@ app.post('/add-image/:news_id/:user_id',upload.single('image'),async(req,res) =>
             let order_number = await db.query('select max(order_number) max from newselements where news_id=$1;',[req.params.news_id]);
             let extension = req.file.originalname.split('.');
             extension = extension[extension.length-1]
-            await db.query('insert into newselements values($1,\'image\',$2,null,$3,$4,$5)',[req.params.news_id,order_number.rows[0].max+1,req.body.caption,''+max+'.'+extension,max]);
+            await db.query('insert into newselements values($1,\'image\',$2,null,$3,$4,$5,$6)',[req.params.news_id,order_number.rows[0].max+1,req.body.caption,''+max+'.'+extension,max,req.file.path]);
             res.redirect('/news-update/'+req.params.news_id+'/'+req.params.user_id);
         } else {
             res.render('unauthorised.ejs');
@@ -458,7 +412,7 @@ app.post('/add-video/:news_id/:user_id',upload.single('video'),async (req,res) =
             let order_number = await db.query('select max(order_number) max from newselements where news_id=$1;',[req.params.news_id]);
             let extension = req.file.originalname.split('.');
             extension = extension[extension.length-1]
-            await db.query('insert into newselements values($1,\'video\',$2,null,$3,$4,$5)',[req.params.news_id,order_number.rows[0].max+1,req.body.caption,''+max+'.'+extension,max]);
+            await db.query('insert into newselements values($1,\'video\',$2,null,$3,$4,$5,$6)',[req.params.news_id,order_number.rows[0].max+1,req.body.caption,''+max+'.'+extension,max,req.file.path]);
             res.redirect('/news-update/'+req.params.news_id+'/'+req.params.user_id);
         } else {
             res.render('unauthorised.ejs');
@@ -518,14 +472,14 @@ app.post('/update-image/:news_id/:user_id/:order_number',upload.single('image'),
             extension = extension[extension.length-1]
             let prev_path = await db.query('select image_number from newselements where news_id=$1 and order_number=$2;',[req.params.news_id,req.params.order_number]);
             prev_path = prev_path.rows[0].image_number;
-            fs.unlink('./uploads/'+prev_path,(err)=> {
+            cloudinaryv2.uploader.destroy(prev_path,(err,result)=> {
                 if (err) {
                     console.log(err)
                 } else {
-                    console.log('File deleted successfully');
+                    console.log('File deleted successfully:'+result)
                 }
             })
-            await db.query('update newselements set image_number=$1,number=$2,caption=$5 where news_id=$3 and order_number=$4;',[''+max+'.'+extension,max,req.params.news_id,req.params.order_number,req.body.caption]);
+            await db.query('update newselements set image_number=$1,number=$2,caption=$5,path=$6 where news_id=$3 and order_number=$4;',[''+max+'.'+extension,max,req.params.news_id,req.params.order_number,req.body.caption,req.file.path]);
             res.redirect('/news-update/'+req.params.news_id+'/'+req.params.user_id);
         } else {
             res.render('unauthorised.ejs');
@@ -555,14 +509,14 @@ app.post('/update-video/:news_id/:user_id/:order_number',upload.single('video'),
             extension = extension[extension.length-1]
             let prev_path = await db.query('select image_number from newselements where news_id=$1 and order_number=$2;',[req.params.news_id,req.params.order_number]);
             prev_path = prev_path.rows[0].image_number;
-            fs.unlink('./uploads/'+prev_path,(err)=> {
+            cloudinaryv2.uploader.destroy(prev_path,(err,result)=> {
                 if (err) {
                     console.log(err)
                 } else {
-                    console.log('File deleted successfully');
+                    console.log('File deleted successfully:'+result)
                 }
             })
-            await db.query('update newselements set image_number=$1,number=$2,caption=$5 where news_id=$3 and order_number=$4;',[''+max+'.'+extension,max,req.params.news_id,req.params.order_number,req.body.caption]);
+            await db.query('update newselements set image_number=$1,number=$2,caption=$5,path=$6 where news_id=$3 and order_number=$4;',[''+max+'.'+extension,max,req.params.news_id,req.params.order_number,req.body.caption,req.file.path]);
             res.redirect('/news-update/'+req.params.news_id+'/'+req.params.user_id);
         } else {
             res.render('unauthorised.ejs');
@@ -852,11 +806,11 @@ app.post('/apply-job/:job_id',upload.single('resume'),async(req,res) => {
                 let extension = req.file.originalname.split('.');
                 extension = extension[extension.length-1]
                 res.send('You have already applied');
-                fs.unlink('./uploads/'+(max+1)+'.'+extension,(err) => {
+                cloudinaryv2.uploader.destroy((max+1)+'.'+extension,(err,result)=> {
                     if (err) {
-                        console.log(err);
+                        console.log(err)
                     } else {
-                        console.log('File deleted successfully');
+                        console.log('File deleted successfully:'+result)
                     }
                 })
             } else {
@@ -871,7 +825,7 @@ app.post('/apply-job/:job_id',upload.single('resume'),async(req,res) => {
                 let max = Math.max(max1,max2,max3,max4);
                 let extension = req.file.originalname.split('.');
                 extension = extension[extension.length-1]
-                await db.query('insert into jobapplications(user_id,email,resume_filename,datetime,number,job_id,status) values($1,$2,$3,$4,$5,$6,\'applied\');',[req.session.user,req.body.email,''+(max+1)+'.'+extension,new Date(),max+1,req.params.job_id]);
+                await db.query('insert into jobapplications(user_id,email,resume_filename,datetime,number,job_id,status,path) values($1,$2,$3,$4,$5,$6,\'applied\',$7);',[req.session.user,req.body.email,''+(max+1)+'.'+extension,new Date(),max+1,req.params.job_id,req.file.path]);
                 res.redirect('/')
             }
         } catch(err) {
@@ -888,7 +842,7 @@ app.get('/applications/:job_id',async (req,res) => {
         let user_data = await db.query('select type from users where id=$1;',[req.session.user]);
         let type = user_data.rows[0].type;
         if (type == 'Admin') {
-            let data = await db.query('select jobapplications.email,jobapplications.resume_filename,jobapplications.datetime,jobapplications.job_id,users.username,jobapplications.user_id,jobapplications.status from jobapplications,users where job_id=$1 and jobapplications.user_id=users.id;',[req.params.job_id]);
+            let data = await db.query('select jobapplications.email,jobapplications.resume_filename,jobapplications.datetime,jobapplications.job_id,users.username,jobapplications.user_id,jobapplications.status,jobapplications.path from jobapplications,users where job_id=$1 and jobapplications.user_id=users.id;',[req.params.job_id]);
             res.render('job/applications.ejs',{data:data.rows,job_id:req.params.job_id});
         } else {
             res.send('You are not authorised to view this page')
@@ -982,7 +936,7 @@ app.post('/most-wanted-list-post',upload.single('photo'),async (req,res) => {
                 let max = Math.max(max1,max2,max3,max4);
                 let extension = req.file.originalname.split('.');
                 extension = extension[extension.length-1];
-                await db.query('insert into most_wanted(name,alias,nationality,description,image,number) values($1,$2,$3,$4,$5,$6);',[req.body.name,req.body.alias,req.body.nationality,req.body.description,''+(max+1)+'.'+extension,max+1]);
+                await db.query('insert into most_wanted(name,alias,nationality,description,image,number,path) values($1,$2,$3,$4,$5,$6,$7);',[req.body.name,req.body.alias,req.body.nationality,req.body.description,''+(max+1)+'.'+extension,max+1,req.file.path]);
                 res.redirect('/most-wanted-list');
             } else {
                 await db.query('insert into most_wanted(name,alias,nationality,description,image,number) values($1,$2,$3,$4,$5,$6);',[req.body.name,req.body.alias,req.body.nationality,req.body.description,null,null]);
@@ -1121,7 +1075,7 @@ app.post('/post-anonymous-tip',upload.single('tip-file'),async (req,res) => {
         let max = Math.max(max1,max2,max3,max4);
         let extension = req.file.originalname.split('.');
         extension = extension[extension.length-1]
-        await db.query('insert into anonymous_tip(tip,posted_on,file_name,number) values($1,$2,$3,$4);',[req.body.tip,date,(max+1)+'.'+extension,max+1]);
+        await db.query('insert into anonymous_tip(tip,posted_on,file_name,number,path) values($1,$2,$3,$4,$5);',[req.body.tip,date,(max+1)+'.'+extension,max+1,req.file.path]);
         for (let i=0;i<anonymous_tip_clients.length;i++) {
             anonymous_tip_clients[i].send('6'+JSON.stringify([req.body.tip,date,(max+1)+'.'+extension]));
         }

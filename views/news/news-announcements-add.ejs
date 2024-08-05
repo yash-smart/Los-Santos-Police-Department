@@ -54,7 +54,7 @@
                             </div>
                             <% } else if (newselements[i].type=='image' ) {%>
                                 <div class="image-container">
-                                <img src="/images/<%= newselements[i].image_number %>"
+                                <img src="<%= newselements[i].path %>"
                                     class="<%= newselements[i].type %>">
                                 </div>
                                 <p class="caption">
@@ -71,7 +71,7 @@
                                     <button class="cancel-button-2" order_number="<%= newselements[i].order_number %>">Cancel</button>
                                 </div>
                                 <% } else if (newselements[i].type=='video' ){ %>
-                                    <video class="news-video" src="/images/<%= newselements[i].image_number %>" controls>
+                                    <video class="news-video" src="<%= newselements[i].path %>" controls>
                                     </video>
                                     <p class="caption"><%= newselements[i].caption %></p>
                                     <div style="display: none;" id="u<%= newselements[i].order_number %>">
