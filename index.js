@@ -134,9 +134,22 @@ cloudinaryv2.config({
     params: async (req, file) => {
         let filename = await getFileName(file)
         console.log(filename); 
+        console.log(file.mimetype);
+        let resourceType;
+        const mimeType = file.mimetype;
+        if (mimeType.startsWith('image/')) {
+            resourceType = 'image';
+        } else if (mimeType.startsWith('video/')) {
+            resourceType = 'video';
+        } else if (mimeType === 'application/pdf') {
+            resourceType = 'raw';
+        } else {
+            resourceType = 'raw';
+        }
         return {
             folder:'uploads',
-            public_id:filename
+            public_id:filename,
+            resource_type: resourceType,
         }
     }
   })
@@ -368,13 +381,25 @@ app.get('/delete/:news_id/:user_id/:order_number',async (req,res) => {
             let type = file_data.rows[0].type;
             file_data = file_data.rows[0].image_number;
             if (type == 'image'||type=='video') {
-                fs.unlink('./uploads/'+file_data,(err) => {
-                    if (err) {
-                        console.log(err)
-                    } else {
-                        console.log('File deleted successfully');
-                    }
-                });
+                console.log(file_data);
+                console.log('uploads/'+file_data)
+                if (type == 'image') {
+                    cloudinaryv2.uploader.destroy('uploads/'+file_data,(err,result)=> {
+                        if (err) {
+                            console.log(err)
+                        } else {
+                            console.log('File deleted successfully:'+result)
+                        }
+                    })
+                } else {
+                    cloudinaryv2.uploader.destroy('uploads/'+file_data,{resource_type:'video'},(err,result)=> {
+                        if (err) {
+                            console.log(err)
+                        } else {
+                            console.log('File deleted successfully:'+result)
+                        }
+                    })
+                }
             }
             if (type == 'Heading') {
                 await db.query('delete from newselements where news_id=$1',[req.params.news_id]);
@@ -472,7 +497,7 @@ app.post('/update-image/:news_id/:user_id/:order_number',upload.single('image'),
             extension = extension[extension.length-1]
             let prev_path = await db.query('select image_number from newselements where news_id=$1 and order_number=$2;',[req.params.news_id,req.params.order_number]);
             prev_path = prev_path.rows[0].image_number;
-            cloudinaryv2.uploader.destroy(prev_path,(err,result)=> {
+            cloudinaryv2.uploader.destroy('uploads/'+prev_path,(err,result)=> {
                 if (err) {
                     console.log(err)
                 } else {
@@ -509,7 +534,7 @@ app.post('/update-video/:news_id/:user_id/:order_number',upload.single('video'),
             extension = extension[extension.length-1]
             let prev_path = await db.query('select image_number from newselements where news_id=$1 and order_number=$2;',[req.params.news_id,req.params.order_number]);
             prev_path = prev_path.rows[0].image_number;
-            cloudinaryv2.uploader.destroy(prev_path,(err,result)=> {
+            cloudinaryv2.uploader.destroy('uploads/'+prev_path,(err,result)=> {
                 if (err) {
                     console.log(err)
                 } else {
@@ -806,7 +831,7 @@ app.post('/apply-job/:job_id',upload.single('resume'),async(req,res) => {
                 let extension = req.file.originalname.split('.');
                 extension = extension[extension.length-1]
                 res.send('You have already applied');
-                cloudinaryv2.uploader.destroy((max+1)+'.'+extension,(err,result)=> {
+                cloudinaryv2.uploader.destroy('uploads/'+(max+1)+'.'+extension,{resource_type:'auto'},(err,result)=> {
                     if (err) {
                         console.log(err)
                     } else {
@@ -860,11 +885,11 @@ app.get('/delete-job/:job_id',async (req,res) => {
             let resumes = await db.query('select resume_filename from jobapplications where job_id=$1;',[req.params.job_id]);
             resumes = resumes.rows;
             for (let i=0;i<resumes.length;i++) {
-                fs.unlink('./uploads/'+resumes[i].resume_filename,(err) => {
+                cloudinaryv2.uploader.destroy('uploads/'+resumes[i].resume_filename,(err,result)=> {
                     if (err) {
                         console.log(err)
                     } else {
-                        console.log('File deleted successfully');
+                        console.log('File deleted successfully:'+result)
                     }
                 })
             }
@@ -957,11 +982,11 @@ app.get('/delete-wanted/:id',async(req,res) => {
         if (type == 'Admin') {
             let filename = await db.query('select image from most_wanted where id=$1;',[req.params.id]);
             filename = filename.rows[0].image;
-            fs.unlink('./uploads/'+filename,(err) => {
+            cloudinaryv2.uploader.destroy('uploads/'+filename,(err,result)=> {
                 if (err) {
-                    console.log(err);
+                    console.log(err)
                 } else {
-                    console.log('File deleted successfully');
+                    console.log('File deleted successfully:'+result)
                 }
             })
             await db.query('delete from most_wanted where id=$1;',[req.params.id]);
