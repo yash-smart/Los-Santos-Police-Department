@@ -21,10 +21,7 @@ You can view a demo of the project here: https://drive.google.com/file/d/1eSTsZU
   - [Bonus Challenge: Comments](#bonus-challenge-comments)
   - [Bonus Challenge: Admin Update/Delete](#bonus-challenge-admin-updatedelete)
 - [Technologies Used](#technologies-used)
-- [Setup and Installation](#setup-and-installation)
-- [File Structure](#file-structure)
 - [Contact](#contact)
-- [Credits](#credits)
 
 ## Project Overview
 
