@@ -3,7 +3,7 @@
 Welcome to the official repository of the Los Santos Police Department (LSPD) website. This project is designed to provide a comprehensive online platform for the LSPD, featuring a variety of functionalities for both public users and administrative staff. Below you will find detailed descriptions of each feature, the technologies used, and instructions on how to set up and run the project.
 
 ## Demo
-You can view a demo of the project here: https://drive.google.com/file/d/1eSTsZUU5iJTTe05mO8uRnDpe-uJivMJV/view?usp=drive_link
+You can view a demo of the project here: [Project Demo](https://drive.google.com/file/d/1eSTsZUU5iJTTe05mO8uRnDpe-uJivMJV/view?usp=drive_link)
 
 ## Table of Contents
 - [Project Overview](#project-overview)
@@ -18,7 +18,8 @@ You can view a demo of the project here: https://drive.google.com/file/d/1eSTsZU
   - [Update Most Wanted List (Admin Feature)](#update-most-wanted-list-admin-feature)
   - [View the Tips (Admin Feature)](#view-the-tips-admin-feature)
   - [Update Job Postings (Admin Feature)](#update-job-postings-admin-feature)
-  - [Bonus Challenge: Comments](#bonus-challenge-comments)
+  - [View Job Applications (Admin Feature)](#view-job-applications-admin-feature)
+  - [Bonus Challenge: Live Comments](#bonus-challenge-live-comments)
   - [Bonus Challenge: Admin Update/Delete](#bonus-challenge-admin-updatedelete)
 - [Technologies Used](#technologies-used)
 - [Contact](#contact)
@@ -46,7 +47,8 @@ The LSPD website is a GTA V-themed online portal aimed at enhancing the engageme
 - **Engagement:** Users can like news and announcements, increasing engagement and visibility.
 
 ### Careers at LSPD
-- **Job Information:** Provides detailed information about career opportunities, eligibility requirements, application procedures, and you can see Your saved Jobs too.
+- **Job Information:** Provides detailed information about career opportunities, eligibility requirements, application procedures, and you can see your saved jobs too.
+- **Saved Jobs:** Users can save job listings for later viewing.
 
 ### LSPD News & Announcements (Admin Feature)
 - **Publish News:** Admins can publish press releases, community outreach details, and department news to keep citizens informed.
@@ -59,6 +61,9 @@ The LSPD website is a GTA V-themed online portal aimed at enhancing the engageme
 
 ### Update Job Postings (Admin Feature)
 - **Manage Jobs:** Admins can post and update job openings in the Careers section.
+
+### View Job Applications (Admin Feature)
+- **Manage Applications:** Admins can view job applications and resumes uploaded by users. Admins have the capability to accept or decline applications based on the resumes.
 
 ### Bonus Challenge: Live Comments
 - **User Interaction:** Users can comment on news and announcements live, fostering community interaction.
@@ -84,15 +89,10 @@ The LSPD website is a GTA V-themed online portal aimed at enhancing the engageme
 - **Supabase:** Backend-as-a-service for handling databases and authentication.
 - **Cloudinary:** Cloud storage for managing uploads.
 
-
 ## Contact
 For any inquiries or feedback, please contact:
 
 - Yash Smart: [GitHub](https://github.com/yash-smart) | [LinkedIn](https://www.linkedin.com/in/yash-smart/)
 - Ghanshyam Thacker: [GitHub](https://github.com/ghanshyam3011) | [LinkedIn](https://www.linkedin.com/in/ghanshyam-thacker/)
 
-
-
-
 Made with ❤️ by Yash Smart and Ghanshyam Thacker.
-
