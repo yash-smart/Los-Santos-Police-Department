@@ -1,95 +1,92 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <style>
-        h1 { color: #2c3e50; }
-        h2 { color: #3498db; }
-        h3 { color: #f1c40f; }
-        p { color: #2d2d2d; }
-        ul { color: #34495e; }
-        li { margin-bottom: 8px; }
-        code { background-color: #ecf0f1; padding: 2px 4px; border-radius: 4px; }
-    </style>
-</head>
-<body>
-    <h1>Los Santos Police Department (LSPD) Website</h1>
-    <p>
-        Welcome to the official repository of the Los Santos Police Department (LSPD) website. This project aims to create a dynamic, engaging, and professional web platform for the LSPD, inspired by the GTA V theme. The website includes various features like authentication, a most wanted list, news & announcements, career information, and more.
-    </p>
+# Los Santos Police Department (LSPD) Website
 
-    <h2>Table of Contents</h2>
-    <ul>
-        <li><a href="#features">Features</a></li>
-        <li><a href="#technologies-used">Technologies Used</a></li>
-        <li><a href="#installation">Installation</a></li>
-        <li><a href="#usage">Usage</a></li>
-        <li><a href="#contributing">Contributing</a></li>
-        <li><a href="#license">License</a></li>
-    </ul>
+Welcome to the official repository of the Los Santos Police Department (LSPD) website. This project is designed to provide a comprehensive online platform for the LSPD, featuring a variety of functionalities for both public users and administrative staff. Below you will find detailed descriptions of each feature, the technologies used, and instructions on how to set up and run the project.
 
-    <h2 id="features">Features</h2>
-    <p>The LSPD website includes the following features:</p>
-    <ul>
-        <li><strong>Authentication:</strong> Secure login and registration for officers and admins.</li>
-        <li><strong>Most Wanted List:</strong> A dynamic list of the most wanted criminals in Los Santos.</li>
-        <li><strong>Tip Submission Form:</strong> Allows citizens to submit tips anonymously.</li>
-        <li><strong>News & Announcements:</strong> Stay updated with the latest news and announcements from the LSPD.</li>
-        <li><strong>Career Information:</strong> Detailed information about career opportunities and job listings.</li>
-        <li><strong>Admin Panel:</strong> Admins can update the most wanted list, view submitted tips, and post job openings.</li>
-        <li><strong>Fun Facts:</strong> Display fun facts about Los Santos city using APIs.</li>
-        <li><strong>Bonus Features:</strong> Comments, admin updates/deletes, and face recognition functionality.</li>
-    </ul>
+## Table of Contents
+- [Project Overview](#project-overview)
+- [Features](#features)
+  - [Authentication](#authentication)
+  - [Most Wanted List](#most-wanted-list)
+  - [Submit a Tip](#submit-a-tip)
+  - [View News & Announcements](#view-news--announcements)
+  - [Likes](#likes)
+  - [Careers at LSPD](#careers-at-lspd)
+  - [LSPD News & Announcements (Admin Feature)](#lspd-news--announcements-admin-feature)
+  - [Update Most Wanted List (Admin Feature)](#update-most-wanted-list-admin-feature)
+  - [View the Tips (Admin Feature)](#view-the-tips-admin-feature)
+  - [Update Job Postings (Admin Feature)](#update-job-postings-admin-feature)
+  - [Bonus Challenge: Comments](#bonus-challenge-comments)
+  - [Bonus Challenge: Admin Update/Delete](#bonus-challenge-admin-updatedelete)
+- [Technologies Used](#technologies-used)
+- [Setup and Installation](#setup-and-installation)
+- [File Structure](#file-structure)
+- [Contact](#contact)
+- [Credits](#credits)
 
-    <h2 id="technologies-used">Technologies Used</h2>
-    <p>This project utilizes the following technologies:</p>
-    <ul>
-        <li>HTML</li>
-        <li>CSS</li>
-        <li>JavaScript</li>
-        <li>Node.js</li>
-        <li>Express.js</li>
-        <li>MongoDB</li>
-        <li>PostgreSQL</li>
-    </ul>
+## Project Overview
 
-    <h2 id="installation">Installation</h2>
-    <p>To get a local copy up and running, follow these steps:</p>
-    <ol>
-        <li>Clone the repository: <code>git clone https://github.com/yourusername/lspd-website.git</code></li>
-        <li>Navigate to the project directory: <code>cd lspd-website</code></li>
-        <li>Install dependencies: <code>npm install</code></li>
-        <li>Set up the database:
-            <ul>
-                <li>Ensure MongoDB and PostgreSQL are installed and running.</li>
-                <li>Configure your database settings in <code>.env</code> file.</li>
-            </ul>
-        </li>
-        <li>Start the server: <code>npm start</code></li>
-        <li>Open your browser and go to <code>http://localhost:3000</code></li>
-    </ol>
+The LSPD website is a GTA V-themed online portal aimed at enhancing the engagement between the Los Santos Police Department and the citizens of Los Santos. This platform includes various sections such as the Most Wanted List, news & announcements, career opportunities, and more. The site is designed with a role-based access system, distinguishing between public users and administrators.
 
-    <h2 id="usage">Usage</h2>
-    <p>After installation, you can use the website for the following:</p>
-    <ul>
-        <li>Register as a new user or login as an existing user.</li>
-        <li>View the most wanted list and submit tips.</li>
-        <li>Stay updated with news and announcements.</li>
-        <li>Explore career opportunities and apply for jobs.</li>
-        <li>Admins can manage the most wanted list, view tips, and post job openings.</li>
-    </ul>
+## Features
 
-    <h2 id="contributing">Contributing</h2>
-    <p>We welcome contributions from the community! To contribute:</p>
-    <ol>
-        <li>Fork the repository.</li>
-        <li>Create a new branch: <code>git checkout -b feature/YourFeature</code></li>
-        <li>Make your changes and commit them: <code>git commit -m 'Add some feature'</code></li>
-        <li>Push to the branch: <code>git push origin feature/YourFeature</code></li>
-        <li>Open a pull request.</li>
-    </ol>
-    <p>Please ensure your code adheres to our coding standards and includes relevant tests.</p>
+### Authentication
+- **Login/Signup:** Users can create an account and log in to access additional features.
+- **Role-based Access:** Distinguishes between admin and regular users, granting specific privileges accordingly.
 
-    <h2 id="license">License</h2>
-    <p>This project is licensed under the MIT License. See the <a href="LICENSE">LICENSE</a> file for more details.</p>
-</body>
-</html>
+### Most Wanted List
+- **Public Access:** Displays photos and details of Los Santos' most wanted criminals, including descriptions, aliases, and any relevant information for public identification.
+
+### Submit a Tip
+- **Anonymous Tips:** A user-friendly interface for the public to submit anonymous crime tips, helping the LSPD in their investigations.
+
+### View News & Announcements
+- **Logged-in Users:** Authenticated users can view news and announcements posted by the department.
+
+### Likes
+- **Engagement:** Users can like news and announcements, increasing engagement and visibility.
+
+### Careers at LSPD
+- **Job Information:** Provides detailed information about career opportunities, eligibility requirements, application procedures, and the benefits of joining the LSPD.
+
+### LSPD News & Announcements (Admin Feature)
+- **Publish News:** Admins can publish press releases, community outreach details, and department news to keep citizens informed.
+
+### Update Most Wanted List (Admin Feature)
+- **Manage Listings:** Admins can update the details of the most wanted criminals.
+
+### View the Tips (Admin Feature)
+- **Access Tips:** Admins have exclusive access to view all submitted crime tips.
+
+### Update Job Postings (Admin Feature)
+- **Manage Jobs:** Admins can post and update job openings in the Careers section.
+
+### Bonus Challenge: Comments
+- **User Interaction:** Users can comment on news and announcements, fostering community interaction.
+
+### Bonus Challenge: Admin Update/Delete
+- **Manage Content:** Admins can delete or update posted items such as news & announcements, the most wanted list, and job postings.
+
+## Technologies Used
+- **Node.js:** Server-side JavaScript runtime.
+- **Express.js:** Web framework for Node.js.
+- **PostgreSQL:** Relational database management system.
+- **EJS:** Templating engine for generating HTML markup with JavaScript.
+- **CSS:** Styling the user interface.
+- **JavaScript:** Client-side scripting.
+- **Multer:** Middleware for handling file uploads.
+- **WebSocket:** For real-time communication.
+- **Nodemailer:** For sending emails.
+- **Bcrypt:** Password hashing.
+- **Dotenv:** Environment variable management.
+- **Body-Parser:** Middleware for parsing request bodies.
+- **Session:** Middleware for managing user sessions.
+- **Cookie-Parser:** Middleware for parsing cookies.
+- **Supabase:** Backend-as-a-service for handling databases and authentication.
+- **Cloudinary:** Cloud storage for managing uploads.
+
+## Setup and Installation
+To get a local copy up and running, follow these steps:
+
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/yourusername/lspd-website.git
