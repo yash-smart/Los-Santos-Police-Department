@@ -88,8 +88,8 @@ The LSPD website is a GTA V-themed online portal aimed at enhancing the engageme
 ## Contact
 For any inquiries or feedback, please contact:
 
-- Yash Smart: [GitHub](https://github.com/yourusername) | [LinkedIn](https://www.linkedin.com/in/yash-smart/)
-- Ghanshyam Thacker: [GitHub](https://github.com/ghanshyamthacker) | [LinkedIn](https://www.linkedin.com/in/ghanshyam-thacker/)
+- Yash Smart: [GitHub](https://github.com/yash-smart) | [LinkedIn](https://www.linkedin.com/in/yash-smart/)
+- Ghanshyam Thacker: [GitHub](https://github.com/ghanshyam3011) | [LinkedIn](https://www.linkedin.com/in/ghanshyam-thacker/)
 
 
 
