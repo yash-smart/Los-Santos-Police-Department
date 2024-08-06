@@ -85,6 +85,12 @@ The LSPD website is a GTA V-themed online portal aimed at enhancing the engageme
 - **Cloudinary:** Cloud storage for managing uploads.
 
 
+## Contact
+For any inquiries or feedback, please contact:
+
+- Yash Smart: [GitHub](https://github.com/yourusername) | [LinkedIn](https://www.linkedin.com/in/yash-smart/)
+- Ghanshyam Thacker: [GitHub](https://github.com/ghanshyamthacker) | [LinkedIn](https://www.linkedin.com/in/ghanshyam-thacker/)
+
 
 
 
