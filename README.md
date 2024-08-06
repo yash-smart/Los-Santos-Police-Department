@@ -63,8 +63,8 @@ The LSPD website is a GTA V-themed online portal aimed at enhancing the engageme
 ### Update Job Postings (Admin Feature)
 - **Manage Jobs:** Admins can post and update job openings in the Careers section.
 
-### Bonus Challenge: Comments
-- **User Interaction:** Users can comment on news and announcements, fostering community interaction.
+### Bonus Challenge: Live Comments
+- **User Interaction:** Users can comment on news and announcements live, fostering community interaction.
 
 ### Bonus Challenge: Admin Update/Delete
 - **Manage Content:** Admins can delete or update posted items such as news & announcements, the most wanted list, and job postings.
