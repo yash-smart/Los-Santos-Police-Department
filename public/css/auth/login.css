@@ -9,7 +9,6 @@
     src: url('../../Pacifico.ttf');
 }
 
-
 body {
     background: url('./bg-police.png') no-repeat center center fixed;
     background-size: cover;
@@ -24,14 +23,17 @@ body {
 
 .container {
     text-align: center;
-    background: rgba(44, 62, 80, 0.9);
+    background: rgba(44, 62, 80, 0.6); /* Reduced opacity for background blur */
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
     width: 90%;
     max-width: 400px;
+    backdrop-filter: blur(10px); /* Adjust blur value */
+    animation: fadeIn 0.8s ease-in-out;
 }
-.welcome{
+
+.welcome {
     font-family: myFont;
     font-size: 3rem;
     margin-bottom: 20px;
@@ -74,8 +76,8 @@ span {
     background: rgba(255, 255, 255, 0.1);
     border: 1px solid #ecf0f1;
     border-radius: 5px;
-    padding: 12px; /* Adjust padding for better spacing */
-    width: calc(100% - 24px); /* Adjust width to accommodate padding */
+    padding: 12px;
+    width: calc(100% - 24px);
     margin-bottom: 15px;
     font-size: 1rem;
     color: #ecf0f1;
@@ -102,11 +104,12 @@ span {
     border: none;
     border-radius: 5px;
     padding: 10px 20px;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     color: #ffffff;
     cursor: pointer;
     transition: background 0.3s, transform 0.3s;
     font-family: 'Open Sans', sans-serif;
+    font-weight: bold !important;
 }
 
 .button-confirm:hover {
@@ -133,8 +136,6 @@ span {
     color: #f1c40f;
 }
 
-
-
 /* Keyframes for subtle animation */
 @keyframes fadeIn {
     0% {
@@ -145,8 +146,4 @@ span {
         opacity: 1;
         transform: scale(1);
     }
-}
-
-.container {
-    animation: fadeIn 0.8s ease-in-out;
 }

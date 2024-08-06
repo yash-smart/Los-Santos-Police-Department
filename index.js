@@ -1193,7 +1193,7 @@ app.get('/anonymous-tips',async (req,res)=> {
         if (type == 'Admin') {
             let anonymousTips = await db.query('select * from anonymous_tip order by posted_on desc;');
             anonymousTips = anonymousTips.rows;
-            res.render('anonymousTip/anonymous-tips.ejs',{data:anonymousTips});
+            res.render('anonymousTip/anonymous-tips.ejs',{data:anonymousTips,logged:req.session.user});
         } else {
             res.render('unauthorised.ejs');
         }

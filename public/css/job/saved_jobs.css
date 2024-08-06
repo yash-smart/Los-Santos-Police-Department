@@ -23,6 +23,7 @@
     font-size: 3rem;
     margin-top: 10px; /* Reduced top margin */
     margin-bottom: 20px;
+    text-align: center; /* Center the heading */
 }
 
 body {
@@ -36,15 +37,16 @@ body {
 .apply-button {
     font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
     font-weight: 800;
-    font-size: 1.2rem;
+    font-size: 1rem;
     padding: 6px 12px;
-    font-weight: 700;
-    margin-top: 0.5rem;
+    margin-top: 1rem;
+    margin-right: 0.2rem;
 }
 
 .container {
-    display: grid;
-    grid-template-columns: 1fr 3fr;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center the heading */
     gap: 20px;
     padding: 20px;
 }
@@ -55,7 +57,7 @@ body {
     font-size: 1rem;
     padding: 6px 12px;
     border-radius: 9px;
-    margin-left: 40rem;
+    margin-left: 41rem;
 }
 
 .save-button:hover {
@@ -98,6 +100,7 @@ body {
 .job-filter h2 {
     color: #2980b9;
     margin-bottom: 10px;
+    text-align: center; /* Center the heading */
 }
 
 .form-group {
@@ -138,8 +141,12 @@ body {
 }
 
 .job-listings {
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 20px;
     overflow-y: auto; /* Vertical scrolling for job listings */
-    height: calc(100vh - 40px); /* Calculate height to fit remaining viewport space */
+    max-height: 80vh; /* Limit the height of the job listings */
+    width: 100%; /* Ensure it takes full width */
     padding-right: 20px; /* Add padding to avoid content being hidden behind scrollbar */
 }
 
@@ -147,14 +154,17 @@ body {
     color: #dcdcdc;
     margin-bottom: 20px;
     margin-top: 10px; /* Reduced top margin */
+    text-align: center; /* Center the heading */
+    width: 100%; /* Ensure it takes full width */
 }
 
 .job {
     background-color: #f0f0f0; /* Lighter shade of white */
     padding: 20px;
     border-radius: 8px;
-    margin-bottom: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    flex: 1 1 calc(30% - 20px); /* Adjust width for 3 columns with reduced width */
+    box-sizing: border-box; /* Ensure padding and border are included in the width and height */
 }
 
 .job h3 {
@@ -195,7 +205,7 @@ a button {
     background-color: #2980b9;
     color: #fff;
     border: none;
-    padding: 10px 20px;
+    padding: 6px 12px;
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -205,32 +215,40 @@ a button:hover {
     background-color: #1f6391;
 }
 
-@media (max-width: 1024px) {
-    .container {
-        grid-template-columns: 1fr;
-    }
+.delete-button {
+    font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+    padding: 6px 12px;
+    background-color: rgba(255, 0, 0, 0.909);
+    color: #fff; /* Ensure text color is white */
+    border: none;
+    border-radius: 4px; /* Add rounded corners */
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Add transition for smooth effect */
+}
 
-    .job-filter, .job-listings {
-        width: 100%;
+.delete-button:hover {
+    background-color: red;
+    box-shadow: 0 4px 8px rgba(255, 0, 0, 0.5); /* Add shadow effect */
+    transform: translateY(-2px); /* Slightly lift the button */
+}
+
+@media (max-width: 1024px) {
+    .job {
+        flex: 1 1 calc(45% - 20px); /* Adjust width for 2 columns on medium screens */
     }
 
     .saved-jobs-container {
         text-align: left; /* Center align button for tablets */
     }
-
-    .save-button {
-        font-size: 0.9rem;
-        padding: 5px 10px;
-        margin-left: 0; /* Reset margin for tablets */
-    }
-
-    .save-button-container {
-        text-align: center; /* Center align button on tablets */
-        margin-bottom: 20px;
-    }
 }
 
 @media (max-width: 768px) {
+    .job {
+        flex: 1 1 100%; /* Adjust width for 1 column */
+    }
+
     .ownFont {
         font-size: 2.5rem;
     }
@@ -275,17 +293,6 @@ a button:hover {
     .saved-jobs {
         font-size: 0.8rem;
         padding: 4px 8px;
-    }
-
-    .save-button {
-        font-size: 0.8rem;
-        padding: 5px 10px;
-        margin-left: 0; /* Reset margin for smaller screens */
-    }
-
-    .save-button-container {
-        text-align: center; /* Center align button on smaller screens */
-        margin-bottom: 20px;
     }
 
     .form-group button[type="submit"] {

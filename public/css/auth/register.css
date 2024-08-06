@@ -89,6 +89,7 @@ body {
     cursor: pointer;
     transition: background 0.3s, transform 0.3s;
     font-family: 'Open Sans', sans-serif;
+    font-weight: bold !important;
 }
 
 .button-confirm:hover {
