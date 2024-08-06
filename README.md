@@ -3,7 +3,7 @@
 Welcome to the official repository of the Los Santos Police Department (LSPD) website. This project is designed to provide a comprehensive online platform for the LSPD, featuring a variety of functionalities for both public users and administrative staff. Below you will find detailed descriptions of each feature, the technologies used, and instructions on how to set up and run the project.
 
 ## Demo
-You can view a demo of the project here: [Project Demo](https://drive.google.com/file/d/1eSTsZUU5iJTTe05mO8uRnDpe-uJivMJV/view?usp=drive_link)
+You can view a Demonstation Video of the project here: [Project Demo](https://drive.google.com/file/d/1eSTsZUU5iJTTe05mO8uRnDpe-uJivMJV/view?usp=drive_link)
 
 ## Table of Contents
 - [Project Overview](#project-overview)
