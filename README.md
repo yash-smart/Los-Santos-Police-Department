@@ -49,7 +49,7 @@ The LSPD website is a GTA V-themed online portal aimed at enhancing the engageme
 - **Engagement:** Users can like news and announcements, increasing engagement and visibility.
 
 ### Careers at LSPD
-- **Job Information:** Provides detailed information about career opportunities, eligibility requirements, application procedures, and the benefits of joining the LSPD.
+- **Job Information:** Provides detailed information about career opportunities, eligibility requirements, application procedures, and you can see Your saved Jobs too.
 
 ### LSPD News & Announcements (Admin Feature)
 - **Publish News:** Admins can publish press releases, community outreach details, and department news to keep citizens informed.
