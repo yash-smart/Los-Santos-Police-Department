@@ -84,9 +84,16 @@ The LSPD website is a GTA V-themed online portal aimed at enhancing the engageme
 - **Supabase:** Backend-as-a-service for handling databases and authentication.
 - **Cloudinary:** Cloud storage for managing uploads.
 
-## Setup and Installation
-To get a local copy up and running, follow these steps:
+File Structure
+A brief overview of the project's file structure:
+lspd-website/
+│
+├── public/            # Static files (CSS, JavaScript, images)
+├── routes/            # Express route handlers
+├── views/             # EJS templates
+├── .env               # Environment variables
+├── app.js             # Main application file
+├── package.json       # NPM dependencies and scripts
+└── README.md          # Project documentation
 
-1. Clone the repository:
-   ```sh
-   git clone https://github.com/yourusername/lspd-website.git
+
