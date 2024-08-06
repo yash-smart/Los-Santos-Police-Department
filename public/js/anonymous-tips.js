@@ -18,7 +18,7 @@ socket.addEventListener("message", (event) => {
             let tip_para = document.createElement('p');
             tip_para.textContent = tip_data[0];
             let file = document.createElement('a');
-            file.href = '/images/'+tip_data[2];
+            file.href = tip_data[2];
             file.textContent = 'File Attached'
             let posted_on_para = document.createElement('p');
             posted_on_para.classList.add('posted_on');

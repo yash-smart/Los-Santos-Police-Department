@@ -14,6 +14,8 @@ import WebSocket,{WebSocketServer} from "ws";
 import nodemailer from "nodemailer";
 import cloudinary from "cloudinary";
 import { error } from "console";
+import { createClient } from "@supabase/supabase-js";
+
 let cloudinaryv2 = cloudinary.v2
 import { CloudinaryStorage } from 'multer-storage-cloudinary';
 
@@ -154,6 +156,10 @@ cloudinaryv2.config({
     }
   })
   const upload = multer({ storage: storage })
+  const storage2 = multer.memoryStorage();
+  const upload2 = multer({ storage: storage2 });
+
+  const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 
 app.get("/",async (req,res) => {
     if (req.session.user) {
@@ -813,31 +819,13 @@ app.get('/apply-job/:job_id',async (req,res) => {
     res.render('job/job-apply.ejs',{job_id:req.params.job_id});
 })
 
-app.post('/apply-job/:job_id',upload.single('resume'),async(req,res) => {
+app.post('/apply-job/:job_id',upload2.single('resume'),async(req,res) => {
     console.log(req.file);
     if (req.session.user) {
         try {
             let user_applications = await db.query('select * from jobapplications where job_id=$1 and user_id=$2;',[req.params.job_id,req.session.user]);
             if (user_applications.rows.length>0) {
-                let max1 = await db.query('select max(number) max from jobapplications;');
-                max1 = max1.rows[0].max;
-                let max2 = await db.query('select max(number) max from newselements;');
-                max2 = max2.rows[0].max;
-                let max3 = await db.query('select max(number) max from most_wanted;');
-                max3 = max3.rows[0].max;
-                let max4 = await db.query('select max(number) max from anonymous_tip;');
-                max4 = max4.rows[0].max;
-                let max = Math.max(max1,max2,max3,max4);
-                let extension = req.file.originalname.split('.');
-                extension = extension[extension.length-1]
                 res.send('You have already applied');
-                cloudinaryv2.uploader.destroy('uploads/'+(max+1)+'.'+extension,{resource_type:'auto'},(err,result)=> {
-                    if (err) {
-                        console.log(err)
-                    } else {
-                        console.log('File deleted successfully:'+result)
-                    }
-                })
             } else {
                 let max1 = await db.query('select max(number) max from jobapplications;');
                 max1 = max1.rows[0].max;
@@ -850,7 +838,26 @@ app.post('/apply-job/:job_id',upload.single('resume'),async(req,res) => {
                 let max = Math.max(max1,max2,max3,max4);
                 let extension = req.file.originalname.split('.');
                 extension = extension[extension.length-1]
-                await db.query('insert into jobapplications(user_id,email,resume_filename,datetime,number,job_id,status,path) values($1,$2,$3,$4,$5,$6,\'applied\',$7);',[req.session.user,req.body.email,''+(max+1)+'.'+extension,new Date(),max+1,req.params.job_id,req.file.path]);
+                const { originalname, buffer } = req.file;
+                const { data, error } = await supabase.storage
+                .from('uploads')
+                .upload(`uploads/${''+(max+1)+'.'+extension}`, buffer, {
+                cacheControl: '3600',
+                upsert: false,
+                contentType: req.file.mimetype,
+                });
+
+                if (error) {
+                    throw error;
+                }
+                console.log("data"+data.path);
+                const { data:data2 } = supabase
+                .storage
+                .from('uploads')
+                .getPublicUrl(data.path);
+
+                console.log(data2);
+                await db.query('insert into jobapplications(user_id,email,resume_filename,datetime,number,job_id,status,path) values($1,$2,$3,$4,$5,$6,\'applied\',$7);',[req.session.user,req.body.email,''+(max+1)+'.'+extension,new Date(),max+1,req.params.job_id,data2.publicUrl]);
                 res.redirect('/')
             }
         } catch(err) {
@@ -1086,7 +1093,7 @@ app.get('/anonymous-tip-send',(req,res) => {
     res.render('anonymousTip/anonymous-tip-send.ejs',{logged:req.session.user});
 })
 
-app.post('/post-anonymous-tip',upload.single('tip-file'),async (req,res) => {
+app.post('/post-anonymous-tip',upload2.single('tip-file'),async (req,res) => {
     let date = new Date();
     if (req.file) {
         let max1 = await db.query('select max(number) max from jobapplications;');
@@ -1100,9 +1107,27 @@ app.post('/post-anonymous-tip',upload.single('tip-file'),async (req,res) => {
         let max = Math.max(max1,max2,max3,max4);
         let extension = req.file.originalname.split('.');
         extension = extension[extension.length-1]
-        await db.query('insert into anonymous_tip(tip,posted_on,file_name,number,path) values($1,$2,$3,$4,$5);',[req.body.tip,date,(max+1)+'.'+extension,max+1,req.file.path]);
+        const { originalname, buffer } = req.file;
+        const { data, error } = await supabase.storage
+        .from('uploads')
+        .upload(`uploads/${(max+1)+'.'+extension}`, buffer, {
+        cacheControl: '3600',
+        upsert: false,
+        contentType: req.file.mimetype,
+        });
+
+        if (error) {
+            throw error;
+        }
+
+        const { data:data2 } = supabase
+      .storage
+      .from('uploads')
+      .getPublicUrl(`uploads/${(max+1)+'.'+extension}`);
+
+        await db.query('insert into anonymous_tip(tip,posted_on,file_name,number,path) values($1,$2,$3,$4,$5);',[req.body.tip,date,(max+1)+'.'+extension,max+1,data2.publicUrl]);
         for (let i=0;i<anonymous_tip_clients.length;i++) {
-            anonymous_tip_clients[i].send('6'+JSON.stringify([req.body.tip,date,(max+1)+'.'+extension]));
+            anonymous_tip_clients[i].send('6'+JSON.stringify([req.body.tip,date,data2.publicUrl]));
         }
     } else {
         await db.query('insert into anonymous_tip(tip,posted_on) values($1,$2);',[req.body.tip,date]);
