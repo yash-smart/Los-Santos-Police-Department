@@ -76,7 +76,7 @@ The LSPD website is a GTA V-themed online portal aimed at enhancing the engageme
 - **Accept/Decline Applications:** Admins can accept or decline applications based on the resume uploaded by the user.
 
 ### Bonus Feature: Job Application Status
-- **Job Status:** Users can see the status of their job applications, whether they have been accepted or declined by the admin and users will be notified accordingly through their Email.
+- **Job Status:** Users can see the status of their job applications, whether they have been accepted or declined by the admin and users can see the final confirmation in ##Your Jobs.
 
 ## Technologies Used
 - **Node.js:** Server-side JavaScript runtime.
