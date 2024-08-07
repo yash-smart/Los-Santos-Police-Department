@@ -1183,7 +1183,7 @@ Note: This is an automated message from the LSPD Anonymous Tip System. Do not re
             }
         });
     }
-    res.redirect('/anonymous-tip-send');
+    res.redirect('/');
 })
 
 app.get('/anonymous-tips',async (req,res)=> {
