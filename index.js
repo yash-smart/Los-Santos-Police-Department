@@ -837,15 +837,19 @@ app.post('/apply-job/:job_id',upload2.single('resume'),async(req,res) => {
                 let max4 = await db.query('select max(number) max from anonymous_tip;');
                 max4 = max4.rows[0].max;
                 let max = Math.max(max1,max2,max3,max4);
+                // console.log(max);
                 let extension = req.file.originalname.split('.');
                 extension = extension[extension.length-1]
+                // console.log(extension);
                 const { originalname, buffer } = req.file;
+                // console.log(req.file);
+                // console.log( await supabase.auth.getUser());
                 const { data, error } = await supabase.storage
                 .from('uploads')
                 .upload(`uploads/${''+(max+1)+'.'+extension}`, buffer, {
                 cacheControl: '3600',
                 upsert: false,
-                contentType: req.file.mimetype,
+                contentType: req.file.mimetype
                 });
 
                 if (error) {
