@@ -55,7 +55,8 @@ const db = new pg.Client({
     connectionString:process.env.CONNECTION_STRING,
     ssl: {
         rejectUnauthorized: false,
-    }
+    },
+    family: 4
 });
 db.connect();
 
